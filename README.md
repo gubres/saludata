@@ -3,6 +3,7 @@
 Hola chicos, la rama en la que estamos trabajando con el proyecto es la rama MASTER. Cuando clonen que sea de ahí.
 No os olvideis de instalar las dependencias y hacer el migrate para tener la tabla.
 
+PASO A PASO
 1. Clonar el proyecto.
 2. Instalar Dependencias del Proyecto
    Abre una terminal y navega al directorio donde has clonado el repositorio. Una vez dentro del directorio del proyecto, ejecuta:
