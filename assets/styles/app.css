@@ -1,3 +1,22 @@
-body {
-    background-color: skyblue;
+.nav-link.dropdown-toggle:hover,
+.dropdown-item:hover {
+    background-color: #007bff;
+    /* Cambia este color según tu preferencia */
+    color: white;
+}
+
+#sanitarios {
+    transition: transform 0.1s ease;
+    /* Suaviza el movimiento */
+    will-change: transform;
+    /* Optimiza el rendimiento para las transformaciones */
+}
+
+.no-link {
+
+    cursor: pointer;
+    /* el cursor no cambiará a la mano típica de los enlaces */
+    text-decoration: none;
+    /* quitar subrayado del texto */
+    display: inline-block;
 }

@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SaluData - Salud Total{% endblock %}
+
+
+{% block body %}
+<main class="flex-1 pt-32">
+    <section class="container py-4 px-5 lg:px-20">
+        <!-- Centrado y transparencia de imagen principal -->
+        <article class="text-center py-5">
+            <img src="images/sanitarios.jpg" id="sanitarios" style="max-width: 100%; height: auto; opacity: 0.8;">
+        </article>
+
+        <!-- Artículo con texto organizado en una caja tipo card -->
+        <article class="card rounded-lg shadow-lg overflow-hidden w-full p-5 m-5 text-justify bg-white">
+            <div class="card-body">
+                <h2 class="card-title text-2xl font-bold">Software online para administrar hospitales, clínicas y consultorios.</h2>
+                <p>
+                    Saludata es un sistema de gestión de clínicas que te permite administrar tu consultorio, clínica u hospital de manera online...
+                </p>
+                <h2 class="card-subtitle text-xl font-semibold mb-2">Ventajas de Saludata</h2>
+                <p>En un mercado saturado de sistemas de gestión médica, Saludata destaca por varias razones:</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>Accesibilidad:</strong> Accede a tu información desde cualquier lugar gracias a nuestra plataforma basada en la nube.</li>
+                    <li><strong>Facilidad de uso:</strong> Nuestra interfaz intuitiva hace que sea fácil para cualquier persona aprender a usar nuestro sistema rápidamente.</li>
+                    <li><strong>Funcionalidades completas:</strong> Saludata cubre todas las necesidades de gestión médica, desde programación de citas hasta facturación y gestión de inventario.</li>
+                    <li><strong>Soporte dedicado:</strong> Contamos con un equipo de soporte disponible las 24/7 para ayudarte con cualquier problema o pregunta.</li>
+                    <li><strong>Personalización:</strong> Adaptamos Saludata a las necesidades específicas de tu consultorio, desde campos personalizados hasta integración con otros sistemas.</li>
+                </ul>
+            </div>
+        </article>
+
+       <!-- Contenedor principal para los artículos, centrado y con igual espacio entre ellos -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4 d-flex align-items-stretch">
+            <article class="card bg-white shadow-lg">
+                <img src="images/sanidad.webp" class="card-img-top mt-4" alt="Sanidad">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title pt-5">INDIVIDUAL</h2>
+                    <p class="card-text">
+                        <ul class="list-unstyled">
+                            <li>1 Solo consultorio/profesional</li>
+                            <li>Soporte online y telefónico</li>
+                        </ul>
+                    </p>
+                    <div class="mt-auto">
+                        <button type="button" class="btn btn-primary w-100">29.99€</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4 d-flex align-items-stretch">
+            <article class="card bg-white shadow-lg">
+                <img src="images/clinica2.jpg" class="card-img-top" alt="Clínica">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title">CENTROS MÉDICOS</h2>
+                    <p class="card-text">
+                        <ul class="list-unstyled">
+                            <li>20 a 40 consultorios/profesionales</li>
+                            <li>Soporte online y telefónico</li>
+                            <li>Incluye módulos: Farmacias, Stock, Facturación, Liquidación</li>
+                        </ul>
+                    </p>
+                    <div class="mt-auto">
+                        <button type="button" class="btn btn-primary w-100">179.99€</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4 d-flex align-items-stretch">
+            <article class="card bg-white shadow-lg">
+                <img src="images/hospital.avif" class="card-img-top" alt="Hospital">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title pt-4">HOSPITALES</h2>
+                    <p class="card-text">
+                        <ul class="list-unstyled">
+                            <li>Soporte online y telefónico</li>
+                            <li>Incluye módulos: Farmacias, Stock, Facturación, Liquidación, y más.</li>
+                        </ul>
+                    </p>
+                    <div class="mt-auto">
+                        <button type="button" class="btn btn-primary w-100">239.99€</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+
+    </section>
+</main>
+{% endblock %}
+
+
+{%block javascripts%}
+
+{{parent()}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const img = document.getElementById('sanitarios');
+
+    document.addEventListener('mousemove', function(e) {
+        const { clientX, clientY } = e;
+        const centerX = img.offsetLeft + img.clientWidth / 2;
+        const centerY = img.offsetTop + img.clientHeight / 2;
+        const deltaX = (clientX - centerX) * 0.05;
+        const deltaY = (clientY - centerY) * 0.05;
+
+        img.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    });
+});
+</script>
+
+{% endblock%}
