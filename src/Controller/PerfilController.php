@@ -35,7 +35,7 @@ class PerfilController extends AbstractController
                 'dni' => $paciente->getDni(),
                 'nombre' => $paciente->getNombre(),
                 'apellidos' => $paciente->getApellido(),
-                'ver' => '<button type="button" class="btn btn-info edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' . $paciente->getId() . '">Editar</button>',
+                'ver' => '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="" data-id="' . $paciente->getId() . '">Ver</button>',
             ];
         }, $pacientes);
 

@@ -83,7 +83,7 @@
             <ul class="navbar-nav ms-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item mx-3">
-                <span class="alert alert-info mb-0 me-2"><a href="{{ path('app_perfil') }}" class="no-link" title="Visitar tu perfil">Perfil {{ app.user.email }}</a></span>
+                <span class="alert alert-info mb-0 me-2"><a href="{{ path('app_perfil') }}" class="no-link" title="Visitar listado de pacientes"> Bienvenido {{ app.user.email }}<strong> Ver listado pacientes</strong></a></span>
 
                     <form action="{{ path('app_logout') }}" method="post" class="mb-0 d-inline">
                         <button type="submit" class="btn btn-outline-secondary text-black">Logout</button>
