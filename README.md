@@ -17,4 +17,4 @@ No os olvideis de instalar las dependencias y hacer el migrate para tener la tab
 8. Hecho eso, comprobar que se ha creado la base de datos y sus tablas
 9. Si todo correcto, ejecutar el servidor: symfony server:start
 10. Abrir el navegador en la direccion que informa la consola: 127.0.0.1:8000
-11. 
+11. Para trabajar la interfaz teneis que ir a los archivos dentro de la carpeta TEMPLATE
