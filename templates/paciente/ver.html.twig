@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+
+
+
+{% block title %}Detalles del Paciente{% endblock %}
+
+{% block body %}
+
+<header>
+    <div class="container flex">
+        <button onclick="window.print();" class="btn btn-primary">Imprimir</button>
+        <button id="btnGeneratePDF" class="btn btn-secondary">Generar PDF</button>
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ¿Necesitas ayuda?
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Contactar Supervisor</a>
+                <a class="dropdown-item" href="#">Contactar Soporte</a>
+                <a class="dropdown-item" href="#">Preguntas Frecuentes</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <nav class="col-md-4">
+            <div class="text-center">
+                {# Descomenta y ajusta la siguiente línea para usar la foto del paciente #}
+                {# <img src="{{ paciente.foto }}" alt="Foto de {{ paciente.nombre }}" class="img-fluid rounded-circle"> #}
+                <h3>{{ paciente.nombre }}</h3>
+                <button class="btn btn-outline-primary"><i class="fa fa-pencil"></i></button>
+                <div class="mt-2">
+                    <button id="btnInfoPersonal" class="btn btn-primary">Información Personal</button>
+                    <button id="btnInfoContacto" class="btn btn-primary">Información de Contacto</button>
+                </div>
+            </div>
+        </nav>
+        <main class="col-md-8">
+            <button onclick="showModal('historialClinico');" class="btn btn-success">+ Historial Clínico</button>
+            <!-- Más contenido aquí -->
+        </main>
+    </div>
+</div>
+
+<!-- Modal para Historia de la Enfermedad Actual -->
+<div class="modal fade" id="historialClinicoModal" tabindex="-1" role="dialog" aria-labelledby="historialClinicoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historialClinicoModalLabel">Historia de la Enfermedad Actual</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="razonVisita">Razón de la Visita/Queja Actual</label>
+                        <textarea class="form-control" id="razonVisita"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="duracionProblema">Duración del Problema</label>
+                        <input type="text" class="form-control" id="duracionProblema">
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcionProblema">Descripción</label>
+                        <textarea class="form-control" id="descripcionProblema"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reincidencia">Reincidencia</label>
+                        <select class="form-control" id="reincidencia">
+                            <option value="no">No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoProblema">Tipo de Problema</label>
+                        <select class="form-control" id="tipoProblema">
+                            <option value="aguda">Aguda</option>
+                            <option value="cronica">Crónica</option>
+                            <option value="cronica_agudizada">Crónica Agudizada</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+document.querySelectorAll('.btn-historial').forEach(btn => {
+    btn.addEventListener('click', function() {
+        $('#historialClinicoModal').modal('show');
+    });
+});
+function showModal(modalId) {
+    $('#' + modalId).modal('show');
+}
+
+
+</script>
+
+{% endblock %}

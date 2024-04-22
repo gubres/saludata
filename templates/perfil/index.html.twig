@@ -19,7 +19,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="registerPatientModalLabel">Registrar Nuevo Paciente</h5>
+                <h5 class="modal-title" id="registerPatientModalLabel">NUEVO PACIENTE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -68,13 +68,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                    <label>ID Sanitario</label>    <input class="form-control" type="text" name="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
+                    <label>ID Sanitario</label>
+                    <input class="form-control" type="text" name="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
                     </div>
                     <div class="mb-3">
-                    <label>Telefono</label>    <input class="form-control" type="tel" name="telefono" placeholder="Telefono de Contacto">
+                    <label>Telefono</label>
+                    <input class="form-control" type="tel" name="telefono" placeholder="Telefono de Contacto">
                      </div>
                     <div class="mb-3">
-                    <label>Email</label>    <input class="form-control" type="email" name="email" placeholder="Email de Contacto">
+                    <label>Email</label>
+                    <input class="form-control" type="email" name="email" placeholder="Email de Contacto">
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Registrar Paciente</button>
@@ -122,25 +125,17 @@ $(document).ready(function() {
     var pacientesTabla = $('#pacientesTabla').DataTable({
         "processing": true,
         "serverSide": false,
+        "autoWidth": false,
         "ajax": {
-            "url": "{{ path('perfil_data') }}", 
-            "type": "GET"
+            "url": "{{ path('perfil_data') }}"
         },
         "columns": [
-            { "data": "id" },
-            { "data": "dni" },
-            { "data": "nombre" },
-            { "data": "apellidos" },
-            {
-                "data": null,
-                "defaultContent": '<button type="button" title="Ver paciente" class="btn btn-success" style="display: block; margin: auto;">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">' +
-                '<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 1 1.66-2.043C4.12 4.7 5.841 3.5 8 3.5c2.159 0 3.88 1.2 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.193.288-.42.62-1.03 1.319-1.923 2.025C11.118 11.331 9.651 12 8 12c-1.65 0-3.118-.669-4.71-1.687-.895-.706-1.505-1.405-1.925-2.025A13.433 13.433 0 0 1 1.172 8z"/>' +
-                '<path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm0 1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>' +
-                '</svg>' +
-                '</button>'
-            }
-            
+                { "data": "id",
+                "className": "text-center" },
+                { "data": "dni" },
+                { "data": "nombre" },
+                { "data": "apellidos" },
+                { "data": "acciones", "className": "text-center", "orderable": false },
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"

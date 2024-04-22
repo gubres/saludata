@@ -70,4 +70,17 @@ class PacienteController extends AbstractController
 
         return $this->redirectToRoute('app_perfil');
     }
+    #[Route('/paciente/ver/{id}', name: 'paciente_ver')]
+    public function verPaciente(int $id, EntityManagerInterface $em): Response
+    {
+        $paciente = $em->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        return $this->render('paciente/ver.html.twig', [
+            'paciente' => $paciente
+        ]);
+    }
 }
