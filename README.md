@@ -29,8 +29,10 @@ PASO A PASO
 	git checkout master
 	git pull origin master
 	git checkout nombre_de_la_rama
-	git merge master
+	git merge master.
+ 
  3 - Si encuentras conflictos durante el merge, resuélvelos antes de continuar.
+ 
  4 - Con tu rama ya actualizada, estás listo para empezar a trabajar en los cambios:
     Realiza todos los cambios necesarios en el código.
     Guarda los cambios en tu editor.
@@ -38,8 +40,10 @@ PASO A PASO
 5 - Una vez que hayas realizado tus cambios, debes añadirlos al índice de Git y luego confirmarlos en tu rama local:
 	git add archivo1 (donde el archivo 1 es el nombre del archivo modificado, si no reconoce solo con el nombre, meter la ruta ejemplo: src/template/paciente/index.html.twig)
 NUNCA usar "git add .", que puede causar problemas en el proyecto.
+
 6 - Después haz el commit:
 	git commit -m "Describe los cambios realizados"
+
 7 - Después de confirmar tus cambios localmente, súbelos a tu rama remota en GitHub (o cualquier otro host de Git que estés usando):
 	git push origin nombre_de_la_rama
 
