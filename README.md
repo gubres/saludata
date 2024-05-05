@@ -23,35 +23,36 @@ PASO A PASO
 # OBSERVACION IMPORTANTE
 
 1 - A la hora de subir los cambios, no os olvideis de que hay que crear una rama personal para eso:
-	git checkout -b nombre_de_la_rama (aqui podeis colocar vuestros nombres que quedaría más fácil de trabajar)
+	1.1. - git checkout -b nombre_de_la_rama (aqui podeis colocar vuestros nombres que quedaría más fácil de trabajar)
 
 2 - Antes de empezar a hacer cambios, asegúrate de que tu rama esté actualizada con la rama principal (master). Esto te ayuda a evitar conflictos cuando integras tus cambios más tarde:
-	git checkout master
-	git pull origin master
-	git checkout nombre_de_la_rama
-	git merge master.
+	2.2. - git checkout master
+	2.3. - git pull origin master
+	2.4. - git checkout nombre_de_la_rama
+	2.5. - git merge master.
  
  3 - Si encuentras conflictos durante el merge, resuélvelos antes de continuar.
  
  4 - Con tu rama ya actualizada, estás listo para empezar a trabajar en los cambios:
-    Realiza todos los cambios necesarios en el código.
-    Guarda los cambios en tu editor.
+	4.1. - Realiza todos los cambios necesarios en el código.
+	4.2. - Guarda los cambios en tu editor.
 
 5 - Una vez que hayas realizado tus cambios, debes añadirlos al índice de Git y luego confirmarlos en tu rama local:
-	git add archivo1 (donde el archivo 1 es el nombre del archivo modificado, si no reconoce solo con el nombre, meter la ruta ejemplo: src/template/paciente/index.html.twig)
+	5.1. -git add archivo1 (donde el archivo 1 es el nombre del archivo modificado, si no reconoce solo con el nombre, meter la ruta ejemplo: src/template/paciente/index.html.twig)
+
 NUNCA usar "git add .", que puede causar problemas en el proyecto.
 
 6 - Después haz el commit:
-	git commit -m "Describe los cambios realizados"
+	6.1. - git commit -m "Describe los cambios realizados"
 
 7 - Después de confirmar tus cambios localmente, súbelos a tu rama remota en GitHub (o cualquier otro host de Git que estés usando):
-	git push origin nombre_de_la_rama
+	7.1. - git push origin nombre_de_la_rama
 
 8 - Una vez que tus cambios están en la rama remota, ve al repositorio en la web de GitHub y encontrarás una opción para "Crear pull request" para tu rama. Haz clic en esta opción:
-    Asegúrate de seleccionar la rama principal (master) como la base y tu rama como la comparación.
-    Llena el formulario del pull request con una descripción de los cambios y cualquier otra información relevante para los revisores.
-    Envía el pull request.
+	8.1. - Asegúrate de seleccionar la rama principal (master) como la base y tu rama como la comparación.
+	8.2. - Llena el formulario del pull request con una descripción de los cambios y cualquier otra información relevante para los revisores.
+	8.3. - Envía el pull request.
 
 9 - Después de que tus cambios hayan sido fusionados, asegúrate de que tu rama local esté sincronizada con la rama principal:
-	git checkout master
-	git pull origin master
+	9.1. - git checkout master
+	9.2. - git pull origin master
