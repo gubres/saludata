@@ -7,14 +7,18 @@
 
 {% block body %}
 
-<header>
-    <div class="container flex">
-        <button onclick="window.print();" class="btn btn-primary">Imprimir</button>
-        <button id="btnGeneratePDF" class="btn btn-secondary">Generar PDF</button>
+<header class="mt-5 pt-5">
+    <div class="container d-flex justify-content-end ">
+        <a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill mx-2">
+         Volver a la lista
+        </a>
+        <button onclick="window.print();" class="btn btn-light mx-2"> <i class="bi bi-printer-fill"></i></button>
+        <button id="btnGeneratePDF" class="btn btn-danger mx-2"> <i class="bi bi-file-earmark-pdf-fill"></i></button>
         <div class="dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                ¿Necesitas ayuda?
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-info-circle"></i>
             </button>
+
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Contactar Supervisor</a>
                 <a class="dropdown-item" href="#">Contactar Soporte</a>
@@ -28,8 +32,7 @@
     <div class="row">
         <nav class="col-md-4">
             <div class="text-center">
-                {# Descomenta y ajusta la siguiente línea para usar la foto del paciente #}
-                {# <img src="{{ paciente.foto }}" alt="Foto de {{ paciente.nombre }}" class="img-fluid rounded-circle"> #}
+                <img src="{{ imagen }}" alt="Foto de {{ paciente.nombre }}" class="img-fluid w-75 h-75">
                 <h3>{{ paciente.nombre }}</h3>
                 <button class="btn btn-outline-primary"><i class="fa fa-pencil"></i></button>
                 <div class="mt-2">
@@ -94,23 +97,11 @@
     </div>
 </div>
 
-<script>
-function showModal(modalId) {
-    var modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'block';
-    }
-}
-document.querySelectorAll('.btn-historial').forEach(btn => {
-    btn.addEventListener('click', function() {
-        $('#historialClinicoModal').modal('show');
-    });
-});
-function showModal(modalId) {
-    $('#' + modalId).modal('show');
-}
+{% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+<script>
 
 </script>
-
 {% endblock %}

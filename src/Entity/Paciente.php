@@ -8,14 +8,20 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PacienteRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PacienteRepository::class)]
+#[UniqueEntity(fields: ['dni'], message: 'El número de DNI ya existe')]
 class Paciente
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    // El campo BLOB para almacenar la imagen
+    #[ORM\Column(type: 'blob', nullable: true)]
+    private $imagen;
 
     #[ORM\Column(length: 50)]
     private ?string $Nombre = null;
@@ -60,9 +66,10 @@ class Paciente
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $Updated_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pacientes')]
+    #[ORM\ManyToOne(inversedBy: 'updatedPacientes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $Updated_by = null;
+
 
     public function __construct()
     {
@@ -75,6 +82,18 @@ class Paciente
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen($imagen): self
+    {
+        $this->imagen = $imagen;
+
+        return $this;
     }
 
     public function getNombre(): ?string

@@ -30,6 +30,7 @@ class PerfilController extends AbstractController
     {
         $pacientes = $this->pacienteRepository->findNotDeleted();
         $data = array_map(function ($paciente) {
+
             return [
                 'id' => $paciente->getId(),
                 'dni' => $paciente->getDni(),
