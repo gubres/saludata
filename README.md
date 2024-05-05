@@ -24,7 +24,8 @@ PASO A PASO
 
 1 - A la hora de subir los cambios, no os olvideis de que hay que crear una rama personal para eso:
 
-	1.1 - git checkout -b nombre_de_la_rama (aqui podeis colocar vuestros nombres que quedaría más fácil de trabajar)
+	1.1. - git checkout -b nombre_de_la_rama 
+ 	(aqui podeis colocar vuestros nombres que quedaría más fácil de trabajar)
 
 2 - Antes de empezar a hacer cambios, asegúrate de que tu rama esté actualizada con la rama principal (master). Esto te ayuda a evitar conflictos cuando integras tus cambios más tarde:
 	
@@ -42,7 +43,8 @@ PASO A PASO
 
 5 - Una vez que hayas realizado tus cambios, debes añadirlos al índice de Git y luego confirmarlos en tu rama local:
 	
- 	5.1. -git add archivo1 (donde el archivo 1 es el nombre del archivo modificado, si no reconoce solo con el nombre, meter la ruta ejemplo: src/template/paciente/index.html.twig)
+ 	5.1. -git add archivo1 (donde el archivo 1 es el nombre del archivo modificado)
+  	si no reconoce solo con el nombre, meter la ruta ejemplo: src/template/paciente/index.html.twig)
 
 NUNCA usar "git add .", que puede causar problemas en el proyecto.
 
