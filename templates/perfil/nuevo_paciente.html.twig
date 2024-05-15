@@ -84,7 +84,20 @@
             <h5 class="pt-3 mt-3">NUEVO PACIENTE</h5>
             <form id="registerPatientForm" method="post" action="{{ path('app_registar_paciente') }}" enctype="multipart/form-data" onsubmit="submitPatient">
                 <div class="form-group">
-
+                    <label>Selecciona una imagen o toma una foto al paciente:</label>
+                    <div id="file-display-container" class="mb-5 mt-3 ">
+                        <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
+                        <label for="image-upload" class="btn btn-info bi bi-images"> Seleccionar una foto</label>
+                        <button type="button" id="camera-button" class="btn btn-info bi bi-camera2"> Usar cámara</button>
+                        <button type="button" id="remove-file" class="btn btn-danger mt-2 mb-2" style="display: none;">Borrar imagen</button>
+                        <span id="file-name"></span>
+                    </div>
+                    <video id="video" autoplay class="mb-3" style="display: none;"></video>
+                    <button id="snap" class="btn btn-primary mx-3" style="display: none;">Capturar Foto</button>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <img id="photo" class="mb-3" style="display: none;">
+                </div>
+                <div class="form-group">
                     <label>Nombre</label>    <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
                     </div>
                     <div class="form-group">
@@ -138,21 +151,8 @@
                 <div class="form-group">
                     <label>Email</label>
                     <input class="form-control" type="email" name="email" placeholder="Email de Contacto">
-                    </div>
-               <div class="form-group">
-                    <label>Selecciona una imagen o toma una foto al paciente:</label>
-                    <div id="file-display-container" class="mb-5 mt-3 ">
-                        <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
-                        <label for="image-upload" class="btn btn-info bi bi-images"> Seleccionar una foto</label>
-                        <button type="button" id="camera-button" class="btn btn-info bi bi-camera2"> Usar cámara</button>
-                        <button type="button" id="remove-file" class="btn btn-danger mt-2 mb-2" style="display: none;">Borrar imagen</button>
-                        <span id="file-name"></span>
-                    </div>
-                    <video id="video" autoplay class="mb-3" style="display: none;"></video>
-                    <button id="snap" class="btn btn-primary mx-3" style="display: none;">Capturar Foto</button>
-                    <canvas id="canvas" style="display: none;"></canvas>
-                    <img id="photo" class="mb-3" style="display: none;">
                 </div>
+               
                 <div class="align-self-center p-3">
                     
                     <button type="submit" class="btn btn-primary bi bi-check2-square"> Registrar Paciente</button>

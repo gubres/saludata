@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Repository\PacienteRepository;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class PacienteController extends AbstractController
 {
@@ -119,6 +119,64 @@ class PacienteController extends AbstractController
         return $this->render('paciente/ver.html.twig', [
             'paciente' => $paciente,
             'imagen' => $base64Image
+        ]);
+    }
+    #[Route('/paciente/editar/{id}', name: 'paciente_editar')]
+    public function editarPaciente(int $id, Request $request, EntityManagerInterface $em): Response
+    {
+        $paciente = $em->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        if ($request->isMethod('POST')) {
+            $dni = $request->request->get('dni', '');
+            $nombre = $request->request->get('nombre', '');
+
+            // Actualizar los datos del paciente
+            $paciente->setNombre($nombre);
+            $paciente->setApellido($request->request->get('apellidos'));
+            $paciente->setDni($dni);
+            $paciente->setFechaNacimiento(new \DateTime($request->request->get('fecha_nacimiento')));
+            $paciente->setProfesion($request->request->get('profesion'));
+            $paciente->setDireccion($request->request->get('direccion'));
+            $paciente->setGenero($request->request->get('genero'));
+            $paciente->setEstadoCivil($request->request->get('estado_civil'));
+            $paciente->setTelefono($request->request->get('telefono'));
+            $paciente->setEmail($request->request->get('email'));
+
+            // Datos adicionales de control
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $paciente->setUpdatedBy($this->getUser());
+
+            // Carga y manejo de la imagen
+            $imagenFile = $request->files->get('imagen');
+            if ($imagenFile) {
+                if ($imagenFile->getError() == UPLOAD_ERR_OK) {
+                    $blob = fopen($imagenFile->getRealPath(), 'rb');  // Abre el archivo en modo binario
+                    $paciente->setImagen(stream_get_contents($blob));  // Guarda los datos binarios en la entidad
+                } else {
+                    $this->addFlash('error', 'Error al cargar el archivo: ' . $imagenFile->getErrorMessage());
+                }
+            }
+
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Paciente actualizado con éxito');
+            return $this->redirectToRoute('paciente_ver', ['id' => $id]);
+        }
+
+        $imagenData = $paciente->getImagen();
+        $base64Image = null;
+        if ($imagenData !== null) {
+            // Aquí se obtiene la imagen en Base64 correctamente
+            $base64Image = 'data:image/png;base64,' . base64_encode(stream_get_contents($imagenData));
+        }
+
+        return $this->render('paciente/editar.html.twig', [
+            'paciente' => $paciente,
+            'imagen' => $base64Image,
         ]);
     }
 }

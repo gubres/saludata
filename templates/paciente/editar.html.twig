@@ -1,0 +1,262 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .container {
+        max-width: 70%;
+        margin: auto;
+        padding-top: 20px;
+    }
+
+    .card {
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .form-group label {
+        flex: 0 0 180px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+        flex: 1;
+    }
+
+    #file-display-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #video, #photo {
+        max-width: 50%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: fit-content;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        color: white;
+        background-color: #007bff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.85;
+    }
+
+    #file-name {
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block title %}Editar Paciente{% endblock %}
+
+{% block body %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<main class="flex-1 pt-3">
+    <section class="container">
+        <article class="card text-center">
+            <h5 class="pt-3 mt-3">EDITAR PACIENTE</h5>
+            <form id="editPatientForm" method="post" action="{{ path('paciente_editar', {'id': paciente.id}) }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Selecciona una imagen o toma una foto al paciente:</label>
+                    <div class="block">
+                    {% if imagen %}
+                        <img id="photo" class="mb-3" src="{{ imagen }}" style="display: block;">
+                    {% else %}
+                        <img id="photo" class="mb-3" style="display: none;">
+                    {% endif %}
+                    </div>
+                    <div id="file-display-container" class="mb-5 mt-3 ">
+                        <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
+                        <label for="image-upload" class="btn btn-info bi bi-images"> Seleccionar una foto</label>
+                        <button type="button" id="camera-button" class="btn btn-info bi bi-camera2"> Usar cámara</button>
+                        <button type="button" id="remove-file" class="btn btn-danger mt-2 mb-2" style="display: none;">Borrar imagen</button>
+                        <span id="file-name"></span>
+                    </div>
+                    <video id="video" autoplay class="mb-3" style="display: none;"></video>
+                    <button type="button" id="snap" class="btn btn-primary mx-3" style="display: none;">Capturar Foto</button>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    
+                </div>
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" type="text" name="nombre" value="{{ paciente.nombre }}" required>
+                </div>
+                <div class="form-group">
+                    <label>Apellidos</label>
+                    <input class="form-control" type="text" name="apellidos" value="{{ paciente.apellido }}" required>
+                </div>
+                <div class="form-group">
+                    <label>DNI</label>
+                    <input class="form-control" type="text" name="dni" value="{{ paciente.dni }}" required>
+                </div>
+                <div class="form-group">
+                    <label>Fecha Nacimiento</label>
+                    <input class="form-control" type="date" name="fecha_nacimiento" value="{{ paciente.fechaNacimiento|date('Y-m-d') }}" required>
+                </div>
+                <div class="form-group">
+                    <label>Profesion</label>
+                    <input class="form-control" type="text" name="profesion" value="{{ paciente.profesion }}">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input class="form-control" type="text" name="direccion" value="{{ paciente.direccion }}">
+                </div>
+                <div class="form-group">
+                    <label>Seleccione el género</label>
+                    <select class="form-control" id="genderSelect" name="genero" required>
+                        <option value="hombre-cis" {% if paciente.genero == 'hombre-cis' %}selected{% endif %}>Hombre Cis</option>
+                        <option value="hombre-trans" {% if paciente.genero == 'hombre-trans' %}selected{% endif %}>Hombre Trans</option>
+                        <option value="mujer-cis" {% if paciente.genero == 'mujer-cis' %}selected{% endif %}>Mujer Cis</option>
+                        <option value="mujer-trans" {% if paciente.genero == 'mujer-trans' %}selected{% endif %}>Mujer Trans</option>
+                        <option value="non-binario" {% if paciente.genero == 'non-binario' %}selected{% endif %}>Non-Binario</option>
+                        <option value="neutro" {% if paciente.genero == 'neutro' %}selected{% endif %}>Neutro</option>
+                        <option value="agenero" {% if paciente.genero == 'agenero' %}selected{% endif %}>Agenero</option>
+                        <option value="pangenero" {% if paciente.genero == 'pangenero' %}selected{% endif %}>Pangenero</option>
+                        <option value="queer" {% if paciente.genero == 'queer' %}selected{% endif %}>Queer</option>
+                        <option value="no-identificar" {% if paciente.genero == 'no-identificar' %}selected{% endif %}>No Identificar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Seleccione el estado civil</label>
+                    <select class="form-control" name="estado_civil" required>
+                        <option value="soltero(a)" {% if paciente.estadoCivil == 'soltero(a)' %}selected{% endif %}>Soltero(a)</option>
+                        <option value="casado(a)" {% if paciente.estadoCivil == 'casado(a)' %}selected{% endif %}>Casado(a)</option>
+                        <option value="viudo(a)" {% if paciente.estadoCivil == 'viudo(a)' %}selected{% endif %}>Viudo(a)</option>
+                        <option value="pareja de hecho" {% if paciente.estadoCivil == 'pareja de hecho' %}selected{% endif %}>Pareja de Hecho</option>
+                        <option value="no identificar" {% if paciente.estadoCivil == 'no identificar' %}selected{% endif %}>No Identificar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input class="form-control" type="tel" name="telefono" value="{{ paciente.telefono }}" placeholder="Telefono de Contacto">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" type="email" name="email" value="{{ paciente.email }}" placeholder="Email de Contacto">
+                </div>
+                <div class="align-self-center p-3">
+                    <button type="submit" class="btn btn-primary bi bi-check2-square"> Guardar Cambios</button>
+                    <a href="{{ path('paciente_ver', {'id': paciente.id}) }}" class="btn btn-secondary bi bi-person-lines-fill">
+                        Volver
+                    </a>
+                </div>
+            </form>
+        </article>
+    </section>
+</main>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('image-upload');
+    const cameraButton = document.getElementById('camera-button');
+    const selectButtonLabel = document.querySelector('label[for="image-upload"]');
+    const fileNameContainer = document.getElementById('file-name');
+    const removeFileButton = document.getElementById('remove-file');
+    const video = document.getElementById('video');
+    const snap = document.getElementById('snap');
+    const photo = document.getElementById('photo');
+    const canvas = document.getElementById('canvas');
+
+    cameraButton.addEventListener('click', function() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.style.display = 'block';
+                snap.style.display = 'block';
+                video.srcObject = stream;
+                video.play();
+                selectButtonLabel.style.display = 'none';  // Oculta el botón de seleccionar archivo
+                cameraButton.style.display = 'none';  // Oculta el botón de usar cámara
+            }).catch(function(error) {
+                console.error("Error accessing the camera: " + error);
+            });
+        }
+    });
+
+    snap.addEventListener('click', function(event) {
+        event.preventDefault();  // Previene el envío del formulario
+        var desiredWidth = video.videoWidth;
+        var desiredHeight = video.videoHeight;
+        var aspectRatio = video.videoWidth / video.videoHeight;
+        if (desiredWidth > 400) {
+            desiredWidth = 400;
+            desiredHeight = desiredWidth / aspectRatio;
+        }
+        canvas.width = desiredWidth;
+        canvas.height = desiredHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, desiredWidth, desiredHeight);
+        photo.src = canvas.toDataURL('image/png');
+        photo.style.display = 'block';
+        video.srcObject.getTracks().forEach(track => track.stop());
+
+        // Convertir canvas a Blob y luego asignarlo como valor del input file
+        canvas.toBlob(function(blob) {
+            const file = new File([blob], "captura.png", { type: "image/png" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+
+            removeFileButton.style.display = 'inline-block';  // Muestra el botón para quitar la foto
+        }, 'image/png');
+
+        video.style.display = 'none';
+        snap.style.display = 'none';
+    });
+
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photo.src = e.target.result;
+                photo.style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
+            fileNameContainer.textContent = this.files[0].name;
+            removeFileButton.style.display = 'inline-block';
+            cameraButton.style.display = 'none';  // Oculta el botón de la cámara cuando se selecciona un archivo
+            selectButtonLabel.style.display = 'none';  // Asegúrate de que este también se oculta
+        }
+    });
+
+    removeFileButton.addEventListener('click', function() {
+        fileInput.value = '';
+        fileNameContainer.textContent = '';
+        photo.src = '';
+        photo.style.display = 'none';
+        this.style.display = 'none';
+        selectButtonLabel.style.display = 'block';  // Muestra nuevamente el botón de seleccionar
+        cameraButton.style.display = 'block';  // Muestra nuevamente el botón de la cámara
+    });
+
+});
+</script>
+{% endblock %}
