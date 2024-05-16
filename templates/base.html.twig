@@ -40,60 +40,27 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-         <a href="{{ path('app_main') }}" title="Visitar inicio" class="navbar-brand text-end">
+         <a href="http://www.saludata.es" title="Visitar inicio" class="navbar-brand text-end">
             <img src="/images/logo_03.png" alt="Logo" class="w-25 h-25 md:h-18 object-cover rounded-pill">
         </a>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
                 <h2 class="offcanvas-title" id="offcanvasNavbarLabel">
-                    <a href="{{ path('app_main') }}" class="text-decoration-none text-dark">Inicio</a>
+                    <a href="http://www.saludata.es" class="text-decoration-none text-dark">Inicio</a>
                 </h2>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        SERVICIOS
+                    <a class="nav-link" href="https://saludata.es/servicios/">
+                        Servicios
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="servicios.html">Consultorios</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Centros Médicos</a></li>
-                        <li><a class="dropdown-item" href="servicios.html">Hospitales</a></li>
-                    </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        DESARROLLADO PARA
+                    <a class="nav-link" href="https://saludata.es/tarifas/">
+                       Tarifas
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="servicios.html">Gestión de turnos</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Atención/Recepción de clientes</a></li>
-                        <li><a class="dropdown-item" href="servicios.html">Administracion Historial Clinico</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Farmacia y Stock</a></li>
-                        <li><a class="dropdown-item" href="servicios.html">Administracion Historial Clinico</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Facturacion y Liquidacion</a></li>
-                    </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       PRECIOS
+                    <a href="https://saludata.es/contacto/" class="nav-link">
+                       Contacto
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="servicios.html">Profesional autonomo</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Centros Médicos</a></li>
-                        <li><a class="dropdown-item" href="servicios.html">Hospitales</a></li>
-                    </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       MÁS
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="servicios.html">Contacto</a></li>
-                        <li><a class="dropdown-item" href="contacto.html">Preguntas Frecuentes</a></li>
-                    </ul>
-                    </li>
                 
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item mx-3">

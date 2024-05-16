@@ -4,44 +4,44 @@
 {{ parent() }}
 <style>
     .container {
-        max-width: 70%; /* Limita el ancho máximo del contenedor a 50% de la página */
-        margin: auto; /* Centra el contenedor horizontalmente */
-        padding-top: 20px; /* Espacio superior para evitar que esté demasiado pegado al encabezado */
+        max-width: 70%;
+        margin: auto;
+        padding-top: 20px;
     }
 
     .card {
-        background: #ffffff; /* Fondo blanco para el estilo card */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil para dar profundidad */
-        padding: 20px; /* Padding interno para el contenido */
-        border-radius: 8px; /* Bordes redondeados */
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+        border-radius: 8px;
     }
 
     .form-group {
         display: flex;
-        align-items: center; /* Alinea verticalmente los elementos del formulario */
-        margin-bottom: 10px; /* Margen para separar los campos del formulario */
+        align-items: center;
+        margin-bottom: 10px;
     }
 
     .form-group label {
-        flex: 0 0 180px; /* Ancho fijo para los labels */
-        margin-right: 10px; /* Espacio entre el label y el input */
+        flex: 0 0 180px;
+        margin-right: 10px;
     }
 
     .form-control {
-        flex: 1; /* Ocupa el espacio restante en la línea */
+        flex: 1;
     }
 
-#file-display-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;  /* Espaciado entre elementos dentro del contenedor */
-}
+    #file-display-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-#video, #photo {
-    max-width: 50%;
-    height: auto;  /* Ajusta esto para que se vea bien en tu diseño */
-    margin-bottom: 10px;
-}
+    #video, #photo {
+        max-width: 50%;
+        height: auto;
+        margin-bottom: 10px;
+    }
 
     .btn {
         width: fit-content;
@@ -55,7 +55,7 @@
 
     .btn-primary {
         color: white;
-        background-color: #007bff; /* Azul para botones primarios e informativos */
+        background-color: #007bff;
     }
 
     .btn-danger {
@@ -67,11 +67,10 @@
         opacity: 0.85;
     }
 
-#file-name {
-    margin-right: 10px;
-}
-
-    </style>
+    #file-name {
+        margin-right: 10px;
+    }
+</style>
 {% endblock %}
 
 {% block title %}Registro de Paciente{% endblock %}
@@ -82,10 +81,10 @@
     <section class="container">
         <article class="card text-center">
             <h5 class="pt-3 mt-3">NUEVO PACIENTE</h5>
-            <form id="registerPatientForm" method="post" action="{{ path('app_registar_paciente') }}" enctype="multipart/form-data" onsubmit="submitPatient">
+            <form id="registerPatientForm" method="post" action="{{ path('app_registar_paciente') }}" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Selecciona una imagen o toma una foto al paciente:</label>
-                    <div id="file-display-container" class="mb-5 mt-3 ">
+                    <div id="file-display-container" class="mb-5 mt-3">
                         <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
                         <label for="image-upload" class="btn btn-info bi bi-images"> Seleccionar una foto</label>
                         <button type="button" id="camera-button" class="btn btn-info bi bi-camera2"> Usar cámara</button>
@@ -95,82 +94,90 @@
                     <video id="video" autoplay class="mb-3" style="display: none;"></video>
                     <button id="snap" class="btn btn-primary mx-3" style="display: none;">Capturar Foto</button>
                     <canvas id="canvas" style="display: none;"></canvas>
-                    <img id="photo" class="mb-3" style="display: none;">
+                    <div>
+                        <img id="photo" class="mb-3" style="display: none;">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Nombre</label>    <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
-                    </div>
-                    <div class="form-group">
-                    <label>Apellidos</label>    <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
-                     </div>
-                  <div class="form-group">
-                    <label>DNI</label>    <input class="form-control" type="text" name="dni" placeholder="DNI" required>
-                    </div>
-               <div class="form-group">
-                     <label>Fecha Nacimiento</label>   <input class="form-control" type="date" name="fecha_nacimiento" required>
-                    </div>
-                 <div class="form-group">
-                    <label>Profesion</label>    <input class="form-control" type="text" name="profesion" placeholder="Profesión">
-                    </div>
+                    <label>Nombre</label>
+                    <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
+                </div>
                 <div class="form-group">
-                    <label>Dirección</label>    <input class="form-control" type="text" name="direccion" placeholder="Dirección">
-                    </div>
-               <div class="form-group">
+                    <label>Apellidos</label>
+                    <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label>DNI</label>
+                    <input class="form-control" type="text" name="dni" placeholder="DNI" required>
+                </div>
+                <div class="form-group">
+                    <label>Fecha Nacimiento</label>
+                    <input class="form-control" type="date" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label>Profesion</label>
+                    <input class="form-control" type="text" name="profesion" placeholder="Profesión">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input class="form-control" type="text" name="direccion" placeholder="Dirección">
+                </div>
+                <div class="form-group">
                     <label>Seleccione el género</label>
-                        <select class="form-control" id="genderSelect" name="genero" required>
-                            <option value="hombre-cis">Hombre Cis</option>
-                            <option value="hombre-trans">Hombre Trans</option>
-                            <option value="mujer-cis">Mujer Cis</option>
-                            <option value="mujer-trans">Mujer Trans</option>
-                            <option value="non-binario">Non-Binario</option>
-                            <option value="neutro">Neutro</option>
-                            <option value="agenero">Agenero</option>
-                            <option value="pangenero">Pangenero</option>
-                            <option value="queer">Queer</option>
-                            <option value="no-identificar">No Identificar</option>
-                        </select>
-                    </div>
-                 <div class="form-group">
+                    <select class="form-control" id="genderSelect" name="genero" required>
+                        <option value="hombre-cis">Hombre Cis</option>
+                        <option value="hombre-trans">Hombre Trans</option>
+                        <option value="mujer-cis">Mujer Cis</option>
+                        <option value="mujer-trans">Mujer Trans</option>
+                        <option value="non-binario">Non-Binario</option>
+                        <option value="neutro">Neutro</option>
+                        <option value="agenero">Agenero</option>
+                        <option value="pangenero">Pangenero</option>
+                        <option value="queer">Queer</option>
+                        <option value="no-identificar">No Identificar</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Seleccione el estado civil</label>
-                        <select class="form-control" name="estado_civil" required>
-                            <option value="soltero(a)">Soltero(a)</option>
-                            <option value="casado(a)">Casado(a)</option>
-                            <option value="viudo(a)">Viudo(a)</option>
-                            <option value="pareja de hecho">Pareja de Hecho</option>
-                            <option value="no identificar">No Identificar</option>
-                        </select>
-                    </div>
+                    <select class="form-control" name="estado_civil" required>
+                        <option value="soltero(a)">Soltero(a)</option>
+                        <option value="casado(a)">Casado(a)</option>
+                        <option value="viudo(a)">Viudo(a)</option>
+                        <option value="pareja de hecho">Pareja de Hecho</option>
+                        <option value="no identificar">No Identificar</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>ID Sanitario</label>
                     <input class="form-control" type="text" name="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
-                    </div>
-                  <div class="form-group">
+                </div>
+                <div class="form-group">
                     <label>Telefono</label>
                     <input class="form-control" type="tel" name="telefono" placeholder="Telefono de Contacto">
-                     </div>
+                </div>
                 <div class="form-group">
                     <label>Email</label>
                     <input class="form-control" type="email" name="email" placeholder="Email de Contacto">
                 </div>
                
                 <div class="align-self-center p-3">
-                    
                     <button type="submit" class="btn btn-primary bi bi-check2-square"> Registrar Paciente</button>
-                   <a href="{{ path('app_perfil') }}" class="btn btn-secondary bi bi-person-lines-fill">
-                    Volver a la lista
+                    <a href="{{ path('app_perfil') }}" class="btn btn-secondary bi bi-person-lines-fill">
+                        Volver a la lista
                     </a>
                 </div>
-                </form>
-</article>
-</section>
+            </form>
+        </article>
+    </section>
 </main>
 {% endif %}
+
+{% include 'perfil/modalNuevoPaciente.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
 <script>
-
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('image-upload');
     const cameraButton = document.getElementById('camera-button');
@@ -181,6 +188,80 @@ document.addEventListener('DOMContentLoaded', function() {
     const snap = document.getElementById('snap');
     const photo = document.getElementById('photo');
     const canvas = document.getElementById('canvas');
+    const form = document.getElementById('registerPatientForm');
+    const confirmButton = document.getElementById('confirmButton');
+    const confirmModalElement = document.getElementById('confirmModal');
+    const errorModalElement = document.getElementById('errorModal');
+    const confirmModal = new bootstrap.Modal(confirmModalElement);
+
+    function showConfirmModal() {
+        confirmModal.show();
+    }
+
+    function showSuccessModal(message) {
+        const successModalText = document.getElementById('successModalText');
+        successModalText.innerText = message;
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+    }
+
+    function showErrorModal(message) {
+        const errorModalText = document.getElementById('errorModalText');
+        errorModalText.innerText = message;
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    }
+
+    confirmButton.addEventListener('click', function() {
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            confirmModal.hide();
+            if (data.status === 'success') {
+                showSuccessModal(data.message);
+                setTimeout(() => {
+                    window.location.href = '{{ path('app_perfil') }}';
+                }, 2000); // Redirigir después de 2 segundos
+            } else {
+                showErrorModal(data.message);
+            }
+        })
+        .catch(error => {
+            confirmModal.hide();
+            showErrorModal('Ha ocurrido un error al registrar el paciente.');
+            console.error('Error:', error);
+        });
+    });
+
+    confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
+        confirmModal.hide();
+    });
+
+    confirmModalElement.querySelector('.btn-close').addEventListener('click', function() {
+        confirmModal.hide();
+    });
+
+    errorModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
+        errorModal.hide();
+    });
+
+    errorModalElement.querySelector('.btn-close').addEventListener('click', function() {
+        errorModal.hide();
+    });
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        showConfirmModal();
+    }
+
+    form.addEventListener('submit', handleSubmit);
 
     cameraButton.addEventListener('click', function() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -197,7 +278,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    snap.addEventListener('click', function() {
+    snap.addEventListener('click', function(event) {
+        event.preventDefault();  // Previene el envío del formulario
         var desiredWidth = video.videoWidth;
         var desiredHeight = video.videoHeight;
         var aspectRatio = video.videoWidth / video.videoHeight;
@@ -212,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
         photo.style.display = 'block';
         video.srcObject.getTracks().forEach(track => track.stop());
 
-         // Convertir canvas a Blob y luego asignarlo como valor del input file
+        // Convertir canvas a Blob y luego asignarlo como valor del input file
         canvas.toBlob(function(blob) {
             const file = new File([blob], "captura.png", { type: "image/png" });
             const dataTransfer = new DataTransfer();
@@ -222,14 +304,18 @@ document.addEventListener('DOMContentLoaded', function() {
             removeFileButton.style.display = 'inline-block';  // Muestra el botón para quitar la foto
         }, 'image/png');
 
-
         video.style.display = 'none';
         snap.style.display = 'none';
-        removeFileButton.style.display = 'inline-block';  // Muestra el botón para quitar la foto
     });
 
     fileInput.addEventListener('change', function() {
         if (this.files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photo.src = e.target.result;
+                photo.style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
             fileNameContainer.textContent = this.files[0].name;
             removeFileButton.style.display = 'inline-block';
             cameraButton.style.display = 'none';  // Oculta el botón de la cámara cuando se selecciona un archivo
@@ -246,12 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
         selectButtonLabel.style.display = 'block';  // Muestra nuevamente el botón de seleccionar
         cameraButton.style.display = 'block';  // Muestra nuevamente el botón de la cámara
     });
-
 });
-
-
-
-
 </script>
-
 {% endblock %}

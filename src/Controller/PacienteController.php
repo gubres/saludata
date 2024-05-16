@@ -37,7 +37,7 @@ class PacienteController extends AbstractController
     #[Route('nuevo_paciente', name: 'app_registar_paciente', methods: ["GET", "POST"])]
     public function registrarPaciente(Request $request, PacienteRepository $pacienteRepository): Response
     {
-        if ($request->isMethod('POST')) {
+        if ($request->isXmlHttpRequest()) {
             $dni = $request->request->get('dni', '');
             $nombre = $request->request->get('nombre', '');
 
@@ -93,7 +93,7 @@ class PacienteController extends AbstractController
             $this->entityManager->flush();
 
             $this->addFlash('success', 'Paciente registrado con éxito');
-            return $this->redirectToRoute('app_perfil');
+            return $this->json(['status' => 'success', 'message' => 'Paciente registrado con éxito'], Response::HTTP_OK);
         }
         // Renderizar el formulario si no es POST
         return $this->render('perfil/nuevo_paciente.html.twig');

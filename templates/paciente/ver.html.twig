@@ -32,13 +32,11 @@
             <div class="text-center">
                 <img src="{{ imagen }}" alt="Foto de {{ paciente.nombre }}" class="img-fluid w-75 h-75">
                 <h3>{{ paciente.nombre }} {{ paciente.apellido }}</h3>
+                <h6>Última Visita: {{ paciente.updatedAt ? paciente.updatedAt|date('d-m-Y H:i:s') : 'No disponible' }}</h6>
                     <a href="{{ path('paciente_editar', {'id': paciente.id}) }}" class="btn btn-outline-primary">
                     <i class="fa fa-pencil"></i> Editar Datos
                 </a>
-                <div class="mt-2">
-                    <button id="btnInfoPersonal" class="btn btn-primary">Información Personal</button>
-                    <button id="btnInfoContacto" class="btn btn-primary">Información de Contacto</button>
-                </div>
+              
             </div>
         </nav>
         <main class="col-md-8">
