@@ -64,6 +64,12 @@
 {% endblock %}
 
 {% block body %}
+<script>
+    if (!window.location.hash.includes('reloaded')) {
+        window.location.hash = '#reloaded';
+        window.location.reload();
+    }
+</script>
 <div class="container container-flex mt-5 pt-5">
     <h2 class="text-center mb-3">LISTADO DE USUARIOS Y ROLES</h2>
     <div class="table-container">
@@ -113,9 +119,7 @@
                 "processing": false,
                 "serverSide": true,
                 "autoWidth": true,
-"dom": '<"row"<"col-md-3"l><"col-md-6"B><"col-md-3"f>>rt<"row"<"col-md-5"i><"col-md-7"p>>',
-
-
+                "dom": '<"row"<"col-md-3"l><"col-md-6"B><"col-md-3"f>>rt<"row"<"col-md-5"i><"col-md-7"p>>',
                 "ajax": {
                     "url": "{{ path('user_data') }}",
                     "type": "GET",
@@ -223,8 +227,7 @@
                             "1": "1 fila seleccionada"
                         }
                     },
-                },
-            
+                },            
             });
 
             $('#userTabla tbody').on('click', 'button', function() {
@@ -299,6 +302,7 @@
                 $('#errorModalText').text(mensaje);
                 $('#errorModal').modal('show');
             }
+            
         });
     </script>
 {% endblock %}
