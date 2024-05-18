@@ -11,7 +11,24 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        
+        <style>
+            .hover-effect {
+                transition: all 0.3s ease-in-out;
+            }
+
+            .hover-effect:hover {
+                background-color: #28a745; /* Cambiar el color de fondo */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+            }
+            .color{
+                color: black;
+            }
+            .color:hover{
+                color: white;
+            }
+        </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -59,10 +76,15 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li class="nav-item">
-                    <p class="bi bi-door-open-fill d-block mb-3">Bienvenido {{ app.user.email }}</p>
-                    <span class="alert alert-success d-block"> <a class=" nav-link text-dark" title="Ver perfil" href="{{path('app_usuarios_index')}}"> <i class="bi bi-person-square"></i> Ver perfil</a></span>
+                   <li class="nav-item">
+                        <h5 class="bi bi-door-open-fill d-block mb-3 pb-2 border-bottom"> Bienvenido Dr. {{ app.user.nombre }}</h5>
+                        <span class="alert alert-success d-block hover-effect">
+                        <a class="nav-link color" title="Ver perfil" href="{{ path('app_usuarios_index') }}">
+                            <i class="bi bi-person-square"></i> Ver perfil
+                        </a>
+                        </span>
                     </li>
+
                     <li class="nav-item dropdown border-top pt-3">
                         <a class="nav-link dropdown-toggle alert alert-primary d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-lines-fill"></i> Gestionar Pacientes
@@ -74,8 +96,6 @@
                     </li>
                 </ul>
             {% endif %}
-    
-
             <ul class="navbar-nav">
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item dropdown border-top pt-3">
@@ -88,6 +108,7 @@
                                 <i class="bi bi-person-plus"></i> Registro de nuevos usuarios
                             </a>
                         </li>
+                               <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="/roles">
                                 <i class="bi bi-person-lock"></i> Usuarios registrados
@@ -98,21 +119,20 @@
                 {% endif %}
             </ul>
 
-                            <ul class="navbar-nav">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li>
-                    <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3">
-                            <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black alert alert-warning"><i class="bi bi-box-arrow-left"></i> Logout</button>
-                        </form>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                    </li>
-                    {% endif %}
-                </ul>
-
-            </div>
+            <ul class="navbar-nav">
+               {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li>
+                 <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3">
+                   <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black alert alert-warning"><i class="bi bi-box-arrow-left"></i> Logout</button>
+                 </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link text-black" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
     </div>   
 </nav>
