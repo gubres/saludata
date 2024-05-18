@@ -3,11 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>SD</text></svg>">
         {% block stylesheets %}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
         {% endblock %}
 
         {% block javascripts %}
@@ -15,10 +19,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-       
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>       
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script>
+            
+
+            
             {% block importmap %}{{ importmap('app') }}{% endblock %}
 
         {% endblock %}
@@ -52,41 +58,41 @@
             </div>
             <div class="offcanvas-body">
             <ul class="navbar-nav">
-                    <a class="nav-link" href="https://saludata.es/servicios/">
-                        Servicios
-                    </a>
-                    <a class="nav-link" href="https://saludata.es/tarifas/">
-                       Tarifas
-                    </a>
-                    <a href="https://saludata.es/contacto/" class="nav-link">
-                       Contacto
-                    </a>
-                
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item">
+                   <p class="bi bi-door-open-fill d-block mb-3">Bienvenido {{ app.user.email }}</p>
+                  <span class="alert alert-success d-block"> <a class=" nav-link text-dark" title="Ver perfil" href="{{path('app_usuarios_index')}}"> <i class="bi bi-person-square"></i> Ver perfil</a></span>
+                </li>
+                <li class="nav-item border-top pt-3">
+                    <span class="alert alert-info d-block mb-3"><a href="{{ path('app_perfil') }}" class="no-link bi bi-person-lines-fill" title="Ver listado de pacientes"><strong>  Ver listado de pacientes</strong></a></span>
+                </li>
+                {% endif %}
+
+            </ul>
+            <ul class="navbar-nav">
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item mx-3">
-                    <a class="nav-link text-black" href="{{ path('datos_user') }}"><i class="bi bi-person-lock"></i> Usuarios Registrados</a>
+                <li class="nav-item border-top pt-3">
+                     <span class="alert alert-primary d-block mb-3 p-2"><a class="nav-link text-black bi bi-person-plus" title="Registrar nuevo usuario" href="{{ path('app_register') }}"> Registro de nuevos usuarios</a></span>
+                </li>
+                <li class="nav-item mb-2">
+                    <span class="alert alert-danger d-block mb-3 p-2"> <a class="nav-link text-black" title="Usuarios registrados" href="/roles"><i class="bi bi-person-lock"></i>Usuarios registrados</a></span>
                 </li>
                  {% endif %}
             </ul>
-            <ul class="navbar-nav">
+                        <ul class="navbar-nav">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item border-top pt-3">
-                   <p class="bi bi-door-open-fill d-block mb-3">Bienvenido {{ app.user.email }}</p>
-                    <span class="alert alert-info d-block mb-3"><a href="{{ path('app_perfil') }}" class="no-link bi bi-person-lines-fill" title="Visitar listado de pacientes"><strong>  Ver listado de pacientes</strong></a></span>
-                    <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3">
-                        <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black"><i class="bi bi-box-arrow-left"></i> Logout</button>
+                <li>
+                 <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3">
+                        <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black alert alert-warning"><i class="bi bi-box-arrow-left"></i> Logout</button>
                     </form>
                 </li>
-               
-                {% else %}
+                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link text-black" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black bi bi-person-plus" href="{{ path('app_register') }}"> Registro</a>
-                </li>
                 {% endif %}
-            </ul>
+                </ul>
+
         </div>
     </div>
 </div>   

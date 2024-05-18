@@ -1,0 +1,304 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Roles{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.min.css">    
+    <style>
+        .container-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-excel {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-excel:hover {
+            background-color: #218838;
+            color: white;
+        }
+
+        .btn-pdf {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background-color: #c82333;
+            color: white;
+        }
+
+        .btn-print {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background-color: #e0a800;
+            color: white;
+        }
+
+        .dt-buttons .btn {
+            margin-right: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container container-flex mt-5 pt-5">
+    <h2 class="text-center mb-3">LISTADO DE USUARIOS Y ROLES</h2>
+    <div class="table-container">
+        <table id="userTabla" class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Roles</th>
+                    <th class="text-center">Editar role</th>
+                    <th class="text-center">Eliminar roles</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <!-- Contenido cargado dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- modal de mensajes -->
+    <div class="modal-body">
+        {% include '/roles/modalRoles.html.twig' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+    
+       <!-- DataTables Buttons -->
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+    <!-- JSZip for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- pdfmake for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <!-- FontAwesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        $(document).ready(function() {
+            var userTabla = $('#userTabla').DataTable({
+                "processing": false,
+                "serverSide": true,
+                "autoWidth": true,
+"dom": '<"row"<"col-md-3"l><"col-md-6"B><"col-md-3"f>>rt<"row"<"col-md-5"i><"col-md-7"p>>',
+
+
+                "ajax": {
+                    "url": "{{ path('user_data') }}",
+                    "type": "GET",
+                    "data": function(d) {
+                        d.searchValue = d.search.value || '';
+                        return d;
+                    },
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "nombre" },
+                    { "data": "email" },
+                    {
+                        "data": "estado",
+                        "render": function(data, type, row) {
+                            if (data) {
+                                return '<i class="fas fa-check-circle text-success"></i>'; // Check verde
+                            } else {
+                                return '<i class="fas fa-times-circle text-danger"></i>'; // X roja
+                            }
+                        }
+                    },
+                    { "data": "roles" },
+                    { "data": "editar" },
+                    { "data": "eliminar roles" }
+                ],
+              "buttons": [
+                   {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn-excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn-pdf',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        customize: function(doc) {
+                            var docContent = doc.content[1];
+                            docContent.margin = [0, 0, 0, 0]; // [left, top, right, bottom]
+                            docContent.table.widths = Array(docContent.table.body[0].length + 1).join('*').split('');
+                            docContent.layout = {
+                                hLineWidth: function(i, node) {
+                                    return 0.5;
+                                },
+                                vLineWidth: function(i, node) {
+                                    return 0.5;
+                                },
+                                hLineColor: function(i, node) {
+                                    return '#aaa';
+                                },
+                                vLineColor: function(i, node) {
+                                    return '#aaa';
+                                },
+                                paddingLeft: function(i, node) {
+                                    return 4;
+                                },
+                                paddingRight: function(i, node) {
+                                    return 4;
+                                },
+                                paddingTop: function(i, node) {
+                                    return 2;
+                                },
+                                paddingBottom: function(i, node) {
+                                    return 2;
+                                }
+                            };
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i> Imprimir',
+                        titleAttr: 'Imprimir',
+                        className: 'btn-print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ],
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "No hay información disponible",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "infoFiltered": "(filtrado de un total de _MAX_ entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron registros coincidentes",
+                    "select": {
+                        "rows": {
+                            "_": "%d filas seleccionadas",
+                            "0": "Haz clic en una fila para seleccionarla",
+                            "1": "1 fila seleccionada"
+                        }
+                    },
+                },
+            
+            });
+
+            $('#userTabla tbody').on('click', 'button', function() {
+                var data = userTabla.row($(this).parents('tr')).data();
+                if ($(this).hasClass('edit-button')) {
+                    $('#editModal').modal('show');
+                } else if ($(this).hasClass('delete-button')) {
+                    $('#deleteModal').modal('show');
+                }
+            });
+
+            $('#editModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var email = button.data('email');
+                var roles = button.data('roles').split(',');
+
+                var modal = $(this);
+                modal.find('.modal-title').text('Editar Usuario: ' + email);
+                modal.find('.modal-body #userId').val(id);
+                modal.find('.modal-body #userEmail').val(email);
+
+                modal.find('.modal-body #userRoles').find('option').each(function() {
+                    $(this).prop('selected', roles.includes($(this).val()));
+                });
+            });
+
+            $('#editUserForm').on('submit', function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '{{ path("update_user") }}',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        $('#editModal').modal('hide');
+                        mostrarSuccessModal('Role del usuario modificado correctamente');
+                        userTabla.ajax.reload();
+                    },
+                    error: function() {
+                        mostrarErrorModal('Error al actualizar el usuario.');
+                    }
+                });
+            });
+
+            $('#deleteModal').on('show.bs.modal', function(e) {
+                var button = $(e.relatedTarget);
+                var id = button.data('id');
+                $('#confirmDeleteButton').off('click').on('click', function() {
+                    $.ajax({
+                        url: '{{ path("delete_user") }}',
+                        type: 'POST',
+                        data: { userId: id },
+                        success: function(response) {
+                            $('#deleteModal').modal('hide');
+                            mostrarSuccessModal('Estado del usuario modificado correctamente');
+                            userTabla.ajax.reload();
+                        },
+                        error: function() {
+                            mostrarErrorModal('Error al eliminar el usuario.');
+                        }
+                    });
+                });
+            });
+
+            function mostrarSuccessModal(mensaje) {
+                $('#successModalText').text(mensaje);
+                $('#successModal').modal('show');
+            }
+
+            function mostrarErrorModal(mensaje) {
+                $('#errorModalText').text(mensaje);
+                $('#errorModal').modal('show');
+            }
+        });
+    </script>
+{% endblock %}

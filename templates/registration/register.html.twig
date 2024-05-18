@@ -1,59 +1,113 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registrar{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .register-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .register-card {
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .link-primary {
+            color: #007bff;
+        }
+
+        .link-primary:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-<div class="container mt-5 ">
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-6 mt-3">
-            {% for flash_error in app.flashes('verify_email_error') %}
-                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-            {% endfor %}
+<div class="container d-flex justify-content-center align-items-center vh-100 mt-5">
+    <div class="register-container">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
-                    
-                    {{ form_start(registrationForm, {'attr': {'class': 'form-horizontal'}}) }}
-                    
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.email, {
-                            attr: {'class': 'form-control'},
-                            label: 'Email'
-                        }) }}
-                    </div>
+        <div class="card register-card">
+            <div class="card-body">
+                <h1 class="h3 mb-3 font-weight-normal text-center">Nuevo Usuario</h1>
 
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.plainPassword.first, {
-                            attr: {'class': 'form-control'},
-                            label: 'Contraseña'
-                        }) }}
-                    </div>
-                     <div class="mb-3">
-                        {{ form_row(registrationForm.plainPassword.second, {
-                            attr: {'class': 'form-control'},
-                            label: 'Repetir Contraseña'
-                        }) }}
-                    </div>
+                {{ form_start(registrationForm, {'attr': {'class': 'form-horizontal'}}) }}
 
-                    <div class="mb-3 form-check">
-                        {{ form_row(registrationForm.agreeTerms, {
-                            attr: {'class': 'form-check-input'},
-                            label: 'Concordar con los términos',
-                            label_attr: {'class': 'form-check-label'}
-                        }) }}
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-md">Crear Cuenta</button>
-                    </div>
-                    
-                    {{ form_end(registrationForm) }}
-                    <div class="mt-4">
-                ¿Ya tienes una cuenta? <a href="{{ path('app_login') }}" class="link-primary">Iniciar sesión</a>
-            </div>
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.nombre, {
+                        'attr': {'class': 'form-control'},
+                        'label': 'Nombre'
+                    }) }}
                 </div>
-                
+
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.apellidos, {
+                        'attr': {'class': 'form-control'},
+                        'label': 'Apellidos'
+                    }) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.email, {
+                        'attr': {'class': 'form-control'},
+                        'label': 'Email'
+                    }) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.plainPassword.first, {
+                        'attr': {'class': 'form-control'},
+                        'label': 'Contraseña'
+                    }) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.plainPassword.second, {
+                        'attr': {'class': 'form-control'},
+                        'label': 'Repetir Contraseña'
+                    }) }}
+                </div>
+
+                <div class="form-group form-check mb-3">
+                    {{ form_widget(registrationForm.agreeTerms, {
+                        'attr': {'class': 'form-check-input'}
+                    }) }}
+                    <label class="form-check-label">
+                        Concordar con los <a href="https://saludata.es/politica-de-privacidad/" target="_blank" class="link-primary">términos de servicio</a>
+                    </label>
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-md">Crear Cuenta</button>
+                </div>
+
+                {{ form_end(registrationForm) }}
+
+                <div class="mt-4 text-center">
+                    ¿Ya tienes una cuenta? <a href="{{ path('app_login') }}" class="link-primary">Iniciar sesión</a>
+                </div>
             </div>
         </div>
     </div>

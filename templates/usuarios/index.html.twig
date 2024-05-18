@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Perfil del Usuario{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container container-flex">
+    <div class="row justify-content-center">
+      
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center">Perfil del usuario</h1>
+                    <p><strong>ID:</strong> {{ usuario.id }}</p>
+                    <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+                    <p><strong>Apellidos:</strong> {{ usuario.apellidos }}</p>
+                    <p><strong>Email:</strong> {{ usuario.email }}</p>
+                    <p><strong>Estado:</strong> {{ usuario.isActive ? 'Activo' : 'Inactivo' }}</p>
+                    <p><strong>Creado en:</strong> {{ usuario.getCreadoEn()|date('d/m/Y H:i:s') }}</p>
+                    <p><strong>Actualizado en:</strong> {{ usuario.getActualizadoEn()|date('d/m/Y H:i:s') }}</p>
+                    <p><strong>Autorizaciones:</strong>
+                    {% set readableRoles = [] %}
+                    {% for role in usuario.getRoles() %}
+                        {% if role == 'ROLE_USER' %}
+                            {% set readableRoles = readableRoles | merge(['NIVEL USUARIO']) %}
+                        {% elseif role == 'ROLE_ADMIN' %}
+                            {% set readableRoles = readableRoles | merge(['NIVEL ADMINISTRADOR']) %}
+                        {% endif %}
+                    {% endfor %}
+                    {{ readableRoles | join(' Y ') }}
+                    </p>
+                    <a href="{{ path('app_usuarios_profile') }}" class="btn btn-warning">Editar Perfil</a>
+                </div>
+        
+        </div>
+    </div>
+</div>
+{% endblock %}

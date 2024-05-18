@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Estilos para el contenedor del formulario */
+        .formulario-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        /* Estilos para los campos del formulario */
+        .formulario-container input[type="text"],
+        .formulario-container input[type="email"],
+        .formulario-container input[type="password"],
+        .formulario-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="formulario-container">
+                <h1 class="text-center">Editar Perfil</h1>
+                <div class="card">
+                    <div class="card-body">
+                        {{ form_start(form, { 'attr': { 'id': 'editForm', 'novalidate': 'novalidate' } }) }}
+                        <div class="mb-3">
+                            {{ form_label(form.email) }}
+                            {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'readonly': true, 'disabled': true} }) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.plainPassword.first) }}
+                            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(form.plainPassword.first) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.plainPassword.second) }}
+                            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(form.plainPassword.second) }}
+                        </div>
+                        <button type="button" class="btn btn-primary" id="guardarButton">Guardar cambios</button>
+                        <a href="{{ path('app_usuarios_index') }}" class="btn btn-secondary">Cancelar</a>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+                <!-- Ventana modal de confirmación -->
+                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmModalLabel">Confirmación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que quieres realizar los cambios?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" id="confirmChanges">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventana modal de éxito -->
+                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Los cambios se han guardado con éxito.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventana modal de error -->
+                <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Ocurrió un error al guardar los cambios. Por favor, intenta nuevamente.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mostrar la ventana modal de confirmación cuando se hace clic en el botón "Guardar cambios"
+            document.getElementById('guardarButton').addEventListener('click', function() {
+                var confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                confirmModal.show();
+            });
+
+            // Manejar el clic en el botón "Aceptar" del modal de confirmación
+            document.getElementById('confirmChanges').addEventListener('click', function() {
+                var form = document.getElementById('editForm');
+                var formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: form.method,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                        setTimeout(function() {
+                            window.location.href = "{{ path('app_usuarios_index') }}";
+                        }, 2000);
+                    } else {
+                        throw new Error(data.message || 'Error al guardar los cambios.');
+                    }
+                })
+                .catch(error => {
+                    var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    document.querySelector('#errorModal .modal-body').textContent = error.message;
+                    errorModal.show();
+                });
+            });
+        });
+    </script>
+{% endblock %}

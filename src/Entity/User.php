@@ -24,6 +24,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $nombre = null;
+
+    #[ORM\Column(type: 'string', length: 100)]
+    private ?string $apellidos = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -41,16 +47,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Paciente::class, mappedBy: 'Sanitario_asignado')]
     private Collection $pacientes;
+
     /**
      * @var Collection<int, Paciente>
      */
     #[ORM\OneToMany(mappedBy: "Updated_by", targetEntity: Paciente::class)]
     private Collection $updatedPacientes;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $eliminado = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isActive = true;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $creado_en = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $actualizado_en = null;
+
     public function __construct()
     {
         $this->pacientes = new ArrayCollection();
-        $this->updatedPacientes = new ArrayCollection(); // Inicializa la colección
+        $this->updatedPacientes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,7 +85,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+        return $this;
+    }
 
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): static
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    public function getApellidos(): ?string
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos(string $apellidos): static
+    {
+        $this->apellidos = $apellidos;
         return $this;
     }
 
@@ -91,16 +131,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
+        if (!$this->isActive || $this->eliminado) {
+            return [];
+        }
+
         return array_unique($roles);
     }
-
     /**
      * @param list<string> $roles
      */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -115,7 +157,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -142,7 +183,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->pacientes->add($paciente);
             $paciente->setSanitarioAsignado($this);
         }
-
         return $this;
     }
 
@@ -154,16 +194,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $paciente->setSanitarioAsignado(null);
             }
         }
-
         return $this;
     }
+
     public function addUpdatedPaciente(Paciente $paciente): static
     {
         if (!$this->updatedPacientes->contains($paciente)) {
             $this->updatedPacientes->add($paciente);
             $paciente->setUpdatedBy($this);
         }
-
         return $this;
     }
 
@@ -174,7 +213,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $paciente->setUpdatedBy(null);
             }
         }
+        return $this;
+    }
 
+    public function getEliminado(): bool
+    {
+        return $this->eliminado;
+    }
+
+    public function setEliminado(bool $eliminado): static
+    {
+        $this->eliminado = $eliminado;
+        if ($this->eliminado) {
+            $this->roles = [];
+            $this->isActive = false;
+        }
+        return $this;
+    }
+
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+        if (!$this->isActive) {
+            $this->roles = [];
+        }
+        return $this;
+    }
+
+    public function getCreadoEn(): ?\DateTimeInterface
+    {
+        return $this->creado_en;
+    }
+
+    public function setCreadoEn(?\DateTimeInterface $creado_en): static
+    {
+        $this->creado_en = $creado_en;
+        return $this;
+    }
+
+    public function getActualizadoEn(): ?\DateTimeInterface
+    {
+        return $this->actualizado_en;
+    }
+
+    public function setActualizadoEn(?\DateTimeInterface $actualizado_en): static
+    {
+        $this->actualizado_en = $actualizado_en;
         return $this;
     }
 }
