@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingSignosVitales">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSignosVitales" aria-expanded="true" aria-controls="collapseSignosVitales">
+            Signos Vitales
+        </button>
+    </h2>
+    <div id="collapseSignosVitales" class="accordion-collapse collapse show" aria-labelledby="headingSignosVitales" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.signos_vitales is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for signo in data.signos_vitales %}
+                        <li>Altura: {{ signo.altura }} cm, Peso: {{ signo.peso }} kg, IMC: {{ signo.masa_corporal }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('signos_vitales_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Signos Vitales</a>
+        </div>
+    </div>
+</div>

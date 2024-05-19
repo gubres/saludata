@@ -66,10 +66,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $actualizado_en = null;
 
+    /**
+     * @var Collection<int, HistorialClinico>
+     */
+    #[ORM\OneToMany(targetEntity: HistorialClinico::class, mappedBy: 'ActualizadoPor', orphanRemoval: true)]
+    private Collection $historialClinicos;
+
     public function __construct()
     {
         $this->pacientes = new ArrayCollection();
         $this->updatedPacientes = new ArrayCollection();
+        $this->historialClinicos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +271,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActualizadoEn(?\DateTimeInterface $actualizado_en): static
     {
         $this->actualizado_en = $actualizado_en;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistorialClinico>
+     */
+    public function getHistorialClinicos(): Collection
+    {
+        return $this->historialClinicos;
+    }
+
+    public function addHistorialClinico(HistorialClinico $historialClinico): static
+    {
+        if (!$this->historialClinicos->contains($historialClinico)) {
+            $this->historialClinicos->add($historialClinico);
+            $historialClinico->setActualizadoPor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorialClinico(HistorialClinico $historialClinico): static
+    {
+        if ($this->historialClinicos->removeElement($historialClinico)) {
+            // set the owning side to null (unless already changed)
+            if ($historialClinico->getActualizadoPor() === $this) {
+                $historialClinico->setActualizadoPor(null);
+            }
+        }
+
         return $this;
     }
 }

@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingExamenPelvico">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExamenPelvico" aria-expanded="true" aria-controls="collapseExamenPelvico">
+            Examen Pélvico
+        </button>
+    </h2>
+    <div id="collapseExamenPelvico" class="accordion-collapse collapse show" aria-labelledby="headingExamenPelvico" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.examen_pelvico is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for examen in data.examen_pelvico %}
+                        <li>Inspección: {{ examen.inspeccion }}, Palpación: {{ examen.palpacion }}, Percusión: {{ examen.percusion }}, Ausculta: {{ examen.ausculta }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('examen_pelvico_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen Pélvico</a>
+        </div>
+    </div>
+</div>

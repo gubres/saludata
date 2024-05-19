@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingExamenTorax">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExamenTorax" aria-expanded="true" aria-controls="collapseExamenTorax">
+            Examen Tórax
+        </button>
+    </h2>
+    <div id="collapseExamenTorax" class="accordion-collapse collapse show" aria-labelledby="headingExamenTorax" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.examen_torax is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for examen in data.examen_torax %}
+                        <li>Inspección: {{ examen.inspeccion }}, Palpación: {{ examen.palpacion }}, Percusión: {{ examen.percusion }}, Ausculta: {{ examen.ausculta }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('examen_torax_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de Tórax</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingClasificacionSanguinea">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClasificacionSanguinea" aria-expanded="true" aria-controls="collapseClasificacionSanguinea">
+            Clasificación Sanguínea
+        </button>
+    </h2>
+    <div id="collapseClasificacionSanguinea" class="accordion-collapse collapse show" aria-labelledby="headingClasificacionSanguinea" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.clasificacion_sanguinea is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    <li>Tipo: {{ data.clasificacion_sanguinea.tipo }}, Rh: {{ data.clasificacion_sanguinea.rh }}, Donante: {{ data.clasificacion_sanguinea.donante ? 'Sí' : 'No' }}</li>
+                </ul>
+            {% endif %}
+            <a href="{{ path('clasificacion_sanguinea_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Clasificación Sanguínea</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingQuejaActual">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuejaActual" aria-expanded="true" aria-controls="collapseQuejaActual">
+            Queja Actual
+        </button>
+    </h2>
+    <div id="collapseQuejaActual" class="accordion-collapse collapse show" aria-labelledby="headingQuejaActual" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.queja_actual is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for queja in data.queja_actual %}
+                        <li>{{ queja.queja }}: {{ queja.descripcion }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('queja_actual_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Queja</a>
+        </div>
+    </div>
+</div>

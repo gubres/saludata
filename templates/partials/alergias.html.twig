@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingAlergias">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAlergias" aria-expanded="true" aria-controls="collapseAlergias">
+            Alergias
+        </button>
+    </h2>
+    <div id="collapseAlergias" class="accordion-collapse collapse show" aria-labelledby="headingAlergias" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.alergias is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for alergia in data.alergias %}
+                        <li>{{ alergia.nombre }}: {{ alergia.causa }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('alergias_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Alergia</a>
+        </div>
+    </div>
+</div>

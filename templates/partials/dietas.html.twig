@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingDietas">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDietas" aria-expanded="true" aria-controls="collapseDietas">
+            Dietas
+        </button>
+    </h2>
+    <div id="collapseDietas" class="accordion-collapse collapse show" aria-labelledby="headingDietas" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.dietas is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for dieta in data.dietas %}
+                        <li>Tipo: {{ dieta.tipo }}, Frecuencia: {{ dieta.frecuencia }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('dietas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Dieta</a>
+        </div>
+    </div>
+</div>

@@ -47,7 +47,7 @@
         {% if app.user %}
         <div class="alert alert-info text-center">
             <p>Ya ha iniciado sesión como <strong>{{ app.user.userIdentifier }}</strong>.</p>
-            <a href="{{ path('app_perfil') }}" class="alert-link">Ir al listado de pacientes</a><br><br>
+            <a href="{{ path('app_usuarios_index') }}" class="alert-link">Ir al perfil</a><br><br>
             <form action="{{ path('app_logout') }}" method="post" class="d-inline">
                 <p>No es: {{ app.user.userIdentifier }}? </p>
                 <button type="submit" class="btn btn-warning btn-sm ml-2">Cerrar sesión</button>

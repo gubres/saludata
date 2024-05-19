@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingHistorialFamiliar">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorialFamiliar" aria-expanded="true" aria-controls="collapseHistorialFamiliar">
+            Historial Familiar
+        </button>
+    </h2>
+    <div id="collapseHistorialFamiliar" class="accordion-collapse collapse show" aria-labelledby="headingHistorialFamiliar" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.historial_familiar is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    <li>Padre Vivo: {{ data.historial_familiar.padreVivo ? 'Sí' : 'No' }}</li>
+                    <li>Madre Viva: {{ data.historial_familiar.madreVivo ? 'Sí' : 'No' }}</li>
+                    <li>Hermanos: {{ data.historial_familiar.hermanos }}, Hermanos Vivos: {{ data.historial_familiar.hermanosVivos ? 'Sí' : 'No' }}</li>
+                </ul>
+            {% endif %}
+            <a href="{{ path('historial_familiar_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Familiar</a>
+        </div>
+    </div>
+</div>

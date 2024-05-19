@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingVacunas">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVacunas" aria-expanded="true" aria-controls="collapseVacunas">
+            Vacunas
+        </button>
+    </h2>
+    <div id="collapseVacunas" class="accordion-collapse collapse show" aria-labelledby="headingVacunas" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.vacunas is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for vacuna in data.vacunas %}
+                        <li>{{ vacuna.nombre }}: Dosis {{ vacuna.dosis }}, Fecha: {{ vacuna.ultimaDosis|date('d-m-Y') }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('vacunas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Vacuna</a>
+        </div>
+    </div>
+</div>

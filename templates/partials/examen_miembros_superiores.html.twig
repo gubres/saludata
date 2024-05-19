@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingExamenMiembrosSuperiores">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExamenMiembrosSuperiores" aria-expanded="true" aria-controls="collapseExamenMiembrosSuperiores">
+            Examen Miembros Superiores
+        </button>
+    </h2>
+    <div id="collapseExamenMiembrosSuperiores" class="accordion-collapse collapse show" aria-labelledby="headingExamenMiembrosSuperiores" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.examen_miembros_superiores is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for examen in data.examen_miembros_superiores %}
+                        <li>Inspección: {{ examen.inspeccion }}, Palpación: {{ examen.palpacion }}, Percusión: {{ examen.percusion }}, Ausculta: {{ examen.ausculta }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('examen_miembros_superiores_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de Miembros Superiores</a>
+        </div>
+    </div>
+</div>

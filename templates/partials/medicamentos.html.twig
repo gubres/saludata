@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingMedicamentos">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedicamentos" aria-expanded="true" aria-controls="collapseMedicamentos">
+            Medicamentos en Uso
+        </button>
+    </h2>
+    <div id="collapseMedicamentos" class="accordion-collapse collapse show" aria-labelledby="headingMedicamentos" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.medicamentos is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    {% for medicamento in data.medicamentos %}
+                        <li>{{ medicamento.nombre }}: {{ medicamento.posologia }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <a href="{{ path('medicamentos_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Medicamento</a>
+        </div>
+    </div>
+</div>

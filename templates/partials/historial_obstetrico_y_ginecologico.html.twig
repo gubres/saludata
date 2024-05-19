@@ -1,0 +1,21 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingHistorialObstetricoYGinecologico">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorialObstetricoYGinecologico" aria-expanded="true" aria-controls="collapseHistorialObstetricoYGinecologico">
+            Historial Obstétrico y Ginecológico
+        </button>
+    </h2>
+    <div id="collapseHistorialObstetricoYGinecologico" class="accordion-collapse collapse show" aria-labelledby="headingHistorialObstetricoYGinecologico" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.historial_obstetrico_y_ginecologico is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    <li>Edad primera regla: {{ data.historial_obstetrico_y_ginecologico.edadPrimeraRegla }}</li>
+                    <li>Edad última regla: {{ data.historial_obstetrico_y_ginecologico.edadUltimaRegla }}</li>
+                    <li>Ciclo Regular: {{ data.historial_obstetrico_y_ginecologico.cicloRegular ? 'Sí' : 'No' }}</li>
+                </ul>
+            {% endif %}
+            <a href="{{ path('historico_obstetrico_y_ginecologico_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Obstétrico y Ginecológico</a>
+        </div>
+    </div>
+</div>

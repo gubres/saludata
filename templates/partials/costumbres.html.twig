@@ -1,0 +1,19 @@
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingCostumbres">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCostumbres" aria-expanded="true" aria-controls="collapseCostumbres">
+            Costumbres
+        </button>
+    </h2>
+    <div id="collapseCostumbres" class="accordion-collapse collapse show" aria-labelledby="headingCostumbres" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {% if data.costumbres is empty %}
+                <p>Sin datos</p>
+            {% else %}
+                <ul>
+                    <li>Fumante: {{ data.costumbres.fumante ? 'Sí' : 'No' }}, Consumo de Alcohol: {{ data.costumbres.consumo_alcohol ? 'Sí' : 'No' }}</li>
+                </ul>
+            {% endif %}
+            <a href="{{ path('costumbres_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Costumbre</a>
+        </div>
+    </div>
+</div>

@@ -70,6 +70,17 @@ class Paciente
     #[ORM\JoinColumn(nullable: false)]
     private ?User $Updated_by = null;
 
+    #[ORM\OneToOne(mappedBy: 'paciente', cascade: ['persist', 'remove'])]
+    private ?HistorialClinico $historialClinico = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $Ciudad = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $Comunidad_autonoma = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $Pais = null;
 
     public function __construct()
     {
@@ -272,6 +283,64 @@ class Paciente
     public function setUpdatedBy(?User $Updated_by): static
     {
         $this->Updated_by = $Updated_by;
+
+        return $this;
+    }
+
+    public function getHistorialClinico(): ?HistorialClinico
+    {
+        return $this->historialClinico;
+    }
+
+    public function setHistorialClinico(?HistorialClinico $historialClinico): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($historialClinico === null && $this->historialClinico !== null) {
+            $this->historialClinico->setPaciente(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($historialClinico !== null && $historialClinico->getPaciente() !== $this) {
+            $historialClinico->setPaciente($this);
+        }
+
+        $this->historialClinico = $historialClinico;
+
+        return $this;
+    }
+
+    public function getCiudad(): ?string
+    {
+        return $this->Ciudad;
+    }
+
+    public function setCiudad(string $Ciudad): static
+    {
+        $this->Ciudad = $Ciudad;
+
+        return $this;
+    }
+
+    public function getComunidadAutonoma(): ?string
+    {
+        return $this->Comunidad_autonoma;
+    }
+
+    public function setComunidadAutonoma(string $Comunidad_autonoma): static
+    {
+        $this->Comunidad_autonoma = $Comunidad_autonoma;
+
+        return $this;
+    }
+
+    public function getPais(): ?string
+    {
+        return $this->Pais;
+    }
+
+    public function setPais(string $Pais): static
+    {
+        $this->Pais = $Pais;
 
         return $this;
     }
