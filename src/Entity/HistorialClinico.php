@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\HistorialClinicoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeZone;
 
 #[ORM\Entity(repositoryClass: HistorialClinicoRepository::class)]
 class HistorialClinico
@@ -16,21 +17,23 @@ class HistorialClinico
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $creadoEn = null;
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\NotNull]
+    private $creadoEn;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'historialClinicosCreado')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creadoPor = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $ActualizadoEn = null;
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\NotNull]
+    private $actualizadoEn;
 
-    #[ORM\ManyToOne(inversedBy: 'historialClinicos')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'historialClinicosActualizado')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $ActualizadoPor = null;
+    private ?User $actualizadoPor = null;
 
-    #[ORM\OneToOne(inversedBy: 'historialClinico', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Paciente::class, inversedBy: 'historialClinico')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Paciente $paciente = null;
 
@@ -100,6 +103,8 @@ class HistorialClinico
         $this->examenesMiembrosSuperiores = new ArrayCollection();
         $this->examenesMiembrosInferiores = new ArrayCollection();
         $this->resultadosPruebas = new ArrayCollection();
+        $this->creadoEn = new \DateTime('now', new DateTimeZone('Europe/Madrid'));
+        $this->actualizadoEn = new \DateTime('now', new DateTimeZone('Europe/Madrid'));
     }
 
 
@@ -134,24 +139,24 @@ class HistorialClinico
 
     public function getActualizadoEn(): ?\DateTimeInterface
     {
-        return $this->ActualizadoEn;
+        return $this->actualizadoEn;
     }
 
-    public function setActualizadoEn(\DateTimeInterface $ActualizadoEn): static
+    public function setActualizadoEn(\DateTimeInterface $actualizadoEn): static
     {
-        $this->ActualizadoEn = $ActualizadoEn;
+        $this->actualizadoEn = $actualizadoEn;
 
         return $this;
     }
 
     public function getActualizadoPor(): ?User
     {
-        return $this->ActualizadoPor;
+        return $this->actualizadoPor;
     }
 
-    public function setActualizadoPor(?User $ActualizadoPor): static
+    public function setActualizadoPor(?User $actualizadoPor): static
     {
-        $this->ActualizadoPor = $ActualizadoPor;
+        $this->actualizadoPor = $actualizadoPor;
 
         return $this;
     }
@@ -161,7 +166,7 @@ class HistorialClinico
         return $this->paciente;
     }
 
-    public function setPaciente(?Paciente $paciente): static
+    public function setPaciente(?Paciente $paciente): self
     {
         $this->paciente = $paciente;
 

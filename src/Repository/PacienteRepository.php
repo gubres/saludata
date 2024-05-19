@@ -23,7 +23,7 @@ class PacienteRepository extends ServiceEntityRepository
     public function findNotDeleted()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.Eliminado = :val')
+            ->andWhere('p.eliminado = :val')
             ->setParameter('val', false)
             ->getQuery()
             ->getResult();

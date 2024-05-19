@@ -45,13 +45,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Paciente>
      */
-    #[ORM\OneToMany(targetEntity: Paciente::class, mappedBy: 'Sanitario_asignado')]
+    #[ORM\OneToMany(targetEntity: Paciente::class, mappedBy: 'sanitario_asignado')]
     private Collection $pacientes;
 
     /**
      * @var Collection<int, Paciente>
      */
-    #[ORM\OneToMany(mappedBy: "Updated_by", targetEntity: Paciente::class)]
+    #[ORM\OneToMany(mappedBy: "updated_by", targetEntity: Paciente::class)]
     private Collection $updatedPacientes;
 
     #[ORM\Column(type: 'boolean')]
@@ -69,14 +69,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, HistorialClinico>
      */
-    #[ORM\OneToMany(targetEntity: HistorialClinico::class, mappedBy: 'ActualizadoPor', orphanRemoval: true)]
-    private Collection $historialClinicos;
+    #[ORM\OneToMany(targetEntity: HistorialClinico::class, mappedBy: 'creadoPor', orphanRemoval: true)]
+    private Collection $historialClinicosCreado;
+
+    /**
+     * @var Collection<int, HistorialClinico>
+     */
+    #[ORM\OneToMany(targetEntity: HistorialClinico::class, mappedBy: 'actualizadoPor', orphanRemoval: true)]
+    private Collection $historialClinicosActualizado;
 
     public function __construct()
     {
         $this->pacientes = new ArrayCollection();
         $this->updatedPacientes = new ArrayCollection();
-        $this->historialClinicos = new ArrayCollection();
+        $this->historialClinicosCreado = new ArrayCollection();
+        $this->historialClinicosActualizado = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -188,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->pacientes->contains($paciente)) {
             $this->pacientes->add($paciente);
-            $paciente->setSanitarioAsignado($this);
+            $paciente->setSanitarioAsignado($this); // modificación para evitar creación de propiedades dinámicas
         }
         return $this;
     }
@@ -208,7 +215,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->updatedPacientes->contains($paciente)) {
             $this->updatedPacientes->add($paciente);
-            $paciente->setUpdatedBy($this);
+            $paciente->setUpdatedBy($this); // modificación para evitar creación de propiedades dinámicas
         }
         return $this;
     }
@@ -277,24 +284,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, HistorialClinico>
      */
-    public function getHistorialClinicos(): Collection
+    public function getHistorialClinicosCreado(): Collection
     {
-        return $this->historialClinicos;
+        return $this->historialClinicosCreado;
     }
 
-    public function addHistorialClinico(HistorialClinico $historialClinico): static
+    public function addHistorialClinicosCreado(HistorialClinico $historialClinico): static
     {
-        if (!$this->historialClinicos->contains($historialClinico)) {
-            $this->historialClinicos->add($historialClinico);
-            $historialClinico->setActualizadoPor($this);
+        if (!$this->historialClinicosCreado->contains($historialClinico)) {
+            $this->historialClinicosCreado->add($historialClinico);
+            $historialClinico->setCreadoPor($this); //modificación para evitar creación de propiedades dinámicas
         }
 
         return $this;
     }
 
-    public function removeHistorialClinico(HistorialClinico $historialClinico): static
+    public function removeHistorialClinicosCreado(HistorialClinico $historialClinico): static
     {
-        if ($this->historialClinicos->removeElement($historialClinico)) {
+        if ($this->historialClinicosCreado->removeElement($historialClinico)) {
+            // set the owning side to null (unless already changed)
+            if ($historialClinico->getCreadoPor() === $this) {
+                $historialClinico->setCreadoPor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistorialClinico>
+     */
+    public function getHistorialClinicosActualizado(): Collection
+    {
+        return $this->historialClinicosActualizado;
+    }
+
+    public function addHistorialClinicosActualizado(HistorialClinico $historialClinico): static
+    {
+        if (!$this->historialClinicosActualizado->contains($historialClinico)) {
+            $this->historialClinicosActualizado->add($historialClinico);
+            $historialClinico->setActualizadoPor($this); //modificación para evitar creación de propiedades dinámicas
+        }
+
+        return $this;
+    }
+
+    public function removeHistorialClinicosActualizado(HistorialClinico $historialClinico): static
+    {
+        if ($this->historialClinicosActualizado->removeElement($historialClinico)) {
             // set the owning side to null (unless already changed)
             if ($historialClinico->getActualizadoPor() === $this) {
                 $historialClinico->setActualizadoPor(null);

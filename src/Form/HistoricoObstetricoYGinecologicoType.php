@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HistoricoObstetricoYGinecologicoType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('edadPrimeraRegla', IntegerType::class, [
@@ -116,6 +116,10 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
                 'required' => false
             ]);
     }
+    /**
+     * {@inheritdoc}
+     * @return void
+     */
 
     public function configureOptions(OptionsResolver $resolver): void
     {

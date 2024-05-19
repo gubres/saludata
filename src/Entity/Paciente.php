@@ -19,75 +19,74 @@ class Paciente
     #[ORM\Column]
     private ?int $id = null;
 
-    // El campo BLOB para almacenar la imagen
     #[ORM\Column(type: 'blob', nullable: true)]
     private $imagen;
 
     #[ORM\Column(length: 50)]
-    private ?string $Nombre = null;
+    private ?string $nombre = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Apellido = null;
+    private ?string $apellido = null;
 
     #[ORM\Column(length: 9)]
-    private ?string $DNI = null;
+    private ?string $dni = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $Fecha_nacimiento = null;
+    private ?\DateTimeInterface $fecha_nacimiento = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Profesion = null;
+    private ?string $profesion = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $Direccion = null;
+    private ?string $direccion = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $ciudad = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $comunidad_autonoma = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $pais = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Genero = null;
+    private ?string $genero = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Estado_civil = null;
+    private ?string $estado_civil = null;
 
     #[ORM\ManyToOne(inversedBy: 'pacientes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $Sanitario_asignado = null;
+    private ?User $sanitario_asignado = null;
 
     #[ORM\Column]
-    private ?int $Telefono = null;
+    private ?int $telefono = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Email = null;
+    private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $Eliminado = null;
+    private ?bool $eliminado = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $Created_at = null;
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $Updated_at = null;
+    private ?\DateTimeInterface $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'updatedPacientes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $Updated_by = null;
+    private ?User $updated_by = null;
 
     #[ORM\OneToOne(mappedBy: 'paciente', cascade: ['persist', 'remove'])]
     private ?HistorialClinico $historialClinico = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Ciudad = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $Comunidad_autonoma = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $Pais = null;
-
     public function __construct()
     {
         $zonaHoraria = new DateTimeZone('Europe/Madrid');
-        $this->Created_at = new DateTimeImmutable('now', $zonaHoraria);
-        $this->Updated_at = new DateTime('now', $zonaHoraria);
-        $this->Eliminado = false;
+        $this->created_at = new DateTimeImmutable('now', $zonaHoraria);
+        $this->updated_at = new DateTime('now', $zonaHoraria);
+        $this->eliminado = false;
     }
 
     public function getId(): ?int
@@ -109,180 +108,216 @@ class Paciente
 
     public function getNombre(): ?string
     {
-        return $this->Nombre;
+        return $this->nombre;
     }
 
-    public function setNombre(string $Nombre): static
+    public function setNombre(string $nombre): static
     {
-        $this->Nombre = $Nombre;
+        $this->nombre = $nombre;
 
         return $this;
     }
 
     public function getApellido(): ?string
     {
-        return $this->Apellido;
+        return $this->apellido;
     }
 
-    public function setApellido(string $Apellido): static
+    public function setApellido(string $apellido): static
     {
-        $this->Apellido = $Apellido;
+        $this->apellido = $apellido;
 
         return $this;
     }
 
-    public function getDNI(): ?string
+    public function getDni(): ?string
     {
-        return $this->DNI;
+        return $this->dni;
     }
 
-    public function setDNI(string $DNI): static
+    public function setDni(string $dni): static
     {
-        $this->DNI = $DNI;
+        $this->dni = $dni;
 
         return $this;
     }
 
     public function getFechaNacimiento(): ?\DateTimeInterface
     {
-        return $this->Fecha_nacimiento;
+        return $this->fecha_nacimiento;
     }
 
-    public function setFechaNacimiento(\DateTimeInterface $Fecha_nacimiento): static
+    public function setFechaNacimiento(\DateTimeInterface $fecha_nacimiento): static
     {
-        $this->Fecha_nacimiento = $Fecha_nacimiento;
+        $this->fecha_nacimiento = $fecha_nacimiento;
 
         return $this;
     }
 
     public function getProfesion(): ?string
     {
-        return $this->Profesion;
+        return $this->profesion;
     }
 
-    public function setProfesion(string $Profesion): static
+    public function setProfesion(string $profesion): static
     {
-        $this->Profesion = $Profesion;
+        $this->profesion = $profesion;
 
         return $this;
     }
 
     public function getDireccion(): ?string
     {
-        return $this->Direccion;
+        return $this->direccion;
     }
 
-    public function setDireccion(string $Direccion): static
+    public function setDireccion(string $direccion): static
     {
-        $this->Direccion = $Direccion;
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    public function getCiudad(): ?string
+    {
+        return $this->ciudad;
+    }
+
+    public function setCiudad(?string $ciudad): static
+    {
+        $this->ciudad = $ciudad;
+
+        return $this;
+    }
+
+    public function getComunidadAutonoma(): ?string
+    {
+        return $this->comunidad_autonoma;
+    }
+
+    public function setComunidadAutonoma(?string $comunidad_autonoma): static
+    {
+        $this->comunidad_autonoma = $comunidad_autonoma;
+
+        return $this;
+    }
+
+    public function getPais(): ?string
+    {
+        return $this->pais;
+    }
+
+    public function setPais(?string $pais): static
+    {
+        $this->pais = $pais;
 
         return $this;
     }
 
     public function getGenero(): ?string
     {
-        return $this->Genero;
+        return $this->genero;
     }
 
-    public function setGenero(string $Genero): static
+    public function setGenero(string $genero): static
     {
-        $this->Genero = $Genero;
+        $this->genero = $genero;
 
         return $this;
     }
 
     public function getEstadoCivil(): ?string
     {
-        return $this->Estado_civil;
+        return $this->estado_civil;
     }
 
-    public function setEstadoCivil(string $Estado_civil): static
+    public function setEstadoCivil(string $estado_civil): static
     {
-        $this->Estado_civil = $Estado_civil;
+        $this->estado_civil = $estado_civil;
 
         return $this;
     }
 
     public function getSanitarioAsignado(): ?User
     {
-        return $this->Sanitario_asignado;
+        return $this->sanitario_asignado;
     }
 
-    public function setSanitarioAsignado(?User $Sanitario_asignado): static
+    public function setSanitarioAsignado(?User $sanitario_asignado): static
     {
-        $this->Sanitario_asignado = $Sanitario_asignado;
+        $this->sanitario_asignado = $sanitario_asignado;
 
         return $this;
     }
 
     public function getTelefono(): ?int
     {
-        return $this->Telefono;
+        return $this->telefono;
     }
 
-    public function setTelefono(int $Telefono): static
+    public function setTelefono(int $telefono): static
     {
-        $this->Telefono = $Telefono;
+        $this->telefono = $telefono;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): static
+    public function setEmail(string $email): static
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
 
     public function isEliminado(): ?bool
     {
-        return $this->Eliminado;
+        return $this->eliminado;
     }
 
-    public function setEliminado(bool $Eliminado): static
+    public function setEliminado(bool $eliminado): static
     {
-        $this->Eliminado = $Eliminado;
+        $this->eliminado = $eliminado;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->Created_at;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $Created_at): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->Created_at = $Created_at;
+        $this->created_at = $created_at;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->Updated_at;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $Updated_at): static
+    public function setUpdatedAt(\DateTimeInterface $updated_at): static
     {
-        $this->Updated_at = $Updated_at;
+        $this->updated_at = $updated_at;
 
         return $this;
     }
 
     public function getUpdatedBy(): ?User
     {
-        return $this->Updated_by;
+        return $this->updated_by;
     }
 
-    public function setUpdatedBy(?User $Updated_by): static
+    public function setUpdatedBy(?User $updated_by): static
     {
-        $this->Updated_by = $Updated_by;
+        $this->updated_by = $updated_by;
 
         return $this;
     }
@@ -292,55 +327,17 @@ class Paciente
         return $this->historialClinico;
     }
 
-    public function setHistorialClinico(?HistorialClinico $historialClinico): static
+    public function setHistorialClinico(?HistorialClinico $historialClinico): self
     {
-        // unset the owning side of the relation if necessary
         if ($historialClinico === null && $this->historialClinico !== null) {
             $this->historialClinico->setPaciente(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($historialClinico !== null && $historialClinico->getPaciente() !== $this) {
             $historialClinico->setPaciente($this);
         }
 
         $this->historialClinico = $historialClinico;
-
-        return $this;
-    }
-
-    public function getCiudad(): ?string
-    {
-        return $this->Ciudad;
-    }
-
-    public function setCiudad(string $Ciudad): static
-    {
-        $this->Ciudad = $Ciudad;
-
-        return $this;
-    }
-
-    public function getComunidadAutonoma(): ?string
-    {
-        return $this->Comunidad_autonoma;
-    }
-
-    public function setComunidadAutonoma(string $Comunidad_autonoma): static
-    {
-        $this->Comunidad_autonoma = $Comunidad_autonoma;
-
-        return $this;
-    }
-
-    public function getPais(): ?string
-    {
-        return $this->Pais;
-    }
-
-    public function setPais(string $Pais): static
-    {
-        $this->Pais = $Pais;
 
         return $this;
     }

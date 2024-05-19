@@ -7,6 +7,7 @@
 <style>
     .container {
         max-width: 100%;
+
         padding-top: 20px;
     }
 
@@ -107,16 +108,13 @@
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 <div class="container d-flex justify-content-center align-items-center mt-5 pt-5">
     <div class="register-container">
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
-
         <div class="card">
             <div class="card-body">
                 <h5 class="text-center">NUEVO PACIENTE</h5>
+               <p class="h6 text-danger text-center pb-3"> *Todos los campos son obligatorios</p>
                 <form id="registerPatientForm" method="post" action="{{ path('app_registar_paciente') }}" enctype="multipart/form-data">
                     <div class="form-group text-center">
-                        <label>Selecciona una imagen o toma una foto al paciente:</label>
+                        <p>Selecciona una imagen o toma una foto al paciente:*</p>
                         <div id="file-display-container" class="mb-3 mt-2">
                             <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
                             <label for="image-upload" class="btn btn-info btn-block">Seleccionar una foto</label>
@@ -125,43 +123,45 @@
                             <span id="file-name"></span>
                         </div>
                         <video id="video" autoplay class="video-preview mb-3" style="display: none;"></video>
-                        <button id="snap" class="btn btn-primary btn-block" style="display: none;">Capturar Foto</button>
+                        <div class="d-flex justify-content-center">
+                            <button id="snap" class="btn btn-primary" style="display: none;">Capturar Foto</button>
+                        </div>
                         <canvas id="canvas" style="display: none;"></canvas>
                         <div>
                             <img id="photo" class="img-preview mb-3" style="display: none;">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Nombre</label>
-                        <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
+                        <label for="nombre">Nombre*</label>
+                        <input class="form-control" type="text" name="nombre" placeholder="Nombre" id="nombre" required>
                     </div>
                     <div class="form-group">
-                        <label>Apellidos</label>
-                        <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
+                        <label for="apellidos">Apellidos*</label>
+                        <input class="form-control" type="text" name="apellido" placeholder="Apellidos" id="apellidos" required>
                     </div>
                     <div class="form-group">
-                        <label>DNI</label>
-                        <input class="form-control" type="text" name="dni" placeholder="DNI" required>
+                        <label for="dni">DNI*</label>
+                        <input class="form-control" type="text" name="dni" placeholder="DNI" id="dni" required>
                     </div>
                     <div class="form-group">
-                        <label>Fecha Nacimiento</label>
-                        <input class="form-control" type="date" name="fecha_nacimiento" required>
+                        <label for="fecha_nacimiento">Fecha Nacimiento*</label>
+                        <input class="form-control" type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
                     </div>
                     <div class="form-group">
-                        <label>Profesión</label>
-                        <input class="form-control" type="text" name="profesion" placeholder="Profesión">
+                        <label for="profesion">Profesión*</label>
+                        <input class="form-control" type="text" name="profesion" id="profesion" placeholder="Profesión">
                     </div>
                     <div class="form-group">
-                        <label>Dirección</label>
-                        <input class="form-control" type="text" name="direccion" placeholder="Dirección">
+                        <label for="direccion">Dirección*</label>
+                        <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Dirección">
                     </div>
                     <div class="form-group">
-                        <label>Ciudad</label>
-                        <input class="form-control" type="text" name="ciudad" placeholder="Ciudad">
+                        <label for="ciudad">Ciudad*</label>
+                        <input class="form-control" type="text" name="ciudad" id="ciudad" placeholder="Ciudad">
                     </div>
                     <div class="form-group">
-                        <label>Comunidad Autónoma</label>
-                        <select class="form-control" name="comunidadAutonoma">
+                        <label for="comunidad_autonoma">Comunidad Autónoma*</label>
+                        <select class="form-control" name="comunidadAutonoma" id="comunidad_autonoma">
                             <option value="">Seleccione una comunidad autónoma</option>
                             <option value="Andalucía">Andalucía</option>
                             <option value="Aragón">Aragón</option>
@@ -185,12 +185,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>País</label>
-                        <input class="form-control" type="text" name="pais" placeholder="País">
+                        <label for="pais">País*</label>
+                        <input class="form-control" type="text" name="pais" id="pais" placeholder="País">
                     </div>
                     <div class="form-group">
-                        <label>Seleccione el género</label>
+                        <label for="genderSelect">Género*</label>
                         <select class="form-control" id="genderSelect" name="genero" required>
+                           <option value="">Seleccione un género</option>
                             <option value="hombre-cis">Hombre Cis</option>
                             <option value="hombre-trans">Hombre Trans</option>
                             <option value="mujer-cis">Mujer Cis</option>
@@ -204,8 +205,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Seleccione el estado civil</label>
-                        <select class="form-control" name="estado_civil" required>
+                        <label for="estado_civil">Estado civil*</label>
+                        <select class="form-control" name="estado_civil" id="estado_civil" required>
+                           <option value="">Seleccione un estado civil</option>
                             <option value="soltero(a)">Soltero(a)</option>
                             <option value="casado(a)">Casado(a)</option>
                             <option value="viudo(a)">Viudo(a)</option>
@@ -214,16 +216,16 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>ID Sanitario</label>
-                        <input class="form-control" type="text" name="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
+                        <label for="sanitario_asignado">ID Sanitario*</label>
+                        <input class="form-control" type="text" name="sanitario_asignado" id="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Teléfono</label>
-                        <input class="form-control" type="tel" name="telefono" placeholder="Teléfono de Contacto">
+                        <label for="telefono">Teléfono*</label>
+                        <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="Teléfono de Contacto">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input class="form-control" type="email" name="email" placeholder="Email de Contacto">
+                        <label for="emailInput">Email*</label>
+                        <input class="form-control" type="email" name="email" id="emailInput" placeholder="Email de Contacto">
                     </div>
                     <div class="form-group text-center pt-3">
                         <button type="submit" class="btn btn-primary btn-block">Registrar Paciente</button>
@@ -235,6 +237,12 @@
     </div>
 </div>
 {% endif %}
+
+    <!-- modal de mensajes -->
+    <div class="modal-body">
+        {% include '/perfil/modalNuevoPaciente.html.twig' %}
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -251,6 +259,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const photo = document.getElementById('photo');
     const canvas = document.getElementById('canvas');
     const form = document.getElementById('registerPatientForm');
+    const confirmButton = document.getElementById('confirmButton');
+    const confirmModalElement = document.getElementById('confirmModal');
+    const errorModalElement = document.getElementById('errorModal');
+    const confirmModal = new bootstrap.Modal(confirmModalElement);
 
     cameraButton.addEventListener('click', function() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -316,6 +328,76 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.display = 'none';
         selectButtonLabel.style.display = 'block';
         cameraButton.style.display = 'block';
+    });
+
+    // Mostrar modal de confirmación
+    function showConfirmModal() {
+        confirmModal.show();
+    }
+
+    // Mostrar modal de éxito
+    function showSuccessModal(message) {
+        const successModalText = document.getElementById('successModalText');
+        successModalText.innerText = message;
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+    }
+
+    // Mostrar modal de error
+    function showErrorModal(message) {
+        const errorModalText = document.getElementById('errorModalText');
+        errorModalText.innerText = message;
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    }
+
+    // Manejador para el botón de confirmación
+    confirmButton.addEventListener('click', function() {
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            confirmModal.hide();
+            if (data.status === 'success') {
+                showSuccessModal(data.message);
+                setTimeout(() => {
+                    window.location.href = '{{ path('app_perfil') }}';
+                }, 2000); // Redirigir después de 2 segundos
+            } else {
+                showErrorModal(data.message);
+            }
+        })
+        .catch(error => {
+            confirmModal.hide();
+            showErrorModal('Ha ocurrido un error al registrar el paciente.');
+            console.error('Error:', error);
+        });
+    });
+
+    // Manejadores para cerrar los modales
+    confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
+        confirmModal.hide();
+    });
+    confirmModalElement.querySelector('.btn-close').addEventListener('click', function() {
+        confirmModal.hide();
+    });
+    errorModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
+        errorModal.hide();
+    });
+    errorModalElement.querySelector('.btn-close').addEventListener('click', function() {
+        errorModal.hide();
+    });
+
+    // Manejar el envío del formulario
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        showConfirmModal();
     });
 });
 </script>

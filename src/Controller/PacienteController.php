@@ -26,8 +26,9 @@ use App\Entity\ExamenMiembrosSuperiores;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\HistoricoObstetricoYGinecologico;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -58,34 +59,28 @@ class PacienteController extends AbstractController
             $nombre = $request->request->get('nombre', '');
 
             // Verifica si el DNI ya existe
-            $existingPaciente = $pacienteRepository->findOneBy(['DNI' => $dni]);
+            $existingPaciente = $pacienteRepository->findOneBy(['dni' => $dni]);
             if ($existingPaciente) {
-                $this->addFlash('error', 'El número de DNI ya existe');
-                return $this->redirectToRoute('app_perfil');
+                return new JsonResponse(['status' => 'error', 'message' => 'El número de DNI ya existe'], Response::HTTP_BAD_REQUEST);
             }
 
             $paciente = new Paciente();
-
             $paciente->setNombre($nombre);
-            $paciente->setApellido($request->request->get('apellidos'));
+            $paciente->setApellido($request->request->get('apellido'));
             $paciente->setDni($dni);
             $paciente->setFechaNacimiento(new \DateTime($request->request->get('fecha_nacimiento')));
             $paciente->setProfesion($request->request->get('profesion'));
             $paciente->setDireccion($request->request->get('direccion'));
             $paciente->setCiudad($request->request->get('ciudad'));
-            $paciente->setComunidadAutonoma($request->request->get('comunidad_autonoma'));
-            $paciente->setPais($request->request->get('pais'));
+            $paciente->setComunidadAutonoma($request->request->get('comunidadAutonoma', ''));
+            $paciente->setPais($request->request->get('pais', ''));
             $paciente->setGenero($request->request->get('genero'));
             $paciente->setEstadoCivil($request->request->get('estado_civil'));
             $paciente->setTelefono($request->request->get('telefono'));
             $paciente->setEmail($request->request->get('email'));
 
             // Asignar el ID del sanitario (usuario logueado)
-            $token = $this->tokenStorage->getToken();
-            $user = null;
-            if ($token) {
-                $user = $token->getUser();
-            }
+            $user = $this->tokenStorage->getToken()->getUser();
             $paciente->setSanitarioAsignado($user);
 
             // Datos adicionales de control
@@ -106,16 +101,37 @@ class PacienteController extends AbstractController
             } else {
                 $this->addFlash('error', 'No se proporcionó archivo de imagen.');
             }
+            // Iniciar la transacción
+            $this->entityManager->beginTransaction();
+            try {
+                // Guardar el paciente
+                $this->entityManager->persist($paciente);
+                $this->entityManager->flush();
 
-            $this->entityManager->persist($paciente);
-            $this->entityManager->flush();
+                // Crear y asociar el historial clínico al paciente
+                $historialClinico = new HistorialClinico();
+                $historialClinico->setPaciente($paciente);
+                $historialClinico->setCreadoEn(new \DateTime('now'));
+                $historialClinico->setCreadoPor($user);
+                $historialClinico->setActualizadoEn(new \DateTime('now'));
+                $historialClinico->setActualizadoPor($user);
 
-            $this->addFlash('success', 'Paciente registrado con éxito');
-            return $this->json(['status' => 'success', 'message' => 'Paciente registrado con éxito'], Response::HTTP_OK);
+                $this->entityManager->persist($historialClinico);
+                $this->entityManager->flush();
+
+                // Confirmar la transacción
+                $this->entityManager->commit();
+
+                return new JsonResponse(['status' => 'success', 'message' => 'Paciente registrado con éxito'], Response::HTTP_OK);
+            } catch (\Exception $e) {
+                $this->entityManager->rollback();
+                return new JsonResponse(['status' => 'error', 'message' => 'Error al registrar el paciente: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
-        // Renderizar el formulario si no es POST
+
         return $this->render('perfil/nuevo_paciente.html.twig');
     }
+
 
     #[Route('/paciente/ver/{id}', name: 'paciente_ver')]
     public function verPaciente(int $id, EntityManagerInterface $em): Response
@@ -173,7 +189,6 @@ class PacienteController extends AbstractController
         ]);
     }
 
-
     #[Route('/paciente/editar/{id}', name: 'paciente_editar')]
     public function editarPaciente(int $id, Request $request, EntityManagerInterface $em): Response
     {
@@ -194,6 +209,9 @@ class PacienteController extends AbstractController
             $paciente->setFechaNacimiento(new \DateTime($request->request->get('fecha_nacimiento')));
             $paciente->setProfesion($request->request->get('profesion'));
             $paciente->setDireccion($request->request->get('direccion'));
+            $paciente->setCiudad($request->request->get('ciudad', ''));
+            $paciente->setComunidadAutonoma($request->request->get('comunidadAutonoma', ''));
+            $paciente->setPais($request->request->get('pais', ''));
             $paciente->setGenero($request->request->get('genero'));
             $paciente->setEstadoCivil($request->request->get('estado_civil'));
             $paciente->setTelefono($request->request->get('telefono'));
