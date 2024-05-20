@@ -26,39 +26,8 @@
             flex-direction: column;
             align-items: center;
         }
-
-        .btn-excel {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-excel:hover {
-            background-color: #218838;
-            color: white;
-        }
-
-        .btn-pdf {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-pdf:hover {
-            background-color: #c82333;
-            color: white;
-        }
-
-        .btn-print {
-            background-color: #ffc107;
-            color: white;
-        }
-
-        .btn-print:hover {
-            background-color: #e0a800;
-            color: white;
-        }
-
-        .dt-buttons .btn {
-            margin-right: 5px;
+        .bg-custom {
+            background-color: #1db1bc !important;
         }
     </style>
 {% endblock %}
@@ -73,16 +42,16 @@
 <div class="container container-flex mt-5 pt-5">
     <h2 class="text-center mb-3">LISTADO DE USUARIOS Y ROLES</h2>
     <div class="table-container">
-        <table id="userTabla" class="table table-striped">
-            <thead>
+        <table id="userTabla" class="table table-hover ">
+             <thead class="bg-custom">
                 <tr>
-                    <th class="text-center">ID</th>
-                    <th class="text-center">Nombre</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Estado</th>
-                    <th class="text-center">Roles</th>
-                    <th class="text-center">Editar role</th>
-                    <th class="text-center">Eliminar roles</th>
+                    <th class="text-center text-white">ID</th>
+                    <th class="text-center text-white">NOMBRE</th>
+                    <th class="text-center text-white">EMAIL</th>
+                    <th class="text-center text-white">ESTADO</th>
+                    <th class="text-center text-white">ROLES</th>
+                    <th class="text-center text-white">EDITAR role</th>
+                    <th class="text-center text-white">ELIMINAR roles</th>
                 </tr>
             </thead>
             <tbody class="text-center">

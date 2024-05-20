@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Paciente;
 use App\Entity\QuejaActual;
 use App\Form\QuejaActualType;
 use App\Entity\HistorialClinico;
@@ -16,10 +17,16 @@ class QuejaActualController extends AbstractController
     #[Route('/queja-actual/nuevo/{id}', name: 'queja_actual_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
-        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
+        $paciente = $entityManager->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
 
         if (!$historialClinico) {
-            throw $this->createNotFoundException('No se encontró el historial clínico con el ID ' . $id);
+            throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
         }
 
         $quejaActual = new QuejaActual();
@@ -35,11 +42,12 @@ class QuejaActualController extends AbstractController
             $entityManager->persist($quejaActual);
             $entityManager->flush();
 
-            return $this->redirectToRoute('paciente_ver', ['id' => $historialClinico->getPaciente()->getId()]);
+            return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
         }
 
         return $this->render('queja_actual/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }

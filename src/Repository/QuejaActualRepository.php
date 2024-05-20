@@ -19,5 +19,17 @@ class QuejaActualRepository extends ServiceEntityRepository
         parent::__construct($registry, QuejaActual::class);
     }
 
+    /**
+     * @return QuejaActual[] Returns an array of QuejaActual objects ordered by creadoEn DESC
+     */
+    public function findAllOrderedByCreadoEnDesc()
+    {
+        return $this->createQueryBuilder('q')
+            ->orderBy('q.creadoEn', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // Añade aquí métodos personalizados según sea necesario
 }

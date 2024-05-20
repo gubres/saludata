@@ -38,6 +38,49 @@
             height: auto;
             width: auto;
         }
+        /* Estilos para los botones pdf,excel y print */
+    .dt-button {
+        
+        border-color: transparent !important;
+        border-radius: 5px !important;
+        margin-right: 5px;
+    }
+   .toolbar .btn-group > .btn {
+        margin-right: 0 !important;
+    }
+
+    .dt-button:hover {
+        opacity: 0.5;
+    }
+
+    /* Eliminar los márgenes entre los botones */
+    .dt-buttons .btn {
+        margin-right: 0 !important;
+    }
+
+    /* Estilo personalizado para el botón de Excel */
+    .btn-excel {
+        background-color: green !important; /* Cambiar el color de fondo a verde oscuro */
+        color: white !important; /* Cambiar el color del texto a blanco */
+    }
+
+    /* Estilo personalizado para el botón de PDF */
+    .btn-pdf {
+        background-color: purple !important; /* Cambiar el color de fondo a morado */
+        color: white !important; /* Cambiar el color del texto a blanco */
+    }
+
+    /* Estilo personalizado para el botón de impresión */
+    .btn-print {
+        background-color: #00ccff !important; /* Cambiar el color de fondo a azul claro */
+        color: white !important; /* Cambiar el color del texto a blanco */
+    }
+    /* Estilo personalizado para los botones de PDF, Excel y Print */
+    .btn-pdf,
+    .btn-excel,
+    .btn-print {
+        margin-right: 0 !important;
+    }
     </style>
     {% endblock %}
 

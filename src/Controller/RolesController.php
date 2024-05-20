@@ -82,7 +82,7 @@ class RolesController extends AbstractController
                 'email' => $usuario->getEmail(),
                 'estado' => $usuario->getIsActive(),
                 'roles' => implode(', ', $usuario->getRoles()),
-                'editar' => '<button type="button" class="btn btn-info edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' . $usuario->getId() . '" data-email="' . $usuario->getEmail() . '" data-roles="' . implode(', ', $usuario->getRoles()) . '">Editar</button>',
+                'editar' => '<button type="button" class="btn btn-warning edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' . $usuario->getId() . '" data-email="' . $usuario->getEmail() . '" data-roles="' . implode(', ', $usuario->getRoles()) . '">Editar</button>',
                 'eliminar roles' => '<button type="button" class="btn btn-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' . $usuario->getId() . '" data-email="' . $usuario->getEmail() . '">Eliminar</button>'
             ];
         }, $usuarios);
