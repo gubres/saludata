@@ -163,9 +163,9 @@ class PacienteController extends AbstractController
         }
 
         $data = [
-            'queja_actual' => $em->getRepository(QuejaActual::class)->findAllOrderedByCreadoEnDesc(['historialClinico' => $historialClinico]),
+            'queja_actual' => $em->getRepository(QuejaActual::class)->findAllOrderedByCreadoEnDesc($historialClinico),
             'alergias' => $em->getRepository(Alergia::class)->findBy(['historialClinico' => $historialClinico]),
-            'signos_vitales' => $em->getRepository(SignosVitales::class)->findBy(['historialClinico' => $historialClinico]),
+            'signos_vitales' => $em->getRepository(SignosVitales::class)->findAllOrderedByCreadoEnDesc($historialClinico),
             'vacunas' => $em->getRepository(Vacuna::class)->findBy(['historialClinico' => $historialClinico]),
             'clasificacion_sanguinea' => $em->getRepository(ClasificacionSanguinea::class)->findOneBy(['historialClinico' => $historialClinico]),
             'costumbres' => $em->getRepository(Costumbres::class)->findOneBy(['historialClinico' => $historialClinico]),

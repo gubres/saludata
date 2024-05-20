@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\QuejaActual;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\HistorialClinico;
 
 /**
  * @method QuejaActual|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,13 +20,13 @@ class QuejaActualRepository extends ServiceEntityRepository
         parent::__construct($registry, QuejaActual::class);
     }
 
-    /**
-     * @return QuejaActual[] Returns an array of QuejaActual objects ordered by creadoEn DESC
-     */
-    public function findAllOrderedByCreadoEnDesc()
+    public function findAllOrderedByCreadoEnDesc(HistorialClinico $historialClinico)
     {
         return $this->createQueryBuilder('q')
+            ->where('q.historialClinico = :historialClinico')
+            ->setParameter('historialClinico', $historialClinico)
             ->orderBy('q.creadoEn', 'DESC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
