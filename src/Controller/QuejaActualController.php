@@ -40,16 +40,14 @@ class QuejaActualController extends AbstractController
             $quejaActual->setCreadoPor($this->getUser());
             $quejaActual->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
 
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
             $entityManager->persist($quejaActual);
             $entityManager->flush();
 
             return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
         }
-
-        //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
-        $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
-        $entityManager->persist($paciente);
-        $entityManager->flush();
 
         return $this->render('queja_actual/new.html.twig', [
             'form' => $form->createView(),

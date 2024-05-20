@@ -1,10 +1,10 @@
 <div class="accordion-item">
     <h2 class="accordion-header" id="headingDietas">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDietas" aria-expanded="true" aria-controls="collapseDietas">
-            Dietas
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDietas" aria-expanded="true" aria-controls="collapseDietas">
+          <strong>  Dietas </strong>
         </button>
     </h2>
-    <div id="collapseDietas" class="accordion-collapse collapse show" aria-labelledby="headingDietas" data-bs-parent="#accordionExample">
+    <div id="collapseDietas" class="accordion-collapse collapse" aria-labelledby="headingDietas" data-bs-parent="#accordionExample">
         <div class="accordion-body">
             {% if data.dietas is empty %}
                 <p>Sin datos</p>

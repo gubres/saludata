@@ -1,10 +1,10 @@
 <div class="accordion-item">
     <h2 class="accordion-header" id="headingVacunas">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVacunas" aria-expanded="true" aria-controls="collapseVacunas">
-            Vacunas
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVacunas" aria-expanded="true" aria-controls="collapseVacunas">
+           <strong> Vacunas </strong>
         </button>
     </h2>
-    <div id="collapseVacunas" class="accordion-collapse collapse show" aria-labelledby="headingVacunas" data-bs-parent="#accordionExample">
+    <div id="collapseVacunas" class="accordion-collapse collapse" aria-labelledby="headingVacunas" data-bs-parent="#accordionExample">
         <div class="accordion-body">
             {% if data.vacunas is empty %}
                 <p>Sin datos</p>

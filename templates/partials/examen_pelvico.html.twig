@@ -1,10 +1,10 @@
 <div class="accordion-item">
     <h2 class="accordion-header" id="headingExamenPelvico">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExamenPelvico" aria-expanded="true" aria-controls="collapseExamenPelvico">
-            Examen Pélvico
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExamenPelvico" aria-expanded="true" aria-controls="collapseExamenPelvico">
+            <strong>Examen Pélvico</strong>
         </button>
     </h2>
-    <div id="collapseExamenPelvico" class="accordion-collapse collapse show" aria-labelledby="headingExamenPelvico" data-bs-parent="#accordionExample">
+    <div id="collapseExamenPelvico" class="accordion-collapse collapse" aria-labelledby="headingExamenPelvico" data-bs-parent="#accordionExample">
         <div class="accordion-body">
             {% if data.examen_pelvico is empty %}
                 <p>Sin datos</p>

@@ -24,12 +24,6 @@ class VacunaType extends AbstractType
             ->add('ultimaDosis', DateType::class, [
                 'label' => 'Última Dosis',
                 'widget' => 'single_text',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

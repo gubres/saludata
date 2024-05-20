@@ -43,17 +43,14 @@ class SignosVitalesController extends AbstractController
             $signosVitales->setCreadoPor($this->getUser());
             $signosVitales->setCreadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
             $entityManager->persist($signosVitales);
             $entityManager->flush();
 
             return $this->redirectToRoute('paciente_ver', ['id' => $historialClinico->getPaciente()->getId()]);
         }
-
-        //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
-        $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
-        $entityManager->persist($paciente);
-        $entityManager->flush();
-
 
         return $this->render('signos_vitales/new.html.twig', [
             'form' => $form->createView(),

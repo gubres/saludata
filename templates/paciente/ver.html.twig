@@ -46,7 +46,7 @@
                 }
                 </style>
 
-                <h3>{{ paciente.nombre }} {{ paciente.apellido }}</h3>
+                <h4 class="mt-3 mb-2">{{ paciente.nombre }} {{ paciente.apellido }}</h4>
                 <h6>Edad: {{ paciente.fechaNacimiento|age }}</h6>
                 <h6>Última Visita: {{ paciente.updatedAt ? paciente.updatedAt|date('d-m-Y H:i:s') : 'No disponible' }}</h6>
                 <a href="{{ path('paciente_editar', {'id': paciente.id}) }}" class="btn btn-outline-primary">
@@ -55,6 +55,7 @@
             </div>
         </nav>
         <main class="col-md-8">
+        <h4 class="mb-3 alert alert-warning"><i class="bi bi-clipboard2-data"></i> Historial del Paciente</h4>
             <div class="accordion" id="accordionExample">
                 {% include 'partials/queja_actual.html.twig' %}
                 {% include 'partials/signos_vitales.html.twig' %}
@@ -66,13 +67,13 @@
                 {% include 'partials/medicamentos.html.twig' %}
                 {% include 'partials/historial_familiar.html.twig' %}
                 {% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
-                {% include 'partials/resultados_pruebas.html.twig' %}
                 {% include 'partials/examen_cabeza.html.twig' %}
                 {% include 'partials/examen_torax.html.twig' %}
                 {% include 'partials/examen_abdomen.html.twig' %}
                 {% include 'partials/examen_pelvico.html.twig' %}
                 {% include 'partials/examen_miembros_superiores.html.twig' %}
                 {% include 'partials/examen_miembros_inferiores.html.twig' %}
+                {% include 'partials/resultados_pruebas.html.twig' %}
             </div>
         </main>
     </div>

@@ -10,12 +10,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Paciente;
+use DateTimeZone;
 
 class VacunaController extends AbstractController
 {
-    #[Route('/vacunas/nuevo/{id}', name: 'vacunas_new')]
+    #[Route('/vacuna/nuevo/{id}', name: 'vacunas_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
+        $paciente = $entityManager->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
+
+        if (!$historialClinico) {
+            throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
+        }
+
         $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
 
         if (!$historialClinico) {
@@ -30,8 +44,10 @@ class VacunaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $vacuna->setCreadoPor($this->getUser());
-            $vacuna->setCreadoEn(new \DateTime('now'));
-
+            $vacuna->setCreadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
             $entityManager->persist($vacuna);
             $entityManager->flush();
 
@@ -40,6 +56,7 @@ class VacunaController extends AbstractController
 
         return $this->render('vacuna/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }
