@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Costumbres;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\HistorialClinico;
 
 /**
  * @method Costumbres|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,15 @@ class CostumbresRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Costumbres::class);
     }
-
+    public function findAllOrderedByCreadoEnDesc(HistorialClinico $historialClinico)
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.historialClinico = :historialClinico')
+            ->setParameter('historialClinico', $historialClinico)
+            ->orderBy('q.creadoEn', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
     // Añade aquí métodos personalizados según sea necesario
 }

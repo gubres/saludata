@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\HistorialFamiliar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\HistorialClinico;
 
 /**
  * @extends ServiceEntityRepository<HistorialClinico>
@@ -19,6 +20,17 @@ class HistorialFamiliarRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, HistorialFamiliar::class);
+    }
+
+    public function findAllOrderedByCreadoEnDesc(HistorialClinico $historialClinico)
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.historialClinico = :historialClinico')
+            ->setParameter('historialClinico', $historialClinico)
+            ->orderBy('q.creadoEn', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
