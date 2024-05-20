@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nueva Alergia{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center pt-5">
+    <div class="card w-75">
+        <div class="card-header text-center">
+            <h1>Nueva Alergia</h1>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            
+            <div class="form-group mt-3">
+                {{ form_label(form.nombre, 'Nombre', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nombre) }}
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                {{ form_label(form.causa, 'Causa', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.causa, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.causa) }}
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                {{ form_label(form.primeraVez, 'Primera Vez', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.primeraVez, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.primeraVez) }}
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                {{ form_label(form.frecuencia, 'Frecuencia', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.frecuencia, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.frecuencia) }}
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                {{ form_label(form.tratamientoRealizado, 'Tratamiento Realizado', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.tratamientoRealizado, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.tratamientoRealizado) }}
+                </div>
+            </div>
+
+            <div class="form-group text-center mt-4">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                      <a href="{{ path('paciente_ver', {'id': paciente.id}) }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

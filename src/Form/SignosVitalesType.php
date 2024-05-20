@@ -21,9 +21,6 @@ class SignosVitalesType extends AbstractType
             ->add('peso', NumberType::class, [
                 'label' => 'Peso (kg)',
             ])
-            ->add('masaCorporal', NumberType::class, [
-                'label' => 'Masa Corporal (kg/m²)',
-            ])
             ->add('temperatura', NumberType::class, [
                 'label' => 'Temperatura (°C)',
             ])
@@ -47,12 +44,6 @@ class SignosVitalesType extends AbstractType
             ])
             ->add('saturacionOxigeno', IntegerType::class, [
                 'label' => 'Saturación Oxígeno',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

@@ -1,21 +1,58 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="headingSignosVitales">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSignosVitales" aria-expanded="true" aria-controls="collapseSignosVitales">
-            Signos Vitales
-        </button>
-    </h2>
-    <div id="collapseSignosVitales" class="accordion-collapse collapse show" aria-labelledby="headingSignosVitales" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-            {% if data.signos_vitales is empty %}
-                <p>Sin datos</p>
-            {% else %}
-                <ul>
-                    {% for signo in data.signos_vitales %}
-                        <li>Altura: {{ signo.altura }} cm, Peso: {{ signo.peso }} kg, IMC: {{ signo.masa_corporal }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <a href="{{ path('signos_vitales_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Signos Vitales</a>
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSignosVitales">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSignosVitales" aria-expanded="true" aria-controls="collapseSignosVitales">
+                Signos Vitales
+            </button>
+        </h2>
+        <div id="collapseSignosVitales" class="accordion-collapse collapse show" aria-labelledby="headingSignosVitales" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {% if data.signos_vitales is empty %}
+                    <p>Sin datos</p>
+                {% else %}
+                <table class="table table-striped">
+                        <thead class="text-center">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Altura (cm)</th>
+                                <th>Peso (kg)</th>
+                                <th>IMC (kg/m²)</th>
+                                <th>Temperatura (°C)</th>
+                                <th>FR</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            {% for signo in data.signos_vitales %}
+                                <tr>
+                                    <td>{{ signo.creadoEn|date('d-m-Y') }}</td>
+                                    <td>{{ signo.altura }}</td>
+                                    <td>{{ signo.peso }}</td>
+                                    <td>{{ signo.masaCorporal|number_format(2) }}</td>
+                                    <td>{{ signo.temperatura }}</td>
+                                    <td>{{ signo.frecuenciaRespiratoria }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Sístole</th>
+                                    <th>Diástole</th>
+                                    <th>FC</th>
+                                    <th>Grasa Corporal (%)</th>
+                                    <th>Masa Corporal Magra (%)</th>
+                                    <th>SO (%)</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ signo.sistole }}</td>
+                                    <td>{{ signo.diastole }}</td>
+                                    <td>{{ signo.frecuenciaCardiaca }}</td>
+                                    <td>{{ signo.porcentajeGrasaCorporal }}</td>
+                                    <td>{{ signo.masaCorporalMagra }}</td>
+                                    <td>{{ signo.saturacionOxigeno }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <a href="{{ path('signos_vitales_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir signos vitales</a>
+            </div>
         </div>
     </div>
 </div>

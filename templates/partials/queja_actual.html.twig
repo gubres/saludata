@@ -9,12 +9,25 @@
             {% if data.queja_actual is empty %}
                 <p>Sin datos</p>
             {% else %}
-                <ul>
+                <table class="table">
+                        <thead class="text-center">
+                            <tr>
+                                <th>Queja</th>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                     <tbody>
                     {% for queja in data.queja_actual %}
-                        <li>{{ queja.queja }}: {{ queja.descripcion }}</li>
+                         <tr class="text-center">
+                            <td> {{ queja.queja }}</td>
+                            <td>{{ queja.descripcion }}</td>
+                            <td>{{ queja.creadoEn|date('d-m-Y H:i') }}</td>
+                         </tr>
                     {% endfor %}
-                </ul>
-            {% endif %}
+                     </tbody>
+                </table>
+                {% endif %}
             <a href="{{ path('queja_actual_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Queja</a>
         </div>
     </div>

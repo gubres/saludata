@@ -87,7 +87,7 @@ class SignosVitales
 
         // Calcular la masa corporal (kg/m^2) y guardarla
         if ($this->altura > 0) {
-            $this->masaCorporal = $this->peso / ($this->altura * $this->altura);
+            $this->masaCorporal = $this->peso / (($this->altura / 100) * ($this->altura / 100));
         }
 
         return $this;

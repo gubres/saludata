@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevos Signos Vitales{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center pt-5">
+    <div class="card w-75">
+        <div class="card-header text-center">
+            <h3>Signos vitales actuales</h3>
+              <p class="h6 text-danger text-center pb-3"> *Todos los campos son obligatorios</p>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mt-3">
+                        {{ form_label(form.altura, 'Altura (cm)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.altura, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.altura) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.frecuenciaRespiratoria, 'Frecuencia Respiratoria (RPM)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.frecuenciaRespiratoria, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.frecuenciaRespiratoria) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.sistole, 'Sístole (mmHg)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.sistole, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.sistole) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.saturacionOxigeno, 'Saturación Oxígeno (%)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.saturacionOxigeno, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.saturacionOxigeno) }}
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        {{ form_label(form.porcentajeGrasaCorporal, 'Porcentaje Grasa Corporal (%)', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.porcentajeGrasaCorporal, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.porcentajeGrasaCorporal) }}
+                        </div>
+                    </div>   
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mt-3">
+                        {{ form_label(form.peso, 'Peso (kg)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.peso, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.peso) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.temperatura, 'Temperatura (°C)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.temperatura, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.temperatura) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.diastole, 'Diástole (mmHg)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.diastole, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.diastole) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.frecuenciaCardiaca, 'Frecuencia Cardiaca (PPM)*', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.frecuenciaCardiaca, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.frecuenciaCardiaca) }}
+                        </div>
+                    </div>                 
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.masaCorporalMagra, 'Masa Corporal Magra (%)', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.masaCorporalMagra, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.masaCorporalMagra) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center mt-5 mb-3">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary mx-3">Guardar</button>
+                    <a href="{{ path('paciente_ver', {'id': paciente.id}) }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Paciente;
 use App\Entity\QuejaActual;
 use App\Form\QuejaActualType;
@@ -37,13 +38,18 @@ class QuejaActualController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quejaActual->setCreadoPor($this->getUser());
-            $quejaActual->setCreadoEn(new \DateTime('now'));
+            $quejaActual->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
 
             $entityManager->persist($quejaActual);
             $entityManager->flush();
 
             return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
         }
+
+        //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+        $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+        $entityManager->persist($paciente);
+        $entityManager->flush();
 
         return $this->render('queja_actual/new.html.twig', [
             'form' => $form->createView(),
