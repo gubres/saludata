@@ -13,7 +13,7 @@ PASO A PASO
 4. En el archivo .env esta definido como debe ser la conexion a la base de datos, igual que en el archivo .env local
 5. Crear la Base de Datos: Crea la base de datos que el proyecto usará, basándote en las configuraciones definidas en el archivo .env.
    Eso quiere decir que teneis que ir a vuestro gestor de Base de Datos y crear una base de datos llamada saludata
-6. Despues teneis que ejecutar ese comando: php bin/console make:migration y después php bin/console doctrine:migrations:migrate
+6. Despues teneis que ejecutar ese comando: "php bin/console make:migration" y después "php bin/console doctrine:migrations:migrate"
 7. Si surge algun ERROR en el paso anterior: ir a la carpeta migrations y borrar el archivo que hay de migraciones (Version2024 ....extension php). Si no ha habito ningun error, saltar esa parte.
 8. Hecho eso, comprobar que se ha creado la base de datos y sus tablas
 9. Si todo correcto, ejecutar el servidor: symfony server:start
