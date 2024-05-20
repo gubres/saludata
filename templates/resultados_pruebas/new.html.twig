@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Resultado de Prueba{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center pt-5">
+    <div class="card w-75">
+        <div class="card-header text-center">
+            <h2>Nuevo resultado de prueba</h2>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mt-3">
+                        {{ form_label(form.nombrePrueba, 'Nombre prueba', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.nombrePrueba, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.nombrePrueba) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.fecha, 'Fecha', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.fecha, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.fecha) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mt-3">
+                        {{ form_label(form.resultado, 'Resumen resultado', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.resultado, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.resultado) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        {{ form_label(form.archivo, 'Archivo (PDF)', {'label_attr': {'class': 'control-label'}}) }}
+                        <div class="col-sm-12">
+                            {{ form_widget(form.archivo, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.archivo) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center mt-4 mb-3">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary mx-3">Guardar</button>
+                    <a href="{{ path('paciente_ver', {'id': paciente.id}) }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

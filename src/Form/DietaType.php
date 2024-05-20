@@ -23,12 +23,6 @@ class DietaType extends AbstractType
             ])
             ->add('queConsume', TextareaType::class, [
                 'label' => 'Que Consume',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

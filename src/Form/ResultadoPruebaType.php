@@ -29,12 +29,6 @@ class ResultadoPruebaType extends AbstractType
             ->add('archivo', FileType::class, [
                 'label' => 'Archivo (PDF)',
                 'required' => false,
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

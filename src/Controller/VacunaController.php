@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Vacuna;
+use App\Entity\Paciente;
 use App\Form\VacunaType;
 use App\Entity\HistorialClinico;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Paciente;
-use DateTimeZone;
 
 class VacunaController extends AbstractController
 {

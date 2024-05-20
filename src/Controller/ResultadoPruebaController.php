@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
+use App\Entity\Paciente;
 use App\Entity\ResultadoPrueba;
 use App\Entity\HistorialClinico;
 use App\Form\ResultadoPruebaType;
@@ -16,10 +18,16 @@ class ResultadoPruebaController extends AbstractController
     #[Route('/resultados-pruebas/nuevo/{id}', name: 'resultados_pruebas_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
-        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
+        $paciente = $entityManager->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
 
         if (!$historialClinico) {
-            throw $this->createNotFoundException('No se encontró el historial clínico con el ID ' . $id);
+            throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
         }
 
         $resultadoPrueba = new ResultadoPrueba();
@@ -30,7 +38,11 @@ class ResultadoPruebaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $resultadoPrueba->setCreadoPor($this->getUser());
-            $resultadoPrueba->setCreadoEn(new \DateTime('now'));
+            $resultadoPrueba->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
+
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
 
             $entityManager->persist($resultadoPrueba);
             $entityManager->flush();
@@ -40,6 +52,7 @@ class ResultadoPruebaController extends AbstractController
 
         return $this->render('resultados_pruebas/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }

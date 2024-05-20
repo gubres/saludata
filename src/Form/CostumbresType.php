@@ -4,20 +4,25 @@ namespace App\Form;
 
 use App\Entity\Costumbres;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\DBAL\Types\BooleanType;
 
 class CostumbresType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $booleanChoices = [
+            'Sí' => true,
+            'No' => false,
+        ];
+
         $builder
-            ->add('fumante', BooleanType::class, [
+            ->add('fumante', ChoiceType::class, [
                 'label' => 'Fumante',
+                'choices' => $booleanChoices,
             ])
             ->add('frecuenciaFuma', IntegerType::class, [
                 'label' => 'Frecuencia Fuma (cigarrillos/día)',
@@ -25,8 +30,9 @@ class CostumbresType extends AbstractType
             ->add('edadEmpezoFumar', IntegerType::class, [
                 'label' => 'Edad Empezó a Fumar',
             ])
-            ->add('consumoAlcohol', BooleanType::class, [
+            ->add('consumoAlcohol', ChoiceType::class, [
                 'label' => 'Consumo de Alcohol',
+                'choices' => $booleanChoices,
             ])
             ->add('frecuenciaConsumoAlcohol', IntegerType::class, [
                 'label' => 'Frecuencia Consumo Alcohol (veces/semana)',
@@ -34,8 +40,9 @@ class CostumbresType extends AbstractType
             ->add('edadEmpezoBeber', IntegerType::class, [
                 'label' => 'Edad Empezó a Beber',
             ])
-            ->add('otrasDrogas', BooleanType::class, [
+            ->add('otrasDrogas', ChoiceType::class, [
                 'label' => 'Otras Drogas',
+                'choices' => $booleanChoices,
             ])
             ->add('tipoDrogas', TextType::class, [
                 'label' => 'Tipo de Drogas',
@@ -46,8 +53,9 @@ class CostumbresType extends AbstractType
             ->add('edadEmpezoUsar', IntegerType::class, [
                 'label' => 'Edad Empezó a Usar',
             ])
-            ->add('actividadFisica', BooleanType::class, [
+            ->add('actividadFisica', ChoiceType::class, [
                 'label' => 'Actividad Física',
+                'choices' => $booleanChoices,
             ])
             ->add('tipoActividadFisica', TextType::class, [
                 'label' => 'Tipo de Actividad Física',
@@ -58,8 +66,9 @@ class CostumbresType extends AbstractType
             ->add('frecuenciaActividadFisica', TextType::class, [
                 'label' => 'Frecuencia de la Actividad Física',
             ])
-            ->add('actividadSexual', BooleanType::class, [
+            ->add('actividadSexual', ChoiceType::class, [
                 'label' => 'Actividad Sexual',
+                'choices' => $booleanChoices,
             ])
             ->add('edadPrimeraRelacionSexual', IntegerType::class, [
                 'label' => 'Edad Primera Relación Sexual',
@@ -67,29 +76,19 @@ class CostumbresType extends AbstractType
             ->add('frecuenciaActividadSexual', TextType::class, [
                 'label' => 'Frecuencia de la Actividad Sexual',
             ])
-            ->add('usoDePreservativo', BooleanType::class, [
+            ->add('usoPreservativo', ChoiceType::class, [
                 'label' => 'Uso de Preservativo',
+                'choices' => $booleanChoices,
             ])
             ->add('parejasSexualesActual', IntegerType::class, [
                 'label' => 'Parejas Sexuales Actual',
             ])
-            ->add('higieneIntima', BooleanType::class, [
+            ->add('higieneIntima', ChoiceType::class, [
                 'label' => 'Higiene Íntima',
+                'choices' => $booleanChoices,
             ])
             ->add('metodoHigieneIntima', TextType::class, [
                 'label' => 'Método de Higiene Íntima',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
-            ])
-            ->add('actualizadoEn', DateType::class, [
-                'label' => 'Actualizado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

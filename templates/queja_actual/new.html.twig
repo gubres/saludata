@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'control-label'}}) }}
                 <div class="col-sm-12">
                     {{ form_widget(form.descripcion, {'attr': {'class': 'form-control'}}) }}
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 {{ form_label(form.cuandoEmpezo, 'Cuándo Empezó', {'label_attr': {'class': 'control-label'}}) }}
                 <div class="col-sm-12">
                     {{ form_widget(form.cuandoEmpezo, {'attr': {'class': 'form-control'}}) }}
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 {{ form_label(form.duracion, 'Duración', {'label_attr': {'class': 'control-label'}}) }}
                 <div class="col-sm-12">
                     {{ form_widget(form.duracion, {'attr': {'class': 'form-control'}}) }}
@@ -45,7 +45,7 @@
 
             <div class="form-group text-center mt-4">
                 <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary mx-3">Guardar</button>
                     <a href="{{ path('paciente_ver', {'id': paciente.id}) }}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </div>

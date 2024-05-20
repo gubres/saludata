@@ -19,6 +19,7 @@ class ClasificacionSanguineaType extends AbstractType
             ->add('tipo', ChoiceType::class, [
                 'label' => 'Tipo',
                 'choices' => [
+                    'Selecciona el tipo sanguineo' => '',
                     'A' => 'A',
                     'B' => 'B',
                     'AB' => 'AB',
@@ -28,6 +29,7 @@ class ClasificacionSanguineaType extends AbstractType
             ->add('rh', ChoiceType::class, [
                 'label' => 'Rh',
                 'choices' => [
+                    'Selecciona el factor' => '',
                     'Positivo' => '+',
                     'Negativo' => '-',
                 ],
@@ -35,6 +37,7 @@ class ClasificacionSanguineaType extends AbstractType
             ->add('donante', ChoiceType::class, [
                 'label' => 'Donante',
                 'choices' => [
+                    'Selecciona una opción' => '',
                     'Sí' => true,
                     'No' => false,
                 ],
@@ -48,12 +51,6 @@ class ClasificacionSanguineaType extends AbstractType
             ])
             ->add('frecuencia', TextType::class, [
                 'label' => 'Frecuencia',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 
