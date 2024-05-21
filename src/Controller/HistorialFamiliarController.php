@@ -17,12 +17,6 @@ use App\Entity\User;
 class HistorialFamiliarController extends AbstractController
 {
     #[Route('/historial-familiar/nuevo/{id}', name: 'historial_familiar_new')]
-    /**
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param int $id
-     * @return Response
-     */
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
         $paciente = $entityManager->getRepository(Paciente::class)->find($id);
@@ -37,10 +31,10 @@ class HistorialFamiliarController extends AbstractController
             throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
         }
 
-        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
+        $historialFamiliarExistente = $entityManager->getRepository(HistorialFamiliar::class)->findOneBy(['historialClinico' => $historialClinico]);
 
-        if (!$historialClinico) {
-            throw $this->createNotFoundException('No se encontró el historial clínico con el ID ' . $id);
+        if ($historialFamiliarExistente) {
+            return $this->redirectToRoute('historial_familiar_edit', ['id' => $historialFamiliarExistente->getId()]);
         }
 
         $historialFamiliar = new HistorialFamiliar();
@@ -50,13 +44,11 @@ class HistorialFamiliarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var \App\Entity\User $user */
             $user = $this->getUser();
             if ($user) {
-                $historialFamiliar->setCreadoPor($user->getId()); // Obtén la ID del usuario
+                $historialFamiliar->setCreadoPor($user->getId());
                 $historialFamiliar->setCreadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
-                // Actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la última visita
                 $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
                 $entityManager->persist($paciente);
                 $entityManager->persist($historialFamiliar);
@@ -70,6 +62,37 @@ class HistorialFamiliarController extends AbstractController
 
         return $this->render('historial_familiar/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
+        ]);
+    }
+
+    #[Route('/historial-familiar/editar/{id}', name: 'historial_familiar_edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $historialFamiliar = $entityManager->getRepository(HistorialFamiliar::class)->find($id);
+
+        if (!$historialFamiliar) {
+            throw $this->createNotFoundException('No se encontró el historial familiar con el ID ' . $id);
+        }
+
+        $paciente = $historialFamiliar->getHistorialClinico()->getPaciente();
+
+        $form = $this->createForm(HistorialFamiliarType::class, $historialFamiliar);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $historialFamiliar->setActualizadoPor($this->getUser());
+            $historialFamiliar->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+
+            $entityManager->persist($historialFamiliar);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
+        }
+
+        return $this->render('historial_familiar/edit.html.twig', [
+            'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }

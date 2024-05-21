@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use DateTime;
 use DateTimeZone;
 use App\Entity\Dieta;
 use App\Entity\Vacuna;

@@ -4,8 +4,7 @@ namespace App\Form;
 
 use App\Entity\HistorialFamiliar;
 use Symfony\Component\Form\AbstractType;
-use Doctrine\DBAL\Types\BooleanType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,23 +15,39 @@ class HistorialFamiliarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('padreVivo', BooleanType::class, [
+            ->add('padreVivo', ChoiceType::class, [
                 'label' => 'Padre Vivo',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
-            ->add('madreVivo', BooleanType::class, [
+            ->add('madreVivo', ChoiceType::class, [
                 'label' => 'Madre Viva',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
             ->add('hermanos', IntegerType::class, [
                 'label' => 'Hermanos',
             ])
-            ->add('hermanosVivos', BooleanType::class, [
+            ->add('hermanosVivos', ChoiceType::class, [
                 'label' => 'Hermanos Vivos',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
             ->add('hijos', IntegerType::class, [
                 'label' => 'Hijos',
             ])
-            ->add('hijosVivos', BooleanType::class, [
+            ->add('hijosVivos', ChoiceType::class, [
                 'label' => 'Hijos Vivos',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
             ->add('edadFallecimientoHijos', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Hijos',
@@ -55,41 +70,53 @@ class HistorialFamiliarType extends AbstractType
             ->add('causaMuerteHermanos', TextareaType::class, [
                 'label' => 'Causa Muerte Hermanos',
             ])
-            ->add('diabetes', BooleanType::class, [
+            ->add('diabetes', ChoiceType::class, [
                 'label' => 'Diabetes',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
-            ->add('enfermedadCardiaca', BooleanType::class, [
+            ->add('enfermedadCardiaca', ChoiceType::class, [
                 'label' => 'Enfermedad Cardiaca',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
-            ->add('hipertension', BooleanType::class, [
+            ->add('hipertension', ChoiceType::class, [
                 'label' => 'Hipertensión',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
-            ->add('enfermedadMetabolica', BooleanType::class, [
+            ->add('enfermedadMetabolica', ChoiceType::class, [
                 'label' => 'Enfermedad Metabólica',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
-            ->add('cancer', BooleanType::class, [
+            ->add('cancer', ChoiceType::class, [
                 'label' => 'Cáncer',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
             ->add('tipoCancer', TextareaType::class, [
                 'label' => 'Tipo de Cáncer',
             ])
-            ->add('enfermedadRenalCronica', BooleanType::class, [
+            ->add('enfermedadRenalCronica', ChoiceType::class, [
                 'label' => 'Enfermedad Renal Crónica',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ])
             ->add('otraEnfermedadCronica', TextareaType::class, [
                 'label' => 'Otra Enfermedad Crónica',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
-            ])
-            ->add('actualizadoEn', DateType::class, [
-                'label' => 'Actualizado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

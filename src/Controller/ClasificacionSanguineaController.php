@@ -30,6 +30,12 @@ class ClasificacionSanguineaController extends AbstractController
             throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
         }
 
+        $clasificacionSanguineaExistente = $entityManager->getRepository(ClasificacionSanguinea::class)->findOneBy(['historialClinico' => $historialClinico]);
+
+        if ($clasificacionSanguineaExistente) {
+            return $this->redirectToRoute('clasificacion_sanguinea_edit', ['id' => $clasificacionSanguineaExistente->getId()]);
+        }
+
         $clasificacionSanguinea = new ClasificacionSanguinea();
         $clasificacionSanguinea->setHistorialClinico($historialClinico);
 
@@ -38,9 +44,9 @@ class ClasificacionSanguineaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $clasificacionSanguinea->setCreadoPor($this->getUser());
-            $clasificacionSanguinea->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
+            $clasificacionSanguinea->setActualizadoPor($this->getUser());
+            $clasificacionSanguinea->setCreadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
-            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
             $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
             $entityManager->persist($paciente);
             $entityManager->persist($clasificacionSanguinea);
@@ -50,6 +56,36 @@ class ClasificacionSanguineaController extends AbstractController
         }
 
         return $this->render('clasificacion_sanguinea/new.html.twig', [
+            'form' => $form->createView(),
+            'paciente' => $paciente,
+        ]);
+    }
+
+    #[Route('/clasificacion-sanguinea/editar/{id}', name: 'clasificacion_sanguinea_edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $clasificacionSanguinea = $entityManager->getRepository(ClasificacionSanguinea::class)->find($id);
+
+        if (!$clasificacionSanguinea) {
+            throw $this->createNotFoundException('No se encontró la clasificación sanguínea con el ID ' . $id);
+        }
+
+        $paciente = $clasificacionSanguinea->getHistorialClinico()->getPaciente();
+
+        $form = $this->createForm(ClasificacionSanguineaType::class, $clasificacionSanguinea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $clasificacionSanguinea->setActualizadoPor($this->getUser());
+            $clasificacionSanguinea->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+
+            $entityManager->persist($clasificacionSanguinea);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
+        }
+
+        return $this->render('clasificacion_sanguinea/edit.html.twig', [
             'form' => $form->createView(),
             'paciente' => $paciente,
         ]);
