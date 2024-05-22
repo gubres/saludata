@@ -9,6 +9,11 @@
     </h2>
     <div id="collapseClasificacionSanguinea" class="accordion-collapse collapse" aria-labelledby="headingClasificacionSanguinea" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+        {% if data.clasificacion_sanguinea is empty %}
+                <a href="{{ path('clasificacion_sanguinea_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Clasificación Sanguínea</a>
+            {% else %}
+                <a href="{{ path('clasificacion_sanguinea_edit', {'id': data.clasificacion_sanguinea[0].id}) }}" class="btn btn-primary">Editar Clasificación Sanguínea</a>
+            {% endif %}
             {% if data.clasificacion_sanguinea is empty %}
                 <p>Sin datos</p>
             {% else %}
@@ -37,11 +42,7 @@
                     </tbody>
                 </table>
             {% endif %}
-            {% if data.clasificacion_sanguinea is empty %}
-                <a href="{{ path('clasificacion_sanguinea_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Clasificación Sanguínea</a>
-            {% else %}
-                <a href="{{ path('clasificacion_sanguinea_edit', {'id': data.clasificacion_sanguinea[0].id}) }}" class="btn btn-primary">Editar Clasificación Sanguínea</a>
-            {% endif %}
+            
         </div>
     </div>
 </div>

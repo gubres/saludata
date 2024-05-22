@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
+use App\Entity\Paciente;
 use App\Entity\HistorialClinico;
 use App\Entity\ExamenMiembrosSuperiores;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,12 +18,17 @@ class ExamenMiembrosSuperioresController extends AbstractController
     #[Route('/examen-miembros-superiores/nuevo/{id}', name: 'examen_miembros_superiores_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
-        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
+        $paciente = $entityManager->getRepository(Paciente::class)->find($id);
 
-        if (!$historialClinico) {
-            throw $this->createNotFoundException('No se encontró el historial clínico con el ID ' . $id);
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
         }
 
+        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
+
+        if (!$historialClinico) {
+            throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
+        }
         $examenMiembrosSuperiores = new ExamenMiembrosSuperiores();
         $examenMiembrosSuperiores->setHistorialClinico($historialClinico);
 
@@ -30,7 +37,11 @@ class ExamenMiembrosSuperioresController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $examenMiembrosSuperiores->setCreadoPor($this->getUser());
-            $examenMiembrosSuperiores->setCreadoEn(new \DateTime('now'));
+            $examenMiembrosSuperiores->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
+
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
 
             $entityManager->persist($examenMiembrosSuperiores);
             $entityManager->flush();
@@ -40,6 +51,7 @@ class ExamenMiembrosSuperioresController extends AbstractController
 
         return $this->render('examen_miembros_superiores/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }

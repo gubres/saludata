@@ -9,6 +9,11 @@
     </h2>
     <div id="collapseHistorialFamiliar" class="accordion-collapse collapse" aria-labelledby="headingHistorialFamiliar" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+          {% if data.historial_familiar is empty %}
+                <a href="{{ path('historial_familiar_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Familiar</a>
+            {% else %}
+                <a href="{{ path('historial_familiar_edit', {'id': data.historial_familiar[0].id}) }}" class="btn btn-primary">Editar Historial Familiar</a>
+            {% endif %}
             {% if data.historial_familiar is empty %}
                 <p>Sin datos</p>
             {% else %}
@@ -19,23 +24,6 @@
                             <th>Madre Viva</th>
                             <th>Hermanos</th>
                             <th>Hermanos Vivos</th>
-                            <th>Hijos</th>
-                            <th>Hijos Vivos</th>
-                            <th>Edad Fallecimiento Hijos</th>
-                            <th>Edad Fallecimiento Padre</th>
-                            <th>Edad Fallecimiento Madre</th>
-                            <th>Edad Fallecimiento Hermanos</th>
-                            <th>Causa Muerte Padre</th>
-                            <th>Causa Muerte Madre</th>
-                            <th>Causa Muerte Hermanos</th>
-                            <th>Diabetes</th>
-                            <th>Enfermedad Cardiaca</th>
-                            <th>Hipertensión</th>
-                            <th>Enfermedad Metabólica</th>
-                            <th>Cáncer</th>
-                            <th>Tipo de Cáncer</th>
-                            <th>Enfermedad Renal Crónica</th>
-                            <th>Otra Enfermedad Crónica</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -45,33 +33,66 @@
                                 <td>{{ historial.madreVivo ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.hermanos }}</td>
                                 <td>{{ historial.hermanosVivos ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Hijos</th>
+                                <th>Hijos Vivos</th>
+                                <th>Edad Fallecimiento Hijos</th>
+                                <th>Edad Fallecimiento Padre</th>
+                            </tr>
+                            <tr>
                                 <td>{{ historial.hijos }}</td>
                                 <td>{{ historial.hijosVivos ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.edadFallecimientoHijos }}</td>
                                 <td>{{ historial.edadFallecimientoPadre }}</td>
+                            </tr>
+                            <tr>
+                                <th>Edad Fallecimiento Madre</th>
+                                <th>Edad Fallecimiento Hermanos</th>
+                                <th>Causa Muerte Padre</th>
+                                <th>Causa Muerte Madre</th>
+                            </tr>
+                            <tr>
                                 <td>{{ historial.edadFallecimientoMadre }}</td>
                                 <td>{{ historial.edadFallecimientoHermanos }}</td>
                                 <td>{{ historial.causaMuertePadre }}</td>
                                 <td>{{ historial.causaMuerteMadre }}</td>
+                            </tr>
+                            <tr>
+                                <th>Causa Muerte Hermanos</th>
+                                <th>Diabetes</th>
+                                <th>Enfermedad Cardiaca</th>
+                                <th>Hipertensión</th>
+                            </tr>
+                            <tr>
                                 <td>{{ historial.causaMuerteHermanos }}</td>
                                 <td>{{ historial.diabetes ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.enfermedadCardiaca ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.hipertension ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Enfermedad Metabólica</th>
+                                <th>Cáncer</th>
+                                <th>Tipo de Cáncer</th>
+                                <th>Enfermedad Renal Crónica</th>
+                            </tr>
+                            <tr>
                                 <td>{{ historial.enfermedadMetabolica ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.cancer ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.tipoCancer }}</td>
                                 <td>{{ historial.enfermedadRenalCronica ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Otra Enfermedad Crónica</th>
+                            </tr>
+                            <tr>
                                 <td>{{ historial.otraEnfermedadCronica }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% endif %}
-            {% if data.historial_familiar is empty %}
-                <a href="{{ path('historial_familiar_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Familiar</a>
-            {% else %}
-                <a href="{{ path('historial_familiar_edit', {'id': data.historial_familiar[0].id}) }}" class="btn btn-primary">Editar Historial Familiar</a>
-            {% endif %}
+          
         </div>
     </div>
 </div>

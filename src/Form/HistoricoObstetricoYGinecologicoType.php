@@ -6,9 +6,8 @@ use App\Entity\HistoricoObstetricoYGinecologico;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Doctrine\DBAL\Types\TextType;
-use Doctrine\DBAL\Types\BooleanType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,6 +15,11 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $booleanChoices = [
+            'Sí' => true,
+            'No' => false,
+        ];
+
         $builder
             ->add('edadPrimeraRegla', IntegerType::class, [
                 'label' => 'Edad Primera Regla'
@@ -26,13 +30,19 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
             ->add('duracionRegla', IntegerType::class, [
                 'label' => 'Duración Regla (días)'
             ])
-            ->add('cicloRegular', CheckboxType::class, [
+            ->add('cicloRegular', ChoiceType::class, [
                 'label' => 'Ciclo Regular',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
-            ->add('usoMedicacion', CheckboxType::class, [
+            ->add('usoMedicacion', ChoiceType::class, [
                 'label' => 'Uso de Medicación',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('medicamento', TextType::class, [
                 'label' => 'Medicamento',
@@ -42,17 +52,23 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
                 'label' => 'Posología',
                 'required' => false
             ])
-            ->add('dolor', CheckboxType::class, [
+            ->add('dolor', ChoiceType::class, [
                 'label' => 'Dolor',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('intensidadDolor', IntegerType::class, [
                 'label' => 'Intensidad del Dolor',
                 'required' => false
             ])
-            ->add('tieneHijos', CheckboxType::class, [
+            ->add('tieneHijos', ChoiceType::class, [
                 'label' => 'Tiene Hijos',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('cantidadHijos', IntegerType::class, [
                 'label' => 'Cantidad de Hijos',
@@ -76,9 +92,12 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false
             ])
-            ->add('citologiaVaginal', CheckboxType::class, [
+            ->add('citologiaVaginal', ChoiceType::class, [
                 'label' => 'Citología Vaginal',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('primeraColeta', DateType::class, [
                 'label' => 'Primera Coleta',
@@ -94,9 +113,12 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
                 'label' => 'Resultado de la Coleta',
                 'required' => false
             ])
-            ->add('cancerDeMama', CheckboxType::class, [
+            ->add('cancerDeMama', ChoiceType::class, [
                 'label' => 'Cáncer de Mama',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('fechaCancer', DateType::class, [
                 'label' => 'Fecha del Cáncer',
@@ -107,19 +129,18 @@ class HistoricoObstetricoYGinecologicoType extends AbstractType
                 'label' => 'Tratamiento del Cáncer',
                 'required' => false
             ])
-            ->add('vph', CheckboxType::class, [
+            ->add('vph', ChoiceType::class, [
                 'label' => 'VPH',
-                'required' => false
+                'choices' => $booleanChoices,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
             ])
             ->add('tratamientoVph', TextType::class, [
                 'label' => 'Tratamiento VPH',
                 'required' => false
             ]);
     }
-    /**
-     * {@inheritdoc}
-     * @return void
-     */
 
     public function configureOptions(OptionsResolver $resolver): void
     {

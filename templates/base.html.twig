@@ -117,13 +117,16 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li class="nav-item">
+                     <li class="nav-item dropdown border-top pt-3">
                         <h5 class="bi bi-door-open-fill d-block mb-3 pb-2 border-bottom"> Bienvenido Dr. {{ app.user.nombre }}</h5>
-                        <span class="alert alert-success d-block hover-effect">
-                            <a class="nav-link color" title="Ver perfil" href="{{ path('app_usuarios_index') }}">
-                                <i class="bi bi-person-square"></i> Ver perfil
+                            <a class="nav-link dropdown-toggle alert alert-success d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-square"></i> Area personal
                             </a>
-                        </span>
+                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ path('app_usuarios_index') }}"><i class="bi bi-person-badge"></i></i> Ver perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ path('app_usuarios_profile') }}"><i class="bi bi-pencil-square"></i></i> Editar perfil</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item dropdown border-top pt-3">
                         <a class="nav-link dropdown-toggle alert alert-primary d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -138,7 +141,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item dropdown border-top pt-3">
-                        <a class="nav-link dropdown-toggle alert alert-danger d-block mb-3 p-4 text-black" href="#" id="userManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle alert alert-danger d-block mb-3 p-4" href="#" id="userManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-gear"></i> Gestionar Usuarios
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userManagementDropdown">

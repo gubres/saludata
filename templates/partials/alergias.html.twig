@@ -9,6 +9,7 @@
     </h2>
     <div id="collapseAlergias" class="accordion-collapse collapse" aria-labelledby="headingAlergias" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+           <a href="{{ path('alergias_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Alergia</a>
             {% if data.alergias is empty %}
                 <p>Sin datos</p>
             {% else %}
@@ -35,7 +36,7 @@
                     </tbody>
                 </table>
             {% endif %}
-            <a href="{{ path('alergias_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Alergia</a>
+         
         </div>
     </div>
 </div>

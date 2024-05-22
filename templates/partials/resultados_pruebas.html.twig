@@ -1,22 +1,50 @@
 <div class="accordion-item">
     <h2 class="accordion-header" id="headingResultadosPruebas">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseResultadosPruebas" aria-expanded="true" aria-controls="collapseResultadosPruebas">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256"><path d="M224,208H203.94A88.05,88.05,0,0,0,144,64.37V32a16,16,0,0,0-16-16H80A16,16,0,0,0,64,32V136a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V80.46A72,72,0,0,1,181.25,208H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16Zm-96-72H80V32h48V136ZM72,184a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z"></path></svg>
-           <strong class="mx-2"> Resultados de Pruebas </strong>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+            <path d="M224,208H203.94A88.05,88.05,0,0,0,144,64.37V32a16,16,0,0,0-16-16H80A16,16,0,0,0,64,32V136a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V80.46A72,72,0,0,1,181.25,208H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16Zm-96-72H80V32h48V136ZM72,184a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z"></path>
+          </svg>
+          <strong class="mx-2"> Resultados de Pruebas </strong>
         </button>
     </h2>
     <div id="collapseResultadosPruebas" class="accordion-collapse collapse" aria-labelledby="headingResultadosPruebas" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+         <a href="{{ path('resultados_pruebas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Resultado de Prueba</a>
             {% if data.resultados_pruebas is empty %}
                 <p>Sin datos</p>
             {% else %}
-                <ul>
-                    {% for prueba in data.resultados_pruebas %}
-                        <li>{{ prueba.nombrePrueba }}: {{ prueba.resultado }}, Fecha: {{ prueba.fechaPrueba|date('d-m-Y') }}</li>
-                    {% endfor %}
-                </ul>
+                <table class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Nombre Prueba</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for prueba in data.resultados_pruebas %}
+                            <tr>
+                                <td>{{ prueba.nombrePrueba }}</td>
+                                <td>{{ prueba.fecha|date('d-m-Y') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Resultado</th>
+                                <th>Archivo</th>
+                            </tr>
+                            <tr>
+                                <td>{{ prueba.resultado }}</td>
+                                <td>
+                                    {% if prueba.archivo %}
+                                        <a href="{{ path('ver_archivo', {'id': prueba.id}) }}" target="_blank">Ver Archivo</a>
+                                    {% else %}
+                                        No Disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
-            <a href="{{ path('resultados_pruebas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Resultado de Prueba</a>
+           
         </div>
     </div>
 </div>

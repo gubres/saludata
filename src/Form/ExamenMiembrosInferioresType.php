@@ -25,12 +25,6 @@ class ExamenMiembrosInferioresType extends AbstractType
             ])
             ->add('ausculta', TextareaType::class, [
                 'label' => 'Ausculta',
-            ])
-            ->add('creadoEn', DateType::class, [
-                'label' => 'Creado En',
-                'widget' => 'single_text',
-                'disabled' => true,
-                'data' => new \DateTime('now')
             ]);
     }
 

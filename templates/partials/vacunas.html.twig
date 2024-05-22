@@ -11,10 +11,12 @@
     </h2>
     <div id="collapseVacunas" class="accordion-collapse collapse" aria-labelledby="headingVacunas" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+         <a href="{{ path('vacunas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Vacuna</a>
+       
             {% if data.vacunas is empty %}
                 <p>Sin datos</p>
             {% else %}
-                <table class="table table-striped">
+                <table class="table table-striped mt-3">
                     <thead class="text-center">
                         <tr>
                             <th>Nombre</th>
@@ -33,7 +35,6 @@
                     </tbody>
                 </table>
             {% endif %}
-            <a href="{{ path('vacunas_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Vacuna</a>
-        </div>
+            </div>
     </div>
 </div>

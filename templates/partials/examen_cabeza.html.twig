@@ -6,17 +6,37 @@
         </button>
     </h2>
     <div id="collapseExamenCabeza" class="accordion-collapse collapse" aria-labelledby="headingExamenCabeza" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
+    <div class="accordion-body">
+        <a href="{{ path('examen_cabeza_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de la cabeza</a>
             {% if data.examen_cabeza is empty %}
                 <p>Sin datos</p>
             {% else %}
-                <ul>
-                    {% for examen in data.examen_cabeza %}
-                        <li>Inspección: {{ examen.inspeccion }}, Palpación: {{ examen.palpacion }}, Percusión: {{ examen.percusion }}, Ausculta: {{ examen.ausculta }}</li>
-                    {% endfor %}
-                </ul>
+                <table class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Inspección</th>
+                            <th>Palpación</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for examen in data.examen_cabeza %}
+                            <tr>
+                                <td>{{ examen.inspeccion }}</td>
+                                <td>{{ examen.palpacion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Percusión</th>
+                                <th>Ausculta</th>
+                            </tr>
+                            <tr>
+                                <td>{{ examen.percusion }}</td>
+                                <td>{{ examen.ausculta }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
-            <a href="{{ path('examen_cabeza_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de Cabeza</a>
+           
         </div>
     </div>
 </div>

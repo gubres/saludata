@@ -8,7 +8,6 @@ use App\Entity\SignosVitales;
 use App\Form\SignosVitalesType;
 use App\Entity\HistorialClinico;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\SignosVitalesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -40,7 +40,14 @@ class ResultadoPruebaController extends AbstractController
             $resultadoPrueba->setCreadoPor($this->getUser());
             $resultadoPrueba->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
 
-            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            // Handle file upload
+            /** @var UploadedFile $file */
+            $file = $form->get('archivo')->getData();
+            if ($file) {
+                $resultadoPrueba->setArchivo(file_get_contents($file->getPathname()));
+            }
+
+            // Actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
             $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
             $entityManager->persist($paciente);
 
@@ -54,5 +61,26 @@ class ResultadoPruebaController extends AbstractController
             'form' => $form->createView(),
             'paciente' => $paciente,
         ]);
+    }
+
+    #[Route('/archivo/{id}', name: 'ver_archivo')]
+    public function verArchivo(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $prueba = $entityManager->getRepository(ResultadoPrueba::class)->find($id);
+
+        if (!$prueba || !$prueba->getArchivo()) {
+            throw $this->createNotFoundException('Archivo no encontrado');
+        }
+
+        $contenidoArchivo = stream_get_contents($prueba->getArchivo());
+        if ($contenidoArchivo === false) {
+            throw new \Exception('No se pudo leer el archivo');
+        }
+
+        $response = new Response($contenidoArchivo);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', 'inline; filename="resultado_prueba.pdf"');
+
+        return $response;
     }
 }

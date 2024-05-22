@@ -18,16 +18,36 @@
     </h2>
     <div id="collapseExamenMiembrosInferiores" class="accordion-collapse collapse" aria-labelledby="headingExamenMiembrosInferiores" data-bs-parent="#accordionExample">
         <div class="accordion-body">
+        <a href="{{ path('examen_miembros_inferiores_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de MMII</a>
             {% if data.examen_miembros_inferiores is empty %}
                 <p>Sin datos</p>
             {% else %}
-                <ul>
-                    {% for examen in data.examen_miembros_inferiores %}
-                        <li>Inspección: {{ examen.inspeccion }}, Palpación: {{ examen.palpacion }}, Percusión: {{ examen.percusion }}, Ausculta: {{ examen.ausculta }}</li>
-                    {% endfor %}
-                </ul>
+                <table class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Inspección</th>
+                            <th>Palpación</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for examen in data.examen_miembros_inferiores %}
+                            <tr>
+                                <td>{{ examen.inspeccion }}</td>
+                                <td>{{ examen.palpacion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Percusión</th>
+                                <th>Ausculta</th>
+                            </tr>
+                            <tr>
+                                <td>{{ examen.percusion }}</td>
+                                <td>{{ examen.ausculta }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
-            <a href="{{ path('examen_miembros_inferiores_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de Miembros Inferiores</a>
+           
         </div>
     </div>
 </div>

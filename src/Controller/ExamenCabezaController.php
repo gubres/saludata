@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
+use App\Entity\Paciente;
 use App\Entity\ExamenCabeza;
 use App\Form\ExamenCabezaType;
 use App\Entity\HistorialClinico;
@@ -16,10 +18,16 @@ class ExamenCabezaController extends AbstractController
     #[Route('/examen-cabeza/nuevo/{id}', name: 'examen_cabeza_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
-        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->find($id);
+        $paciente = $entityManager->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('No se encontró el paciente con el ID ' . $id);
+        }
+
+        $historialClinico = $entityManager->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
 
         if (!$historialClinico) {
-            throw $this->createNotFoundException('No se encontró el historial clínico con el ID ' . $id);
+            throw $this->createNotFoundException('No se encontró el historial clínico para el paciente con el ID ' . $id);
         }
 
         $examenCabeza = new ExamenCabeza();
@@ -30,7 +38,11 @@ class ExamenCabezaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $examenCabeza->setCreadoPor($this->getUser());
-            $examenCabeza->setCreadoEn(new \DateTime('now'));
+            $examenCabeza->setCreadoEn(new \DateTime('now',  new DateTimeZone('Europe/Madrid')));
+
+            //actualizar el paciente para que figure la nueva modifica y se sepa la fecha de la ultima visita
+            $paciente->setUpdatedAt(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $entityManager->persist($paciente);
 
             $entityManager->persist($examenCabeza);
             $entityManager->flush();
@@ -40,6 +52,7 @@ class ExamenCabezaController extends AbstractController
 
         return $this->render('examen_cabeza/new.html.twig', [
             'form' => $form->createView(),
+            'paciente' => $paciente,
         ]);
     }
 }

@@ -1,22 +1,104 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="headingHistorialObstetricoYGinecologico">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorialObstetricoYGinecologico" aria-expanded="true" aria-controls="collapseHistorialObstetricoYGinecologico">
-           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256"><path d="M92,140a12,12,0,1,1,12-12A12,12,0,0,1,92,140Zm72-24a12,12,0,1,0,12,12A12,12,0,0,0,164,116Zm-12.27,45.23a45,45,0,0,1-47.46,0,8,8,0,0,0-8.54,13.54,61,61,0,0,0,64.54,0,8,8,0,0,0-8.54-13.54ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88.11,88.11,0,0,0-84.09-87.91C120.32,56.38,120,71.88,120,72a8,8,0,0,0,16,0,8,8,0,0,1,16,0,24,24,0,0,1-48,0c0-.73.13-14.3,8.46-30.63A88,88,0,1,0,216,128Z"></path></svg>
-           <strong class="mx-2"> Historial Obstétrico y Ginecológico </strong>
-        </button>
-    </h2>
-    <div id="collapseHistorialObstetricoYGinecologico" class="accordion-collapse collapse" aria-labelledby="headingHistorialObstetricoYGinecologico" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingHistorialObstetricoYGinecologico">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorialObstetricoYGinecologico" aria-expanded="true" aria-controls="collapseHistorialObstetricoYGinecologico">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256"><path d="M92,140a12,12,0,1,1,12-12A12,12,0,0,1,92,140Zm72-24a12,12,0,1,0,12,12A12,12,0,0,0,164,116Zm-12.27,45.23a45,45,0,0,1-47.46,0,8,8,0,0,0-8.54,13.54,61,61,0,0,0,64.54,0,8,8,0,0,0-8.54-13.54ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88.11,88.11,0,0,0-84.09-87.91C120.32,56.38,120,71.88,120,72a8,8,0,0,0,16,0,8,8,0,0,1,16,0,24,24,0,0,1-48,0c0-.73.13-14.3,8.46-30.63A88,88,0,1,0,216,128Z"></path></svg>
+                <strong class="mx-2"> Historial Obstétrico y Ginecológico </strong>
+            </button>
+        </h2>
+        <div id="collapseHistorialObstetricoYGinecologico" class="accordion-collapse collapse" aria-labelledby="headingHistorialObstetricoYGinecologico" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
             {% if data.historial_obstetrico_y_ginecologico is empty %}
-                <p>Sin datos</p>
-            {% else %}
-                <ul>
-                    <li>Edad primera regla: {{ data.historial_obstetrico_y_ginecologico.edadPrimeraRegla }}</li>
-                    <li>Edad última regla: {{ data.historial_obstetrico_y_ginecologico.edadUltimaRegla }}</li>
-                    <li>Ciclo Regular: {{ data.historial_obstetrico_y_ginecologico.cicloRegular ? 'Sí' : 'No' }}</li>
-                </ul>
-            {% endif %}
-            <a href="{{ path('historico_obstetrico_y_ginecologico_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Obstétrico y Ginecológico</a>
+                    <a href="{{ path('historico_obstetrico_y_ginecologico_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Historial Obstétrico y Ginecológico</a>
+                {% else %}
+                    <a href="{{ path('historico_obstetrico_y_ginecologico_edit', {'id': data.historial_obstetrico_y_ginecologico[0].id}) }}" class="btn btn-primary">Editar Historial Obstétrico y Ginecológico</a>
+                {% endif %}
+                {% if data.historial_obstetrico_y_ginecologico is empty %}
+                    <p>Sin datos</p>
+                {% else %}
+                <table class="table table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Edad Primera Regla</th>
+                            <th>Edad Última Regla</th>
+                            <th>Duración Regla (días)</th>
+                            <th>Ciclo Regular</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for historial in data.historial_obstetrico_y_ginecologico %}
+                            <tr>
+                                <td>{{ historial.edadPrimeraRegla }}</td>
+                                <td>{{ historial.edadUltimaRegla }}</td>
+                                <td>{{ historial.duracionRegla }}</td>
+                                <td>{{ historial.cicloRegular ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Uso de Medicación</th>
+                                <th>Medicamento</th>
+                                <th>Posología</th>
+                                <th>Dolor</th>
+                            </tr>
+                            <tr>
+                                <td>{{ historial.usoMedicacion ? 'Sí' : 'No' }}</td>
+                                <td>{{ historial.medicamento }}</td>
+                                <td>{{ historial.posologia }}</td>
+                                <td>{{ historial.dolor ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Intensidad del Dolor</th>
+                                <th>Tiene Hijos</th>
+                                <th>Cantidad de Hijos</th>
+                                <th>Tipo de Parto</th>
+                            </tr>
+                            <tr>
+                                <td>{{ historial.intensidadDolor }}</td>
+                                <td>{{ historial.tieneHijos ? 'Sí' : 'No' }}</td>
+                                <td>{{ historial.cantidadHijos }}</td>
+                                <td>{{ historial.tipoParto }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tiempo entre Partos (meses)</th>
+                                <th>Edad del Primer Parto</th>
+                                <th>Edad del Último Parto</th>
+                                <th>Citología Vaginal</th>
+                            </tr>
+                            <tr>
+                                <td>{{ historial.tiempoEntrePartos }}</td>
+                                <td>{{ historial.edadPrimeroParto ? historial.edadPrimeroParto|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ historial.edadUltimoParto ? historial.edadUltimoParto|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ historial.citologiaVaginal ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Primera Coleta</th>
+                                <th>Última Coleta</th>
+                                <th>Resultado de la Coleta</th>
+                                <th>Cáncer de Mama</th>
+                            </tr>
+                            <tr>
+                                <td>{{ historial.primeraColeta ? historial.primeraColeta|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ historial.ultimaColeta ? historial.ultimaColeta|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ historial.resultadoColeta }}</td>
+                                <td>{{ historial.cancerDeMama ? 'Sí' : 'No' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha del Cáncer</th>
+                                <th>Tratamiento del Cáncer</th>
+                                <th>VPH</th>
+                                <th>Tratamiento VPH</th>
+                            </tr>
+                            <tr>
+                                <td>{{ historial.fechaCancer ? historial.fechaCancer|date('d-m-Y') : 'N/A' }}</td>
+                                <td>{{ historial.tratamientoCancer }}</td>
+                                <td>{{ historial.vph ? 'Sí' : 'No' }}</td>
+                                <td>{{ historial.tratamientoVph }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                
+            </div>
         </div>
     </div>
 </div>
