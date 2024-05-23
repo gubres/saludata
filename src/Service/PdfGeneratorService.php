@@ -6,6 +6,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use App\Service\ExtendedFpdi;
 
 class PdfGeneratorService
 {
@@ -16,10 +17,11 @@ class PdfGeneratorService
         $this->twig = $twig;
     }
 
-    public function generatePdf($template, $data, $filename): Response
+    public function generatePdf($template, $data, $filename, $extraPdfPath = null): Response
     {
         $options = new Options();
         $options->set('defaultFont', 'Arial');
+        $options->set('isRemoteEnabled', true); // Habilitar recursos remotos
         $dompdf = new Dompdf($options);
 
         $html = $this->twig->render($template, $data);
@@ -28,8 +30,33 @@ class PdfGeneratorService
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
+        // Obtener el contenido del PDF generado por Dompdf
         $output = $dompdf->output();
 
+        if ($extraPdfPath) {
+            // Crear un nuevo documento ExtendedFpdi
+            $pdf = new ExtendedFpdi();
+
+            // Añadir el contenido del PDF generado por Dompdf
+            $pageCount = $pdf->setSourceFileFromString($output);
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $pdf->AddPage();
+                $tplIdx = $pdf->importPage($pageNo);
+                $pdf->useTemplate($tplIdx, 10, 10, 200);
+            }
+
+            // Añadir el PDF adicional
+            $pageCount = $pdf->setSourceFile($extraPdfPath);
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $pdf->AddPage();
+                $tplIdx = $pdf->importPage($i);
+                $pdf->useTemplate($tplIdx, 10, 10, 200);
+            }
+
+            $output = $pdf->Output('S');
+        }
+
+        // Crear la respuesta de Symfony
         $response = new Response($output);
         $response->headers->set('Content-Type', 'application/pdf');
         $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');

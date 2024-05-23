@@ -24,6 +24,9 @@
             bottom: 0px;
             font-size: 12px;
         }
+        .footer .page-number:before {
+            content: "Página " counter(page);
+        }
         .content {
             margin-top: 20px;
             margin-bottom: 60px;
@@ -61,6 +64,7 @@
     </div>
 
     <div class="footer">
+        <p class="page-number"></p>
         <p>© {{ "now"|date("Y") }} SaluData. Todos los derechos reservados.</p>
     </div>
 

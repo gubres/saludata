@@ -274,6 +274,15 @@ class PacienteController extends AbstractController
             $em->flush();
         }
 
+        // Obtener el PDF adicional de resultados de pruebas
+        $resultadoPrueba = $em->getRepository(ResultadoPrueba::class)->findOneBy(['historialClinico' => $historialClinico]);
+        $extraPdfPath = null;
+
+        if ($resultadoPrueba && $resultadoPrueba->getArchivo()) {
+            $extraPdfPath = tempnam(sys_get_temp_dir(), 'resultado_prueba_') . '.pdf';
+            file_put_contents($extraPdfPath, stream_get_contents($resultadoPrueba->getArchivo()));
+        }
+
         $data = [
             'queja_actual' => $em->getRepository(QuejaActual::class)->findAllOrderedByCreadoEnDesc($historialClinico),
             'alergias' => $em->getRepository(Alergia::class)->findAllOrderedByCreadoEnDesc($historialClinico),
@@ -301,6 +310,6 @@ class PacienteController extends AbstractController
             'data' => $data,
         ];
 
-        return $pdfGenerator->generatePdf('pdf/paciente.html.twig', $data, 'informe_paciente.pdf');
+        return $pdfGenerator->generatePdf('pdf/paciente.html.twig', $data, 'informe_paciente.pdf', $extraPdfPath);
     }
 }
