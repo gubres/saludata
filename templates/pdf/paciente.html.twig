@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Informe del Paciente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            text-align: center;
+        }
+        .footer {
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            margin-bottom: 20px;
+        }
+        .header {
+            top: 0px;
+        }
+        .footer {
+            bottom: 0px;
+            font-size: 12px;
+        }
+        .content {
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .section-title {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+        a {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Informe del Paciente</h1>
+        <p>Medico responsable: {{ user.nombre }} {{ user.apellidos }}</p>
+        <p>Fecha del informe: {{ date|date('d/m/Y H:i') }}</p>
+    </div>
+
+    <div class="footer">
+        <p>© {{ "now"|date("Y") }} SaluData. Todos los derechos reservados.</p>
+    </div>
+
+    <div class="content">
+        <h2>Datos del Paciente</h2>
+        <p><strong>Nombre:</strong> {{ paciente.nombre }} {{ paciente.apellido }}</p>
+        <p><strong>Edad:</strong> {{ paciente.fechaNacimiento|age }}</p>
+        <p><strong>Fecha última consulta: </strong> {{ paciente.updatedAt ? paciente.updatedAt|date('d-m-Y H:i:s') : 'No disponible' }}</p>
+
+        <h2 class="section-title">Historial del Paciente</h2>
+        <div class="accordion" id="accordionExample">
+            {% include 'partials/queja_actual.html.twig' %}
+            {% include 'partials/signos_vitales.html.twig' %}
+            {% include 'partials/alergias.html.twig' %}
+            {% include 'partials/vacunas.html.twig' %}
+            {% include 'partials/clasificacion_sanguinea.html.twig' %}
+            {% include 'partials/costumbres.html.twig' %}
+            {% include 'partials/dietas.html.twig' %}
+            {% include 'partials/medicamentos.html.twig' %}
+            {% include 'partials/historial_familiar.html.twig' %}
+            {% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
+            {% include 'partials/examen_cabeza.html.twig' %}
+            {% include 'partials/examen_torax.html.twig' %}
+            {% include 'partials/examen_abdomen.html.twig' %}
+            {% include 'partials/examen_pelvico.html.twig' %}
+            {% include 'partials/examen_miembros_superiores.html.twig' %}
+            {% include 'partials/examen_miembros_inferiores.html.twig' %}
+            {% include 'partials/resultados_pruebas.html.twig' %}
+        </div>
+    </div>
+</body>
+</html>

@@ -4,17 +4,15 @@
 
 {% block body %}
 <header class="mt-5 pt-5">
-    <div class="container d-flex justify-content-end">
-        <a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill mx-2" title="Volver a la lista">
+    <div class="container d-flex justify-content-end gap-3">
+        <a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill" title="Volver a la lista">
             Volver a la lista
         </a>
-        <button title="Imprimir" onclick="window.print();" class="btn btn-light mx-2"> <i class="bi bi-printer-fill"></i></button>
-        <button title="Generar PDF" id="btnGeneratePDF" class="btn btn-danger mx-2"> <i class="bi bi-file-earmark-pdf-fill"></i></button>
+        <a title="Generar informe" href="{{ path('paciente_pdf', {'id': paciente.id}) }}" class="btn btn-danger"> <i class="bi bi-file-earmark-pdf-fill"></i></a>
         <div class="dropdown" title="Más información">
             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-info-circle"></i>
             </button>
-
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" title="Contacto con Soporte" href="{{ path('app_contacto') }}">Contactar Soporte</a>
             </div>

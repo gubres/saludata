@@ -18,6 +18,7 @@ use App\Entity\SignosVitales;
 use App\Entity\ResultadoPrueba;
 use App\Entity\HistorialClinico;
 use App\Entity\HistorialFamiliar;
+use App\Service\PdfGeneratorService;
 use App\Entity\ClasificacionSanguinea;
 use App\Repository\PacienteRepository;
 use App\Entity\ExamenMiembrosInferiores;
@@ -30,7 +31,6 @@ use App\Entity\HistoricoObstetricoYGinecologico;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Entity\Cita;
 
 class PacienteController extends AbstractController
 {
@@ -249,5 +249,58 @@ class PacienteController extends AbstractController
             'paciente' => $paciente,
             'imagen' => $base64Image,
         ]);
+    }
+    #[Route('/paciente/{id}/pdf', name: 'paciente_pdf')]
+    public function generatePdf(PdfGeneratorService $pdfGenerator, EntityManagerInterface $em, int $id): Response
+    {
+        $paciente = $em->getRepository(Paciente::class)->find($id);
+
+        if (!$paciente) {
+            throw $this->createNotFoundException('Paciente no encontrado');
+        }
+
+        $user = $this->getUser();
+
+        $historialClinico = $em->getRepository(HistorialClinico::class)->findOneBy(['paciente' => $paciente]);
+
+        if (!$historialClinico) {
+            $historialClinico = new HistorialClinico();
+            $historialClinico->setPaciente($paciente);
+            $historialClinico->setCreadoEn(new \DateTime('now'));
+            $historialClinico->setCreadoPor($this->getUser());
+            $historialClinico->setActualizadoEn(new \DateTime('now'));
+            $historialClinico->setActualizadoPor($this->getUser());
+            $em->persist($historialClinico);
+            $em->flush();
+        }
+
+        $data = [
+            'queja_actual' => $em->getRepository(QuejaActual::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'alergias' => $em->getRepository(Alergia::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'signos_vitales' => $em->getRepository(SignosVitales::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'vacunas' => $em->getRepository(Vacuna::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'clasificacion_sanguinea' => $em->getRepository(ClasificacionSanguinea::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'costumbres' => $em->getRepository(Costumbres::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'dietas' => $em->getRepository(Dieta::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'medicamentos' => $em->getRepository(Medicamento::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'historial_familiar' => $em->getRepository(HistorialFamiliar::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'historial_obstetrico_y_ginecologico' => $em->getRepository(HistoricoObstetricoYGinecologico::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'resultados_pruebas' => $em->getRepository(ResultadoPrueba::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_cabeza' => $em->getRepository(ExamenCabeza::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_torax' => $em->getRepository(ExamenTorax::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_abdomen' => $em->getRepository(ExamenAbdomen::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_pelvico' => $em->getRepository(ExamenPelvico::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_miembros_superiores' => $em->getRepository(ExamenMiembrosSuperiores::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+            'examen_miembros_inferiores' => $em->getRepository(ExamenMiembrosInferiores::class)->findAllOrderedByCreadoEnDesc($historialClinico),
+        ];
+
+        $data = [
+            'paciente' => $paciente,
+            'user' => $user,
+            'date' => new \DateTime('now', new DateTimeZone('Europe/Madrid')),
+            'data' => $data,
+        ];
+
+        return $pdfGenerator->generatePdf('pdf/paciente.html.twig', $data, 'informe_paciente.pdf');
     }
 }
