@@ -115,62 +115,70 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="navbar-nav">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                     <li class="nav-item dropdown border-top pt-3">
-                        <h5 class="bi bi-door-open-fill d-block mb-3 pb-2 border-bottom"> Bienvenido Dr. {{ app.user.nombre }}</h5>
-                            <a class="nav-link dropdown-toggle alert alert-success d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-square"></i> Area personal
-                            </a>
-                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_usuarios_index') }}"><i class="bi bi-person-badge"></i></i> Ver perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_usuarios_profile') }}"><i class="bi bi-pencil-square"></i></i> Editar perfil</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown border-top pt-3">
-                        <a class="nav-link dropdown-toggle alert alert-primary d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-lines-fill"></i> Gestionar Pacientes
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_perfil') }}"><i class="bi bi-person-lines-fill"></i> Listado de pacientes</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_registar_paciente') }}"><i class="bi bi-person-plus"></i> Registrar nuevo paciente</a></li>
-                        </ul>
-                    </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item dropdown border-top pt-3">
-                        <a class="nav-link dropdown-toggle alert alert-danger d-block mb-3 p-4" href="#" id="userManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear"></i> Gestionar Usuarios
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="userManagementDropdown">
-                            <li>
-                                <a class="dropdown-item" href="/roles">
-                                    <i class="bi bi-person-lock"></i> Listado de usuarios registrados
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="{{ path('app_register') }}">
-                                    <i class="bi bi-person-plus"></i> Registrar nuevo usuario
-                                </a>
-                            </li>            
-                        </ul>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
+                 <ul class="navbar-nav">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3 text-end">
-                            <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black alert alert-warning"><i class="bi bi-box-arrow-left"></i> Logout</button>
-                        </form>
-                        {% else %}
-                        <span class="alert alert-success d-block hover-effect">
-                            <a class="nav-link text-black" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                        </span>
+                        <li class="nav-item dropdown border-top pt-3">
+                            <h5 class="bi bi-door-open-fill d-block mb-3 pb-2 border-bottom"> Bienvenido Dr. {{ app.user.nombre }}</h5>
+                            <a class="nav-link dropdown-toggle alert alert-success d-block mb-3 p-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-square mx-2"></i> Area personal
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ path('app_usuarios_index') }}"><i class="bi bi-person-badge mx-2"></i> Ver perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('app_usuarios_profile') }}"><i class="bi bi-pencil-square mx-2"></i> Editar perfil</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown border-top pt-3">
+                            <a class="nav-link dropdown-toggle alert alert-info d-block mb-3 p-4" href="#" id="navbarDropdownCitas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                               <i class="bi bi-calendar2-date mx-2"></i> Gestionar Citas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCitas">
+                                <li><a class="dropdown-item" href="{{ path('citas_index') }}"><i class="bi bi-calendar4-week mx-2"></i> Calendario de citas </a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown border-top pt-3">
+                            <a class="nav-link dropdown-toggle alert alert-primary d-block mb-3 p-4" href="#" id="navbarDropdownPacientes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-lines-fill mx-2"></i> Gestionar Pacientes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownPacientes">
+                                <li><a class="dropdown-item" href="{{ path('app_perfil') }}"><i class="bi bi-person-lines-fill mx-2"></i> Listado de pacientes</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('app_registar_paciente') }}"><i class="bi bi-person-plus mx-2"></i> Registrar nuevo paciente</a></li>
+                            </ul>
+                        </li>
                         {% endif %}
-                    </li>
-                </ul>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item dropdown border-top pt-3">
+                            <a class="nav-link dropdown-toggle alert alert-danger d-block mb-3 p-4" href="#" id="userManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-toggles mx-2"></i> Gestionar Usuarios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userManagementDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="/roles">
+                                        <i class="bi bi-person-lock mx-2"></i> Listado de usuarios registrados
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_register') }}">
+                                        <i class="bi bi-person-plus mx-2"></i> Registrar nuevo usuario
+                                    </a>
+                                </li>            
+                            </ul>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <form action="{{ path('app_logout') }}" method="post" class="d-block border-top pt-3 text-end">
+                                <button type="submit" title="Hacer logout" class="btn btn-outline-secondary text-black alert alert-warning"><i class="bi bi-box-arrow-left"></i> Logout</button>
+                            </form>
+                            {% else %}
+                            <span class="alert alert-success d-block hover-effect">
+                                <a class="nav-link text-black" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                            </span>
+                            {% endif %}
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>

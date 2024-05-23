@@ -9,6 +9,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PacienteRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: PacienteRepository::class)]
 #[UniqueEntity(fields: ['dni'], message: 'El número de DNI ya existe')]
@@ -28,7 +31,8 @@ class Paciente
     #[ORM\Column(length: 50)]
     private ?string $apellido = null;
 
-    #[ORM\Column(length: 9)]
+    #[ORM\Column(length: 9, unique: true)]
+    #[Assert\NotBlank]
     private ?string $dni = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -81,12 +85,16 @@ class Paciente
     #[ORM\OneToOne(mappedBy: 'paciente', cascade: ['persist', 'remove'])]
     private ?HistorialClinico $historialClinico = null;
 
+    #[ORM\OneToMany(mappedBy: 'paciente', targetEntity: Cita::class, orphanRemoval: true)]
+    private Collection $citas;
+
     public function __construct()
     {
         $zonaHoraria = new DateTimeZone('Europe/Madrid');
         $this->created_at = new DateTimeImmutable('now', $zonaHoraria);
         $this->updated_at = new DateTime('now', $zonaHoraria);
         $this->eliminado = false;
+        $this->citas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -338,6 +346,32 @@ class Paciente
         }
 
         $this->historialClinico = $historialClinico;
+
+        return $this;
+    }
+
+    public function getCitas(): Collection
+    {
+        return $this->citas;
+    }
+
+    public function addCita(Cita $cita): self
+    {
+        if (!$this->citas->contains($cita)) {
+            $this->citas[] = $cita;
+            $cita->setPaciente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCita(Cita $cita): self
+    {
+        if ($this->citas->removeElement($cita)) {
+            if ($cita->getPaciente() === $this) {
+                $cita->setPaciente(null);
+            }
+        }
 
         return $this;
     }

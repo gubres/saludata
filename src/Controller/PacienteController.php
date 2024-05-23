@@ -30,6 +30,7 @@ use App\Entity\HistoricoObstetricoYGinecologico;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Entity\Cita;
 
 class PacienteController extends AbstractController
 {
