@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mt-3">
-                        {{ form_label(form.tipo, 'Tipo', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_label(form.tipo, 'Tipo (No restrictiva, restrictiva, vegetariana, vegana, etc)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
                             {{ form_widget(form.tipo, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.tipo) }}
@@ -24,7 +24,7 @@
                 
                 <div class="col-md-6">
                     <div class="form-group mt-3">
-                        {{ form_label(form.frecuencia, 'Frecuencia', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_label(form.frecuencia, 'Frecuencia (comidas/día)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
                             {{ form_widget(form.frecuencia, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.frecuencia) }}
@@ -34,7 +34,7 @@
 
                 <div class="col-md-12">
                     <div class="form-group mt-3">
-                        {{ form_label(form.queConsume, 'Que Consume', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_label(form.queConsume, 'Descripción de cada comida', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
                             {{ form_widget(form.queConsume, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.queConsume) }}

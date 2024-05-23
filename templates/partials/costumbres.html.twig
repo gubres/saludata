@@ -26,7 +26,7 @@
          {% if data.costumbres is empty %}
                 <a href="{{ path('costumbres_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Costumbre</a>
             {% else %}
-                <a href="{{ path('costumbres_edit', {'id': data.costumbres[0].id}) }}" class="btn btn-primary">Editar Costumbre</a>
+                <a href="{{ path('costumbres_edit', {'id': paciente.id}) }}" class="btn btn-primary">Editar Costumbre</a>
             {% endif %}
             {% if data.costumbres is empty %}
                 <p>Sin datos</p>
@@ -117,7 +117,7 @@
                                 <td>{{ costumbre.higieneIntima ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
-                                <th>Método de Higiene Íntima</th>
+                                <th colspan="2">Método de Higiene Íntima</th>
                             </tr>
                             <tr>
                                 <td colspan="2">{{ costumbre.metodoHigieneIntima }}</td>

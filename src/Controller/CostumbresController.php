@@ -55,4 +55,33 @@ class CostumbresController extends AbstractController
             'paciente' => $paciente,
         ]);
     }
+    #[Route('/costumbres/editar/{id}', name: 'costumbres_edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $Costumbres = $entityManager->getRepository(Costumbres::class)->find($id);
+
+        if (!$Costumbres) {
+            throw $this->createNotFoundException('No se encontró la clasificación sanguínea con el ID ' . $id);
+        }
+
+        $paciente = $Costumbres->getHistorialClinico()->getPaciente();
+
+        $form = $this->createForm(CostumbresType::class, $Costumbres);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Costumbres->setActualizadoPor($this->getUser());
+            $Costumbres->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+
+            $entityManager->persist($Costumbres);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
+        }
+
+        return $this->render('costumbres/edit.html.twig', [
+            'form' => $form->createView(),
+            'paciente' => $paciente,
+        ]);
+    }
 }
