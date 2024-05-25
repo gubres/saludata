@@ -14,7 +14,7 @@
                     <a href="{{ path('historico_obstetrico_y_ginecologico_edit', {'id': data.historial_obstetrico_y_ginecologico[0].id}) }}" class="btn btn-primary">Editar Historial Obstétrico y Ginecológico</a>
                 {% endif %}
                 {% if data.historial_obstetrico_y_ginecologico is empty %}
-                    <p>Sin datos</p>
+                    <p class="mt-3">Sin datos</p>
                 {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
@@ -29,7 +29,7 @@
                         {% for historial in data.historial_obstetrico_y_ginecologico %}
                             <tr>
                                 <td>{{ historial.edadPrimeraRegla }}</td>
-                                <td>{{ historial.edadUltimaRegla }}</td>
+                                <td>{{ historial.edadUltimaRegla ? historial.edadUltimaRegla : 'N/A'}}</td>
                                 <td>{{ historial.duracionRegla }}</td>
                                 <td>{{ historial.cicloRegular ? 'Sí' : 'No' }}</td>
                             </tr>
@@ -41,8 +41,8 @@
                             </tr>
                             <tr>
                                 <td>{{ historial.usoMedicacion ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.medicamento }}</td>
-                                <td>{{ historial.posologia }}</td>
+                                <td>{{ historial.medicamento ? historial.medicamento : 'N/A'}}</td>
+                                <td>{{ historial.posologia ? historial.posologia : 'N/A'}}</td>
                                 <td>{{ historial.dolor ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
@@ -52,10 +52,10 @@
                                 <th>Tipo de Parto</th>
                             </tr>
                             <tr>
-                                <td>{{ historial.intensidadDolor }}</td>
+                                <td>{{ historial.intensidadDolor ? historial.intensidadDolor : 'N/A' }}</td>
                                 <td>{{ historial.tieneHijos ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.cantidadHijos }}</td>
-                                <td>{{ historial.tipoParto }}</td>
+                                <td>{{ historial.cantidadHijos ? historial.cantidadHijos : 'N/A'}}</td>
+                                <td>{{ historial.tipoParto ? historial.tipoParto : 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <th>Tiempo entre Partos (meses)</th>
@@ -64,7 +64,7 @@
                                 <th>Citología Vaginal</th>
                             </tr>
                             <tr>
-                                <td>{{ historial.tiempoEntrePartos }}</td>
+                                <td>{{ historial.tiempoEntrePartos ? historial.tiempoEntrePartos : 'N/A'}}</td>
                                 <td>{{ historial.edadPrimeroParto ? historial.edadPrimeroParto|date('d-m-Y') : 'N/A' }}</td>
                                 <td>{{ historial.edadUltimoParto ? historial.edadUltimoParto|date('d-m-Y') : 'N/A' }}</td>
                                 <td>{{ historial.citologiaVaginal ? 'Sí' : 'No' }}</td>
@@ -78,7 +78,7 @@
                             <tr>
                                 <td>{{ historial.primeraColeta ? historial.primeraColeta|date('d-m-Y') : 'N/A' }}</td>
                                 <td>{{ historial.ultimaColeta ? historial.ultimaColeta|date('d-m-Y') : 'N/A' }}</td>
-                                <td>{{ historial.resultadoColeta }}</td>
+                                <td>{{ historial.resultadoColeta ? historial.resultadoColeta : 'N/A'}}</td>
                                 <td>{{ historial.cancerDeMama ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
@@ -89,9 +89,9 @@
                             </tr>
                             <tr>
                                 <td>{{ historial.fechaCancer ? historial.fechaCancer|date('d-m-Y') : 'N/A' }}</td>
-                                <td>{{ historial.tratamientoCancer }}</td>
+                                <td>{{ historial.tratamientoCancer ? historial.tratamientoCancer : 'N/A'}}</td>
                                 <td>{{ historial.vph ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.tratamientoVph }}</td>
+                                <td>{{ historial.tratamientoVph ? historial.tratamientoVph : 'N/A'}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

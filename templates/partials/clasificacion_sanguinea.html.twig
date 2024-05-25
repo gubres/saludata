@@ -15,7 +15,7 @@
                 <a href="{{ path('clasificacion_sanguinea_edit', {'id': data.clasificacion_sanguinea[0].id}) }}" class="btn btn-primary">Editar Clasificación Sanguínea</a>
             {% endif %}
             {% if data.clasificacion_sanguinea is empty %}
-                <p>Sin datos</p>
+                <p class="mt-3">Sin datos</p>
             {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
