@@ -25,6 +25,17 @@ class AppExtension extends AbstractExtension
         $years = $interval->y;
         $months = $interval->m;
 
-        return "$years años y $months meses";
+        $yearsText = $years === 1 ? "$years año" : "$years años";
+        $monthsText = $months === 1 ? "$months mes" : "$months meses";
+
+        if ($years === 0) {
+            return $monthsText;
+        }
+
+        if ($months === 0) {
+            return $yearsText;
+        }
+
+        return "$yearsText y $monthsText";
     }
 }
