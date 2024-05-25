@@ -26,7 +26,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/perfil', name: 'app_usuarios_profile', methods: ['GET', 'POST'])]
-    public function profile(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function EditarPerfil(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -44,16 +44,12 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            if ($request->isXmlHttpRequest()) {
-                return $this->json(['success' => true]);
-            }
-
             $this->addFlash('success', 'Tu perfil ha sido actualizado con éxito.');
             return $this->redirectToRoute('app_usuarios_profile');
-        }
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->json(['success' => false, 'message' => 'Formulario no válido.']);
+        } elseif ($form->isSubmitted()) {
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('danger', $error->getMessage());
+            }
         }
 
         return $this->render('usuarios/edit.html.twig', [

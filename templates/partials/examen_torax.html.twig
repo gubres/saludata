@@ -11,11 +11,12 @@
        <div class="accordion-body">
         <a href="{{ path('examen_torax_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen del tórax</a>
             {% if data.examen_torax is empty %}
-                <p>Sin datos</p>
+                <p class="mt-3">Sin datos</p>
             {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
                         <tr>
+                            <th>Fecha </th>
                             <th>Inspección</th>
                             <th>Palpación</th>
                         </tr>
@@ -23,16 +24,17 @@
                     <tbody class="text-center">
                         {% for examen in data.examen_torax %}
                             <tr>
-                                <td>{{ examen.inspeccion }}</td>
-                                <td>{{ examen.palpacion }}</td>
+                            <td> {{examen.creadoEn|date('d-m-Y H:i')}}</td>
+                                <td>{{ examen.inspeccion ? examen.inspeccion : 'No coletado'}}</td>
+                                <td>{{ examen.palpacion ? examen.palpacion : 'No coletado' }}</td>
                             </tr>
                             <tr>
                                 <th>Percusión</th>
                                 <th>Ausculta</th>
                             </tr>
                             <tr>
-                                <td>{{ examen.percusion }}</td>
-                                <td>{{ examen.ausculta }}</td>
+                                <td>{{ examen.percusion ? examen.percusion : 'No coletado' }}</td>
+                                <td>{{ examen.ausculta ? examen.ausculta : 'No coletado' }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -45,8 +45,8 @@
                                     <td>{{ signo.sistole }}</td>
                                     <td>{{ signo.diastole }}</td>
                                     <td>{{ signo.frecuenciaCardiaca }}</td>
-                                    <td>{{ signo.porcentajeGrasaCorporal }}</td>
-                                    <td>{{ signo.masaCorporalMagra }}</td>
+                                    <td>{{ signo.porcentajeGrasaCorporal ? signo.porcentajeGrasaCorporal : 'N/A'}}</td>
+                                    <td>{{ signo.masaCorporalMagra ? signo.masaCorporalMagra : 'N/A' }}</td>
                                     <td>{{ signo.saturacionOxigeno }}</td>
                                 </tr>
                             {% endfor %}

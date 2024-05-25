@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserProfileFormType extends AbstractType
 {
@@ -19,14 +20,13 @@ class UserProfileFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'attr' => [
-                    'readonly' => true,
-                ],
+                'disabled' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Por favor, introduzca su email',
                     ]),
                 ],
+                'error_bubbling' => true,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -37,11 +37,16 @@ class UserProfileFormType extends AbstractType
                 'second_options' => ['label' => 'Repite Contraseña', 'attr' => ['autocomplete' => 'new-password']],
                 'constraints' => [
                     new Length([
-                        'min' => 6,
+                        'min' => 8,
                         'minMessage' => 'Su contraseña debe tener al menos {{ limit }} caracteres',
                         'max' => 4096,
                     ]),
+                    new Regex([
+                        'pattern' => '/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}/',
+                        'message' => 'La contraseña debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial',
+                    ]),
                 ],
+                'error_bubbling' => true,
             ]);
     }
 

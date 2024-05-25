@@ -80,7 +80,8 @@ class HistorialFamiliarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $historialFamiliar->setActualizadoPor($this->getUser());
+            $user = $this->getUser();
+            $historialFamiliar->setActualizadoPor($user->getId());
             $historialFamiliar->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
             $entityManager->persist($historialFamiliar);

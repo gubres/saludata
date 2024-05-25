@@ -27,8 +27,8 @@ class ContactoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Aquí puedes manejar el envío del formulario, como enviar un correo electrónico
-            $this->addFlash('success', 'Su mensaje ha sido enviado.');
-            return $this->redirectToRoute('contacto');
+            $this->addFlash('success', 'Su mensaje ha sido enviado. Un técnico se pondrá en contacto con usted a la brevedad.');
+            return $this->redirectToRoute('app_contacto');
         }
 
         return $this->render('contacto/index.html.twig', [

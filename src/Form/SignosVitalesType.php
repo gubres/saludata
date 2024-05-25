@@ -38,9 +38,11 @@ class SignosVitalesType extends AbstractType
             ])
             ->add('porcentajeGrasaCorporal', NumberType::class, [
                 'label' => 'Porcentaje Grasa Corporal',
+                'required' => false,
             ])
             ->add('masaCorporalMagra', NumberType::class, [
                 'label' => 'Masa Corporal Magra',
+                'required' => false,
             ])
             ->add('saturacionOxigeno', IntegerType::class, [
                 'label' => 'Saturación Oxígeno',

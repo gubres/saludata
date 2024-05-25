@@ -8,6 +8,11 @@
     <h1>Contacto con el Soporte</h1>
     <div class="row gap-5">
         <div class="col-md-6">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             {{ form_start(form) }}
                 <div class="form-group">
                     {{ form_label(form.name) }}
@@ -25,7 +30,11 @@
                     {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
                 </div>
             {{ form_end(form) }}
+        <a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill mt-3" title="Volver a la lista">
+            Listado de pacientes
+        </a>
         </div>
+
         <div class="col-md-4">
             <h3>Otras formas de contacto</h3>
             <p><strong>Correo:</strong> soporte@saludata.es</p>
@@ -53,7 +62,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 10px 20px;
+        padding: 5px 10px;
         font-size: 16px;
         border-radius: 50px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;

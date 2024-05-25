@@ -21,11 +21,12 @@
         <div class="accordion-body">
          <a href="{{ path('examen_abdomen_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de Abdomen</a>
             {% if data.examen_abdomen is empty %}
-                <p>Sin datos</p>
+                 <p class="mt-3">Sin datos</p>
             {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
                         <tr>
+                            <th>Fecha </th>
                             <th>Inspección</th>
                             <th>Palpación</th>
                         </tr>
@@ -33,6 +34,7 @@
                     <tbody class="text-center">
                         {% for examen in data.examen_abdomen %}
                             <tr>
+                            <td> {{examen.creadoEn|date('d-m-Y H:i')}}</td>
                                 <td>{{ examen.inspeccion }}</td>
                                 <td>{{ examen.palpacion }}</td>
                             </tr>

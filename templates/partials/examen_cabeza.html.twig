@@ -9,11 +9,12 @@
     <div class="accordion-body">
         <a href="{{ path('examen_cabeza_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Examen de la cabeza</a>
             {% if data.examen_cabeza is empty %}
-                <p>Sin datos</p>
+                <p class="mt-3">Sin datos</p>
             {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
                         <tr>
+                            <th>Fecha </th>
                             <th>Inspección</th>
                             <th>Palpación</th>
                         </tr>
@@ -21,6 +22,7 @@
                     <tbody class="text-center">
                         {% for examen in data.examen_cabeza %}
                             <tr>
+                            <td> {{examen.creadoEn|date('d-m-Y H:i')}}</td>
                                 <td>{{ examen.inspeccion }}</td>
                                 <td>{{ examen.palpacion }}</td>
                             </tr>

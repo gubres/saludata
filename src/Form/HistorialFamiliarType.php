@@ -51,24 +51,31 @@ class HistorialFamiliarType extends AbstractType
             ])
             ->add('edadFallecimientoHijos', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Hijos',
+                'required' => false,
             ])
             ->add('edadFallecimientoPadre', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Padre',
+                'required' => false,
             ])
             ->add('edadFallecimientoMadre', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Madre',
+                'required' => false,
             ])
             ->add('edadFallecimientoHermanos', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Hermanos',
+                'required' => false,
             ])
             ->add('causaMuertePadre', TextareaType::class, [
                 'label' => 'Causa Muerte Padre',
+                'required' => false,
             ])
             ->add('causaMuerteMadre', TextareaType::class, [
                 'label' => 'Causa Muerte Madre',
+                'required' => false,
             ])
             ->add('causaMuerteHermanos', TextareaType::class, [
                 'label' => 'Causa Muerte Hermanos',
+                'required' => false,
             ])
             ->add('diabetes', ChoiceType::class, [
                 'label' => 'Diabetes',
@@ -107,6 +114,7 @@ class HistorialFamiliarType extends AbstractType
             ])
             ->add('tipoCancer', TextareaType::class, [
                 'label' => 'Tipo de Cáncer',
+                'required' => false,
             ])
             ->add('enfermedadRenalCronica', ChoiceType::class, [
                 'label' => 'Enfermedad Renal Crónica',
@@ -117,6 +125,7 @@ class HistorialFamiliarType extends AbstractType
             ])
             ->add('otraEnfermedadCronica', TextareaType::class, [
                 'label' => 'Otra Enfermedad Crónica',
+                'required' => false,
             ]);
     }
 

@@ -15,7 +15,7 @@
                 <a href="{{ path('historial_familiar_edit', {'id': data.historial_familiar[0].id}) }}" class="btn btn-primary">Editar Historial Familiar</a>
             {% endif %}
             {% if data.historial_familiar is empty %}
-                <p>Sin datos</p>
+                <p class="mt-3">Sin datos</p>
             {% else %}
                 <table class="table table-striped">
                     <thead class="text-center">
@@ -31,7 +31,7 @@
                             <tr>
                                 <td>{{ historial.padreVivo ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.madreVivo ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.hermanos }}</td>
+                                <td>{{ historial.hermanos ? historial.hermanos : 'N/A' }}</td>
                                 <td>{{ historial.hermanosVivos ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
@@ -43,8 +43,8 @@
                             <tr>
                                 <td>{{ historial.hijos }}</td>
                                 <td>{{ historial.hijosVivos ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.edadFallecimientoHijos }}</td>
-                                <td>{{ historial.edadFallecimientoPadre }}</td>
+                                <td>{{ historial.edadFallecimientoHijos ? historial.edadFallecimientoHijos : 'N/A' }}</td>
+                                <td>{{ historial.edadFallecimientoPadre ? historial.edadFallecimientoPadre : 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <th>Edad Fallecimiento Madre</th>
@@ -53,10 +53,10 @@
                                 <th>Causa Muerte Madre</th>
                             </tr>
                             <tr>
-                                <td>{{ historial.edadFallecimientoMadre }}</td>
-                                <td>{{ historial.edadFallecimientoHermanos }}</td>
-                                <td>{{ historial.causaMuertePadre }}</td>
-                                <td>{{ historial.causaMuerteMadre }}</td>
+                                <td>{{ historial.edadFallecimientoMadre ? historial.edadFallecimientoMadre : 'N/A' }}</td>
+                                <td>{{ historial.edadFallecimientoHermanos ? historial.edadFallecimientoHermanos : 'N/A'}}</td>
+                                <td>{{ historial.causaMuertePadre ? historial.causaMuertePadre : 'N/A'}}</td>
+                                <td>{{ historial.causaMuerteMadre ? historial.causaMuerteMadre : 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <th>Causa Muerte Hermanos</th>
@@ -65,7 +65,7 @@
                                 <th>Hipertensión</th>
                             </tr>
                             <tr>
-                                <td>{{ historial.causaMuerteHermanos }}</td>
+                                <td>{{ historial.causaMuerteHermanos ? historial.causaMuerteHermanos : 'N/A' }}</td>
                                 <td>{{ historial.diabetes ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.enfermedadCardiaca ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.hipertension ? 'Sí' : 'No' }}</td>
@@ -79,14 +79,16 @@
                             <tr>
                                 <td>{{ historial.enfermedadMetabolica ? 'Sí' : 'No' }}</td>
                                 <td>{{ historial.cancer ? 'Sí' : 'No' }}</td>
-                                <td>{{ historial.tipoCancer }}</td>
+                                <td>{{ historial.tipoCancer ? historial.tipoCancer : 'N/A' }}</td>
                                 <td>{{ historial.enfermedadRenalCronica ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
                                 <th>Otra Enfermedad Crónica</th>
+                                <th>Fecha </th>
                             </tr>
                             <tr>
-                                <td>{{ historial.otraEnfermedadCronica }}</td>
+                                <td>{{ historial.otraEnfermedadCronica ? historial.otraEnfermedadCronica : 'N/A' }}</td>
+                                 <td>{{ historial.actualizadoEn ? historial.actualizadoEn|date('d-m-Y H:i') : historial.creadoEn|date('d-m-Y H:i') }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
