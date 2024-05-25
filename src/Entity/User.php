@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Ya existe una cuenta con ese email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -125,7 +125,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
      *
      * @see UserInterface
      */
@@ -142,7 +141,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         if (!$this->isActive || $this->eliminado) {
@@ -179,8 +177,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     /**
@@ -195,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->pacientes->contains($paciente)) {
             $this->pacientes->add($paciente);
-            $paciente->setSanitarioAsignado($this); // modificación para evitar creación de propiedades dinámicas
+            $paciente->setSanitarioAsignado($this);
         }
         return $this;
     }
@@ -203,7 +199,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePaciente(Paciente $paciente): static
     {
         if ($this->pacientes->removeElement($paciente)) {
-            // set the owning side to null (unless already changed)
             if ($paciente->getSanitarioAsignado() === $this) {
                 $paciente->setSanitarioAsignado(null);
             }
@@ -215,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->updatedPacientes->contains($paciente)) {
             $this->updatedPacientes->add($paciente);
-            $paciente->setUpdatedBy($this); // modificación para evitar creación de propiedades dinámicas
+            $paciente->setUpdatedBy($this);
         }
         return $this;
     }
@@ -302,7 +297,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeHistorialClinicosCreado(HistorialClinico $historialClinico): static
     {
         if ($this->historialClinicosCreado->removeElement($historialClinico)) {
-            // set the owning side to null (unless already changed)
             if ($historialClinico->getCreadoPor() === $this) {
                 $historialClinico->setCreadoPor(null);
             }
@@ -332,7 +326,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeHistorialClinicosActualizado(HistorialClinico $historialClinico): static
     {
         if ($this->historialClinicosActualizado->removeElement($historialClinico)) {
-            // set the owning side to null (unless already changed)
             if ($historialClinico->getActualizadoPor() === $this) {
                 $historialClinico->setActualizadoPor(null);
             }

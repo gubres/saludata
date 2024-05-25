@@ -81,6 +81,9 @@
     .btn-print {
         margin-right: 0 !important;
     }
+    .content {
+        flex: 1;
+    }
     </style>
     {% endblock %}
 
@@ -185,8 +188,7 @@
 </nav>
 {% endblock %}
 
-<body style="display: flex; flex-direction: column; min-height: 100vh;">
-    <div style="flex-grow: 1;">
+ <div class="content">
         {% block body %}
         
         {% for message in app.flashes('error') %}
@@ -197,6 +199,7 @@
 
         {% endblock %}
     </div>
+
 
     {% block footer %}
     <div class="footer bg-customf text-white mt-5" style="flex-shrink: 0;">

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Iniciar sesión!{% endblock %}
+{% block title %}Iniciar sesión{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -57,6 +57,11 @@
         <div class="card login-card">
             <div class="card-body">
                 <h1 class="h3 mb-3 font-weight-normal text-center">Por favor, inicia sesión</h1>
+                
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">{{ error }}</div>
+                {% endif %}
+                
                 <form action="{{ path('app_login') }}" method="post">
                     <div class="form-group mb-3">
                         <label for="username">Email</label>

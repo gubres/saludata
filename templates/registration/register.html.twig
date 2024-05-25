@@ -1,19 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registrar{% endblock %}
+{% block title %}Registrar usuario{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <style>
         .register-container {
-            max-width: 800px;
+            max-width: 600px;
             margin: auto;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
 
         .register-card {
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+             max-height: 80%;
         }
 
         .form-group label {
@@ -38,20 +41,23 @@
             color: #0056b3;
             text-decoration: underline;
         }
+        .vh-100 {
+            min-height: 100vh;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
 <div class="container d-flex justify-content-center align-items-center vh-100 mt-5">
     <div class="register-container">
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
-
         <div class="card register-card">
             <div class="card-body">
                 <h1 class="h3 mb-3 font-weight-normal text-center">Nuevo Usuario</h1>
-
+        
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% endfor %}
+                
                 {{ form_start(registrationForm, {'attr': {'class': 'form-horizontal'}}) }}
 
                 <div class="form-group mb-3">
@@ -96,7 +102,6 @@
                     <label class="form-check-label">
                         Concordar con los <a href="https://saludata.es/politica-de-privacidad/" target="_blank" class="link-primary">términos de servicio</a>
                     </label>
-                    {{ form_errors(registrationForm.agreeTerms) }}
                 </div>
 
                 <div class="d-grid">

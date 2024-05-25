@@ -2,10 +2,9 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VacunaRepository;
-use Symfony\Component\Validator\Constraints as Assert;
-use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: VacunaRepository::class)]
 class Vacuna
