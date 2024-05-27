@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gráficos de Citas
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5 pt-5">
+		<h2 class="text-center">Gráficos de Citas</h2>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card my-4">
+					<div class="card-header">
+						Evolución de Citas por Mes
+					</div>
+					<div class="card-body">
+						<canvas id="evolucionCitasChart"></canvas>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card my-4">
+					<div class="card-header">
+						Citas por sanitario
+					</div>
+					<div class="card-body">
+						<canvas id="citasPorUsuarioChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		if (!window.location.hash.includes('reloaded')) {
+window.location.hash = '#reloaded';
+window.location.reload();
+}
+	</script>
+	<!-- Incluye Chart.js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- Incluye chartjs-adapter-date-fns -->
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+	<!-- Incluye date-fns locale -->
+	<script src="https://cdn.jsdelivr.net/npm/date-fns@2.21.1/locale/es/index.js"></script>
+
+	<script>
+		window.addEventListener('load', function () { // Configurar la localización para date-fns
+const locale = window.dateFnsLocale_es;
+
+// Gráfico de evolución de citas
+var ctx1 = document.getElementById('evolucionCitasChart').getContext('2d');
+var evolucionCitasChart = new Chart(ctx1, {
+type: 'line',
+data: {
+labels: {{ fechas|json_encode|raw }},
+datasets: [
+{
+label: 'Citas por Mes',
+data: {{ cantidadCitasPorFecha|json_encode|raw }},
+borderColor: 'rgba(75, 192, 192, 1)',
+backgroundColor: 'rgba(75, 192, 192, 0.2)',
+fill: true,
+tension: 0.4
+}
+]
+},
+options: {
+responsive: true,
+scales: {
+x: {
+type: 'time',
+time: {
+unit: 'month',
+tooltipFormat: 'MMM yyyy'
+},
+adapters: {
+date: {
+locale: locale
+}
+},
+title: {
+display: true,
+text: 'Fecha'
+}
+},
+y: {
+title: {
+display: true,
+text: 'Cantidad de citas'
+},
+beginAtZero: true
+}
+},
+plugins: {
+legend: {
+display: true,
+position: 'top'
+},
+tooltip: {
+callbacks: {
+label: function (context) {
+return context.raw + ' citas';
+}
+}
+}
+}
+}
+});
+
+// Gráfico de citas por usuario
+var ctx2 = document.getElementById('citasPorUsuarioChart').getContext('2d');
+var citasPorUsuarioChart = new Chart(ctx2, {
+type: 'bar',
+data: {
+labels: {{ usuarios|json_encode|raw }},
+datasets: [
+{
+label: 'Citas por sanitario',
+data: {{ cantidadCitasPorUsuario|json_encode|raw }},
+backgroundColor: 'rgba(153, 102, 255, 0.2)',
+borderColor: 'rgba(153, 102, 255, 1)',
+borderWidth: 1
+}
+]
+},
+options: {
+responsive: true,
+scales: {
+x: {
+title: {
+display: true,
+text: 'Sanitarios'
+},
+maxBarThickness: 30
+},
+y: {
+title: {
+display: true,
+text: 'Cantidad de Citas'
+},
+beginAtZero: true
+}
+},
+plugins: {
+legend: {
+display: true,
+position: 'top'
+},
+tooltip: {
+callbacks: {
+label: function (context) {
+return context.raw + ' citas';
+}
+}
+}
+}
+}
+});
+
+// Ajustar el tamaño de las barras si solo hay un usuario
+if ({{ usuarios|length }} === 1) {
+citasPorUsuarioChart.options.scales.x.barThickness = 30; // Ajustar el grosor de la barra
+citasPorUsuarioChart.update();
+}
+});
+	</script>
+{% endblock %}

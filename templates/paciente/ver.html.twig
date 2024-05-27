@@ -1,95 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Detalles del Paciente{% endblock %}
+{% block title %}Detalles del Paciente
+{% endblock %}
 
 {% block body %}
-<header class="mt-5 pt-5">
-    <div class="container d-flex justify-content-end gap-3">
-        <a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill" title="Volver a la lista">
-            Volver a la lista
-        </a>
-        <a title="Generar informe" href="{{ path('paciente_pdf', {'id': paciente.id}) }}" class="btn btn-danger"> <i class="bi bi-file-earmark-pdf-fill"></i></a>
-        <div class="dropdown" title="Más información">
-            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-info-circle"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" title="Contacto con Soporte" href="{{ path('app_contacto') }}">Contactar Soporte</a>
-            </div>
-        </div>
-    </div>
-</header>
+	<header class="mt-5 pt-5">
+		<div class="container d-flex justify-content-end gap-3">
+			<a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill" title="Volver a la lista">
+				Volver a la lista
+			</a>
+			<a title="Generar informe" href="{{ path('paciente_pdf', {'id': paciente.id}) }}" class="btn btn-danger">
+				<i class="bi bi-file-earmark-pdf-fill"></i>
+			</a>
+			<div class="dropdown" title="Más información">
+				<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-info-circle"></i>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" title="Contacto con Soporte" href="{{ path('app_contacto') }}">Contactar Soporte</a>
+				</div>
+			</div>
+		</div>
+	</header>
 
-<div class="container-fluid mt-3">
-    <div class="row">
-<nav class="col-md-4">
-    <div class="card shadow-sm">
-        <div class="card-header text-center bg-info text-white">
-            <h4>{{ paciente.nombre }} {{ paciente.apellido }}</h4>
-        </div>
-        <div class="card-body text-center">
-            <div class="image-container">
-                <img src="{{ imagen }}" alt="Foto de {{ paciente.nombre }}" class="custom-img rounded-circle">
-            </div>
-            <style>
-                .image-container {
-                    width: 200px;
-                    height: 200px;
-                    margin: 20px auto;
-                    overflow: hidden;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    border: 2px solid #ddd;
-                }
-                .custom-img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                }
-            </style>
-            <h6>Última Visita: {{ paciente.updatedAt ? paciente.updatedAt|date('d-m-Y H:i:s') : 'No disponible' }}</h6>
-            <a href="{{ path('paciente_editar', {'id': paciente.id}) }}" class="btn btn-primary my-3">
-                <i class="fa fa-pencil"></i> Editar Datos
-            </a>
-            <ul class="list-group list-group-flush text-start">
-                <li class="list-group-item"><strong>Edad:</strong> {{ paciente.fechaNacimiento|age }}</li>
-                <li class="list-group-item"><strong>DNI/NIE:</strong> {{ paciente.dni }}</li>
-                <li class="list-group-item"><strong>Profesión:</strong> {{ paciente.profesion }}</li>
-                <li class="list-group-item"><strong>Dirección:</strong> {{ paciente.direccion }}</li>
-                <li class="list-group-item"><strong>Género:</strong> {{ paciente.genero }}</li>
-                <li class="list-group-item"><strong>Estado Civil:</strong> {{ paciente.estadoCivil }}</li>
-                <li class="list-group-item"><strong>Teléfono:</strong> {{ paciente.telefono }}</li>
-                <li class="list-group-item"><strong>Email:</strong> {{ paciente.email }}</li>
-            </ul>
-        </div>
-    </div>
-</nav>
+	<div class="container-fluid mt-3">
+		<div class="row">
+			<nav class="col-md-4">
+				<div class="card shadow-sm">
+					<div class="card-header text-center bg-info text-white">
+						<h4>{{ paciente.nombre }}
+							{{ paciente.apellido }}</h4>
+					</div>
+					<div class="card-body text-center">
+						<div class="image-container">
+							<img src="{{ imagen }}" alt="Foto de {{ paciente.nombre }}" class="custom-img rounded-circle">
+						</div>
+						<style>
+							.image-container {
+								width: 200px;
+								height: 200px;
+								margin: 20px auto;
+								overflow: hidden;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								border-radius: 50%;
+								border: 2px solid #ddd;
+							}
+							.custom-img {
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+								object-position: center;
+							}
+						</style>
+						<h6>Última Visita:
+							{{ paciente.updatedAt ? paciente.updatedAt|date('d-m-Y H:i:s') : 'No disponible' }}</h6>
+						<a href="{{ path('paciente_editar', {'id': paciente.id}) }}" class="btn btn-primary my-3">
+							<i class="fa fa-pencil"></i>
+							Editar Datos
+						</a>
+						<ul class="list-group list-group-flush text-start">
+							<li class="list-group-item">
+								<strong>Edad:</strong>
+								{{ paciente.fechaNacimiento|age }}</li>
+							<li class="list-group-item">
+								<strong>DNI/NIE:</strong>
+								{{ paciente.dni }}</li>
+							<li class="list-group-item">
+								<strong>Profesión:</strong>
+								{{ paciente.profesion }}</li>
+							<li class="list-group-item">
+								<strong>Dirección:</strong>
+								{{ paciente.direccion }}</li>
+							<li class="list-group-item">
+								<strong>Género:</strong>
+								{{ paciente.genero }}</li>
+							<li class="list-group-item">
+								<strong>Estado Civil:</strong>
+								{{ paciente.estadoCivil }}</li>
+							<li class="list-group-item">
+								<strong>Teléfono:</strong>
+								{{ paciente.telefono }}</li>
+							<li class="list-group-item">
+								<strong>Email:</strong>
+								{{ paciente.email }}</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
 
-        <main class="col-md-8">
-        <h4 class="mb-3 alert alert-warning text-center"><i class="bi bi-clipboard2-data"></i> Historial del Paciente</h4>
-            <div class="accordion" id="accordionExample">
-                {% include 'partials/queja_actual.html.twig' %}
-                {% include 'partials/signos_vitales.html.twig' %}
-                {% include 'partials/alergias.html.twig' %}
-                {% include 'partials/vacunas.html.twig' %}
-                {% include 'partials/clasificacion_sanguinea.html.twig' %}
-                {% include 'partials/costumbres.html.twig' %}
-                {% include 'partials/dietas.html.twig' %}
-                {% include 'partials/medicamentos.html.twig' %}
-                {% include 'partials/historial_familiar.html.twig' %}
-                {% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
-                {% include 'partials/examen_cabeza.html.twig' %}
-                {% include 'partials/examen_torax.html.twig' %}
-                {% include 'partials/examen_abdomen.html.twig' %}
-                {% include 'partials/examen_pelvico.html.twig' %}
-                {% include 'partials/examen_miembros_superiores.html.twig' %}
-                {% include 'partials/examen_miembros_inferiores.html.twig' %}
-                {% include 'partials/resultados_pruebas.html.twig' %}
-            </div>
-        </main>
-    </div>
-</div>
-{% endblock %}
+			<main class="col-md-8">
+				<h4 class="mb-3 alert alert-warning text-center">
+					<i class="bi bi-clipboard-pulse"></i>
+				</i>
+				Historial del Paciente</h4>
+			<div class="accordion" id="accordionExample">
+				{% include 'partials/queja_actual.html.twig' %}
+				{% include 'partials/signos_vitales.html.twig' %}
+				{% include 'partials/alergias.html.twig' %}
+				{% include 'partials/vacunas.html.twig' %}
+				{% include 'partials/clasificacion_sanguinea.html.twig' %}
+				{% include 'partials/costumbres.html.twig' %}
+				{% include 'partials/dietas.html.twig' %}
+				{% include 'partials/medicamentos.html.twig' %}
+				{% include 'partials/historial_familiar.html.twig' %}
+				{% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
+				{% include 'partials/examen_cabeza.html.twig' %}
+				{% include 'partials/examen_torax.html.twig' %}
+				{% include 'partials/examen_abdomen.html.twig' %}
+				{% include 'partials/examen_pelvico.html.twig' %}
+				{% include 'partials/examen_miembros_superiores.html.twig' %}
+				{% include 'partials/examen_miembros_inferiores.html.twig' %}
+				{% include 'partials/resultados_pruebas.html.twig' %}
+			</div>
+		</main>
+	</div>
+</div>{% endblock %}

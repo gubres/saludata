@@ -6,7 +6,7 @@
 {% block body %}
 	<style>
 		.btn {
-			width: 25%;
+			width: 60px;
 			background-color: #ddd;
 		}
 		.bg-custom {
@@ -32,7 +32,6 @@
 						</thead>
 						<tbody class="text-center"></tbody>
 					</table>
-
 				</article>
 			</section>
 		</main>
@@ -41,15 +40,6 @@
 	<script>
 
 		$(document).ready(function () {
-$('#registerPatientModal').on('show.bs.modal', function (e) { // resetea el formulario completo dejando sin datos
-$('#registerPatientForm').trigger('reset');
-});
-
-// cuando el modal está completamente abierto enfoca el primer campo
-$('#registerPatientModal').on('shown.bs.modal', function (e) {
-$('#registerPatientForm input:first').focus();
-});
-
 var pacientesTabla = $('#pacientesTabla').DataTable({
 "processing": false,
 "serverSide": false,

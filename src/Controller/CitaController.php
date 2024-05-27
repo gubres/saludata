@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use DateTimeZone;
 use App\Entity\Cita;
-use App\Form\CitaType;
 use App\Entity\Paciente;
 use App\Repository\CitaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,13 +42,21 @@ class CitaController extends AbstractController
     }
 
     #[Route('/citas/ajax/add', name: 'citas_ajax_add', methods: ['POST'])]
-    public function ajaxAdd(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function ajaxAdd(Request $request, EntityManagerInterface $entityManager, CitaRepository $citaRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         $paciente = $entityManager->getRepository(Paciente::class)->findOneBy(['dni' => $data['dni']]);
         if (!$paciente) {
             return new JsonResponse(['error' => 'Paciente no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Verificar si ya existe una cita para el mismo horario
+        $fechaCita = new \DateTime($data['start'], new DateTimeZone('Europe/Madrid'));
+        $citaExistente = $citaRepository->findOneBy(['paciente' => $paciente, 'fechaCita' => $fechaCita]);
+
+        if ($citaExistente) {
+            return new JsonResponse(['error' => 'El horario seleccionado no está disponible'], Response::HTTP_CONFLICT);
         }
 
         $cita = new Cita();
@@ -111,5 +118,70 @@ class CitaController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['success' => 'Cita eliminada'], Response::HTTP_OK);
+    }
+
+    #[Route('/citas/historial', name: 'citas_historial', methods: ['GET'])]
+    public function historial(CitaRepository $citaRepository, Request $request): Response
+    {
+        if ($request->isXmlHttpRequest()) {
+            $citas = $citaRepository->findAll();
+            $data = [];
+
+            foreach ($citas as $cita) {
+                $data[] = [
+                    'id' => $cita->getId(),
+                    'paciente' => [
+                        'nombre' => $cita->getPaciente()->getNombre(),
+                        'dni' => $cita->getPaciente()->getDni(),
+                    ],
+                    'fechaCita' => $cita->getFechaCita()->format('Y-m-d H:i'),
+                    'creadoPor' => [
+                        'email' => $cita->getCreadoPor() ? $cita->getCreadoPor()->getEmail() : 'Desconocido',
+                    ],
+                    'fechaCreacion' => $cita->getFechaCreacion()->format('Y-m-d H:i'),
+                    'eliminado' => $cita->isEliminado() ? 'Sí' : 'No',
+                ];
+            }
+
+            return new JsonResponse(['data' => $data]);
+        }
+
+        return $this->render('citas/historial.html.twig');
+    }
+
+    #[Route('/citas/graficos', name: 'citas_graficos')]
+    public function graficos(CitaRepository $citaRepository): Response
+    {
+        $citas = $citaRepository->findBy(['eliminado' => false]);
+        $citasPorFecha = [];
+        $citasPorUsuario = [];
+
+        foreach ($citas as $cita) {
+            $fecha = $cita->getFechaCita()->format('Y-m');
+            $usuario = $cita->getCreadoPor() ? $cita->getCreadoPor()->getNombre() : 'Desconocido';
+
+            if (!isset($citasPorFecha[$fecha])) {
+                $citasPorFecha[$fecha] = 0;
+            }
+            $citasPorFecha[$fecha]++;
+
+            if (!isset($citasPorUsuario[$usuario])) {
+                $citasPorUsuario[$usuario] = 0;
+            }
+            $citasPorUsuario[$usuario]++;
+        }
+
+        // Convertir los datos a arreglos de claves y valores para la plantilla
+        $fechas = array_keys($citasPorFecha);
+        $cantidadCitasPorFecha = array_values($citasPorFecha);
+        $usuarios = array_keys($citasPorUsuario);
+        $cantidadCitasPorUsuario = array_values($citasPorUsuario);
+
+        return $this->render('citas/graficos.html.twig', [
+            'fechas' => $fechas,
+            'cantidadCitasPorFecha' => $cantidadCitasPorFecha,
+            'usuarios' => $usuarios,
+            'cantidadCitasPorUsuario' => $cantidadCitasPorUsuario,
+        ]);
     }
 }

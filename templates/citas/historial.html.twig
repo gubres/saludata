@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historial de Citas
+{% endblock %}
+
+{% block body %}
+
+	<style>
+		.btn {
+			width: 60px;
+			background-color: #ddd;
+		}
+		.bg-custom {
+			background-color: #1db1bc !important;
+		}
+	</style>
+	<main class="flex-1 pt-3 mt-3">
+		<section class="container py-4 px-5 lg:px-20">
+			<article class="text-center">
+				<h2 class="mt-5 mb-3 text-center">Historial de Citas</h2>
+				<table id="citasTabla" class="table table-hover">
+					<thead class="bg-custom">
+						<tr>
+							<th class="text-center text-white">ID</th>
+							<th class="text-center text-white">Nombre del Paciente</th>
+							<th class="text-center text-white">DNI</th>
+							<th class="text-center text-white">Fecha y Hora de la Cita</th>
+							<th class="text-center text-white">Creado por</th>
+							<th class="text-center text-white">Fecha de Creación</th>
+							<th class="text-center text-white">Eliminado</th>
+						</tr>
+					</thead>
+					<tbody class="text-center"></tbody>
+				</table>
+			</article>
+		</section>
+	</main>
+	<script>
+		$(document).ready(function () {
+$('#citasTabla').DataTable({
+"processing": true,
+"serverSide": false,
+
+"ajax": {
+"url": "{{ path('citas_historial') }}",
+"dataSrc": "data"
+},
+"columns": [
+{
+"data": "id",
+"className": "text-center"
+},
+{
+"data": "paciente.nombre"
+},
+{
+"data": "paciente.dni"
+},
+{
+"data": "fechaCita"
+}, {
+"data": "creadoPor.email"
+}, {
+"data": "fechaCreacion"
+}, {
+"data": "eliminado"
+}
+],
+"language": {
+"decimal": "",
+"emptyTable": "No hay información disponible",
+"info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+"infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+"infoFiltered": "(filtrado de un total de _MAX_ entradas)",
+"infoPostFix": "",
+"thousands": ",",
+"lengthMenu": "Mostrar _MENU_ entradas",
+"loadingRecords": "Cargando...",
+"processing": "Procesando...",
+"search": "Buscar:",
+"zeroRecords": "No se encontraron registros coincidentes",
+"select": {
+"rows": {
+"_": "%d filas seleccionadas",
+"0": "Haz clic en una fila para seleccionarla",
+"1": "1 fila seleccionada"
+}
+}
+}
+});
+});
+	</script>
+{% endblock %}

@@ -1,221 +1,274 @@
-{# templates/cita/calendar.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Calendario de Citas{% endblock %}
+{% block title %}Calendario de Citas
+{% endblock %}
 
 {% block body %}
-<div id="calendar-container" class="calendar-container mt-5 pt-5">
-    <h2 class="text-center">Calendario de Citas</h2>
-    <p class="text-center"><mark> Cada cita solo puede ser modificada una única vez. Si necesario más cambios, eliminar la cita y crear una nueva </mark></p>
-    <div id="calendar"></div>
-</div>
+	<div id="calendar-container" class="calendar-container mt-5 pt-5">
+		<h2 class="text-center">Calendario de Citas</h2>
+		<p class="text-center">
+			<mark>
+				Cada cita solo puede ser modificada una única vez. Si necesario más cambios, eliminar la cita y crear una nueva
+			</mark>
+		</p>
+		<div id="calendar"></div>
+	</div>
 
-<!-- Modal para agregar cita -->
-<div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addEventModalLabel">Agregar Cita</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addEventForm">
-                    <div class="mb-3">
-                        <label for="eventDni" class="form-label">DNI del paciente</label>
-                        <input type="text" class="form-control" id="eventDni" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="eventDate" class="form-label">Fecha de la cita</label>
-                        <input type="date" class="form-control" id="eventDate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="eventTime" class="form-label">Hora de la cita</label>
-                        <input type="time" class="form-control" id="eventTime" required>
-                    </div>
-                    <input type="hidden" id="eventAllDay">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- Modal para agregar cita -->
+	<div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addEventModalLabel">Agregar Cita</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="addEventForm">
+						<div class="mb-3 form-control">
+							<label for="eventDni" class="form-label">DNI del paciente</label>
+							<input type="text" class="form-control" id="eventDni" required>
+						</div>
+						<div class="mb-3 form-control">
+							<label for="eventDate" class="form-label">Fecha de la cita</label>
+							<input type="date" class="form-control" id="eventDate" required>
+						</div>
+						<div class="mb-3 form-control">
+							<label for="eventTime" class="form-label">Hora de la cita</label>
+							<select
+								class="form-control" id="eventTime" required><!-- Las opciones de tiempo se generarán dinámicamente -->
+							</select>
+						</div>
+						<input type="hidden" id="eventAllDay">
+						<button type="submit" class="btn btn-primary">Guardar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<!-- Modal para mostrar detalles de la cita -->
-<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventDetailsModalLabel">Detalles de la Cita</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Nombre del paciente:</strong> <span id="eventTitleDetails"></span></p>
-                <p><strong>DNI del paciente:</strong> <span id="eventDniDetails"></span></p>
-                <p><strong>Fecha y Hora:</strong> <span id="eventDateTimeDetails"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="deleteButtonInDetails">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- Modal para mostrar errores -->
+	<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div
+					class="modal-body" id="errorMessage"><!-- El mensaje de error se insertará aquí -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<!-- Modal para eliminar cita -->
-<div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteEventModalLabel">Eliminar Cita</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que quieres eliminar esta cita?</p>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
+	<!-- Modal para mostrar detalles de la cita -->
+	<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="eventDetailsModalLabel">Detalles de la Cita</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>
+						<strong>Nombre del paciente:</strong>
+						<span id="eventTitleDetails"></span>
+					</p>
+					<p>
+						<strong>DNI del paciente:</strong>
+						<span id="eventDniDetails"></span>
+					</p>
+					<p>
+						<strong>Fecha y Hora:</strong>
+						<span id="eventDateTimeDetails"></span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="deleteButtonInDetails">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<style>
-    .calendar-container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    #calendar {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-</style>
+	<!-- Modal para eliminar cita -->
+	<div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteEventModalLabel">Eliminar Cita</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>¿Estás seguro de que quieres eliminar esta cita?</p>
+					<button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<style>
+		.calendar-container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		#calendar {
+			max-width: 900px;
+			margin: 0 auto;
+		}
+	</style>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales/es.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales/es.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
-            var deleteEventModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
-            var eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
-            var eventToDelete;
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('calendar');
+var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
+var deleteEventModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
+var eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+var eventToDelete;
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'es', // Establecer el idioma a español
-                events: {{ events|raw }}, // Insertar eventos en formato JSON
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                editable: true,
-                selectable: true,
-                selectMirror: true,
-                dayMaxEvents: true, // allow "more" link when too many events
+function generateTimeOptions() {
+var select = document.getElementById('eventTime');
+select.innerHTML = '';
 
-                select: function(info) {
-                    document.getElementById('eventDni').value = '';
-                    document.getElementById('eventDate').value = info.startStr.split('T')[0];
-                    document.getElementById('eventTime').value = '';
-                    document.getElementById('eventAllDay').value = info.allDay;
-                    addEventModal.show();
-                    calendar.unselect();
-                },
+var startHour = 7;
+var endHour = 20;
+var intervalMinutes = 20;
 
-                eventClick: function(info) {
-                    var event = info.event;
-                    eventToDelete = event;
-                    document.getElementById('eventTitleDetails').innerText = event.title;
-                    document.getElementById('eventDniDetails').innerText = event.extendedProps.dni;
-                    document.getElementById('eventDateTimeDetails').innerText = event.start.toLocaleString();
-                    eventDetailsModal.show();
-                },
+for (var hour = startHour; hour < endHour; hour++) {
+for (var minute = 0; minute < 60; minute += intervalMinutes) {
+var time = ('0' + hour).slice(-2) + ':' + (
+'0' + minute
+).slice(-2);
+var option = document.createElement('option');
+option.value = time;
+option.textContent = time;
+select.appendChild(option);
+}
+}
+}
 
-                eventDrop: function(info) {
-                    updateEvent(info.event);
-                },
+generateTimeOptions();
 
-                eventResize: function(info) {
-                    updateEvent(info.event);
-                },
-            });
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+locale: 'es', // Establecer el idioma a español
+events: {{ events|raw }}, // Insertar eventos en formato JSON
+headerToolbar: {
+left: 'prev,next today',
+center: 'title',
+right: 'dayGridMonth,timeGridWeek,timeGridDay'
+},
+editable: true,
+selectable: true,
+selectMirror: true,
+dayMaxEvents: true, // allow "more" link when too many events
 
-            document.getElementById('addEventForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                var dni = document.getElementById('eventDni').value;
-                var date = document.getElementById('eventDate').value;
-                var time = document.getElementById('eventTime').value;
-                var start = date + 'T' + time;
-                var end = new Date(new Date(start).getTime() + 30*60000).toISOString(); // Agrega 30 minutos
-                var allDay = document.getElementById('eventAllDay').value === 'true';
+select: function (info) {
+document.getElementById('eventDni').value = '';
+document.getElementById('eventDate').value = info.startStr.split('T')[0];
+document.getElementById('eventTime').value = '';
+document.getElementById('eventAllDay').value = info.allDay;
+addEventModal.show();
+calendar.unselect();
+},
 
-                fetch('{{ ajax_add_url }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        start: start,
-                        end: end,
-                        allDay: allDay,
-                        dni: dni
-                    })
-                })
-                .then(response => response.json())
-                .then(event => {
-                    calendar.addEvent(event);
-                    addEventModal.hide();
-                });
-            });
+eventClick: function (info) {
+var event = info.event;
+eventToDelete = event;
+document.getElementById('eventTitleDetails').innerText = event.title;
+document.getElementById('eventDniDetails').innerText = event.extendedProps.dni;
+document.getElementById('eventDateTimeDetails').innerText = event.start.toLocaleString();
+eventDetailsModal.show();
+},
 
-            document.getElementById('deleteButtonInDetails').addEventListener('click', function() {
-                eventDetailsModal.hide();
-                deleteEventModal.show();
-            });
+eventDrop: function (info) {
+updateEvent(info.event);
+},
 
-            document.getElementById('confirmDelete').addEventListener('click', function() {
-                var deleteUrl = '{{ ajax_delete_url }}'.replace('EVENT_ID', eventToDelete.id);
-                fetch(deleteUrl, {
-                    method: 'DELETE',
-                })
-                .then(response => {
-                    if (response.ok) {
-                        eventToDelete.remove();
-                        deleteEventModal.hide();
-                    }
-                });
-            });
+eventResize: function (info) {
+updateEvent(info.event);
+}
+});
 
-            function updateEvent(event) {
-                var updateUrl = '{{ ajax_update_url }}'.replace('EVENT_ID', event.id);
-                fetch(updateUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        start: event.start.toISOString(),
-                        end: event.end ? event.end.toISOString() : null
-                    })
-                }).then(response => {
-                    if (response.ok) {
-                        // Actualiza el evento en el calendario después de la primera modificación
-                        event.setDates(event.start, event.end);
-                    } else {
-                        // Handle the case when the update fails
-                        alert('Error al actualizar el evento');
-                    }
-                });
-            }
+document.getElementById('addEventForm').addEventListener('submit', function (e) {
+e.preventDefault();
+var dni = document.getElementById('eventDni').value;
+var date = document.getElementById('eventDate').value;
+var time = document.getElementById('eventTime').value;
+var start = date + 'T' + time;
+var end = new Date(new Date(start).getTime() + 30 * 60000).toISOString(); // Agrega 30 minutos
+var allDay = document.getElementById('eventAllDay').value === 'true';
 
-            calendar.render();
-        });
-    </script>
+fetch('{{ ajax_add_url }}', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(
+{start: start, end: end, allDay: allDay, dni: dni}
+)
+}).then(response => response.json()).then(event => {
+if (event.error) {
+document.getElementById('errorMessage').innerText = event.error;
+errorModal.show();
+} else {
+calendar.addEvent(event);
+addEventModal.hide();
+}
+});
+});
+
+document.getElementById('deleteButtonInDetails').addEventListener('click', function () {
+eventDetailsModal.hide();
+deleteEventModal.show();
+});
+
+document.getElementById('confirmDelete').addEventListener('click', function () {
+var deleteUrl = '{{ ajax_delete_url }}'.replace('EVENT_ID', eventToDelete.id);
+fetch(deleteUrl, {method: 'DELETE'}).then(response => {
+if (response.ok) {
+eventToDelete.remove();
+deleteEventModal.hide();
+}
+});
+});
+
+function updateEvent(event) {
+var updateUrl = '{{ ajax_update_url }}'.replace('EVENT_ID', event.id);
+fetch(updateUrl, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(
+{
+start: event.start.toISOString(),
+end: event.end ? event.end.toISOString() : null
+}
+)
+}).then(response => {
+if (response.ok) { // Actualiza el evento en el calendario después de la primera modificación
+event.setDates(event.start, event.end);
+} else { // Handle the case when the update fails
+alert('Error al actualizar el evento');
+}
+});
+}
+
+calendar.render();
+});
+	</script>
 {% endblock %}
