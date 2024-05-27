@@ -1,91 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard
+{% endblock %}
 
 {% block body %}
-<style>
-.bg-custom {
-    background-color: #1db1bc !important;
-}
-</style>
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-<main class="flex-1 pt-3 mt-3">
-<section class="container py-4 px-5 lg:px-20">
- <article class="text-center">
-    <h2 class="mt-5 mb-3 text-center">LISTADO DE PACIENTES</h2>
-    <table id="pacientesTabla" class="table table-hover ">
-         <thead class="bg-custom">
-            <tr>
-                <th class="text-center text-white">ID</th>
-                <th class="text-center text-white">DNI</th>
-                <th class="text-center text-white">NOMBRE</th>
-                <th class="text-center text-white">APELLIDOS</th>
-                <th class="text-center text-white"> ACCIONES </th>
-            </tr> 
-        </thead>
-        <tbody class="text-center">
+	<style>
+		.btn {
+			width: 25%;
+			background-color: #ddd;
+		}
+		.bg-custom {
+			background-color: #1db1bc !important;
+		}
+	</style>
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<main class="flex-1 pt-3 mt-3">
+			<section class="container py-4 px-5 lg:px-20">
+				<article class="text-center">
+					<h2 class="mt-5 mb-3 text-center">LISTADO DE PACIENTES</h2>
+					<table id="pacientesTabla" class="table table-hover ">
+						<thead class="bg-custom">
+							<tr>
+								<th class="text-center text-white">ID</th>
+								<th class="text-center text-white">DNI</th>
+								<th class="text-center text-white">NOMBRE</th>
+								<th class="text-center text-white">APELLIDOS</th>
+								<th class="text-center text-white">
+									ACCIONES
+								</th>
+							</tr>
+						</thead>
+						<tbody class="text-center"></tbody>
+					</table>
 
-        </tbody>
-    </table>
+				</article>
+			</section>
+		</main>
+	{% endif %}
 
-</article>
-</section>
-</main>
-{% endif %}
+	<script>
 
-<script>
-
-$(document).ready(function() {
-            $('#registerPatientModal').on('show.bs.modal', function(e) {
-            // resetea el formulario completo dejando sin datos
-            $('#registerPatientForm').trigger('reset');
-        });
-
-        // cuando el modal está completamente abierto enfoca el primer campo
-        $('#registerPatientModal').on('shown.bs.modal', function(e) {
-            $('#registerPatientForm input:first').focus();
-        });
-
-    var pacientesTabla = $('#pacientesTabla').DataTable({
-        "processing": false,
-        "serverSide": false,
-        "autoWidth": false,
-        "ajax": {
-            "url": "{{ path('perfil_data') }}"
-        },
-        "columns": [
-                { "data": "id",
-                "className": "text-center" },
-                { "data": "dni" },
-                { "data": "nombre" },
-                { "data": "apellidos" },
-                { "data": "acciones", "className": "text-center", "orderable": false },
-        ],
-                        "language": {
-                    "decimal": "",
-                    "emptyTable": "No hay información disponible",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
-                    "infoFiltered": "(filtrado de un total de _MAX_ entradas)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Mostrar _MENU_ entradas",
-                    "loadingRecords": "Cargando...",
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "zeroRecords": "No se encontraron registros coincidentes",
-                    "select": {
-                        "rows": {
-                            "_": "%d filas seleccionadas",
-                            "0": "Haz clic en una fila para seleccionarla",
-                            "1": "1 fila seleccionada"
-                        }
-                    },
-                },
-       });
+		$(document).ready(function () {
+$('#registerPatientModal').on('show.bs.modal', function (e) { // resetea el formulario completo dejando sin datos
+$('#registerPatientForm').trigger('reset');
 });
 
+// cuando el modal está completamente abierto enfoca el primer campo
+$('#registerPatientModal').on('shown.bs.modal', function (e) {
+$('#registerPatientForm input:first').focus();
+});
 
-</script>
+var pacientesTabla = $('#pacientesTabla').DataTable({
+"processing": false,
+"serverSide": false,
+"autoWidth": false,
+"ajax": {
+"url": "{{ path('perfil_data') }}"
+},
+"columns": [
+{
+"data": "id",
+"className": "text-center"
+},
+{
+"data": "dni"
+},
+{
+"data": "nombre"
+},
+{
+"data": "apellidos"
+}, {
+"data": "acciones",
+"className": "text-center",
+"orderable": false
+},
+],
+"language": {
+"decimal": "",
+"emptyTable": "No hay información disponible",
+"info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+"infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+"infoFiltered": "(filtrado de un total de _MAX_ entradas)",
+"infoPostFix": "",
+"thousands": ",",
+"lengthMenu": "Mostrar _MENU_ entradas",
+"loadingRecords": "Cargando...",
+"processing": "Procesando...",
+"search": "Buscar:",
+"zeroRecords": "No se encontraron registros coincidentes",
+"select": {
+"rows": {
+"_": "%d filas seleccionadas",
+"0": "Haz clic en una fila para seleccionarla",
+"1": "1 fila seleccionada"
+}
+}
+}
+});
+});
+	</script>
 
 {% endblock %}

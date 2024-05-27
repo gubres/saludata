@@ -25,10 +25,11 @@ class CitaController extends AbstractController
         foreach ($citas as $cita) {
             if (!$cita->isEliminado()) {
                 $events[] = [
-                    'id' => $cita->getId(), // modificado aquí para incluir el ID del evento
-                    'title' => 'Cita con ' . $cita->getPaciente()->getNombre(),
-                    'start' => $cita->getFechaCita()->format('Y-m-d\TH:i:s'),
-                    'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i:s'), // modificado aquí para ajustar la duración a 30 minutos
+                    'id' => $cita->getId(),
+                    'title' => $cita->getPaciente()->getNombre(),
+                    'dni' => $cita->getPaciente()->getDni(),
+                    'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
+                    'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
                 ];
             }
         }
@@ -62,9 +63,10 @@ class CitaController extends AbstractController
 
         $event = [
             'id' => $cita->getId(),
-            'title' => 'Cita con ' . $cita->getPaciente()->getNombre(),
-            'start' => $cita->getFechaCita()->format('Y-m-d\TH:i:s'),
-            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i:s'), // modificado aquí para ajustar la duración a 30 minutos
+            'title' => $cita->getPaciente()->getNombre(),
+            'dni' => $cita->getPaciente()->getDni(),
+            'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
+            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
         ];
 
         return new JsonResponse($event, Response::HTTP_CREATED);
@@ -87,9 +89,10 @@ class CitaController extends AbstractController
 
         $event = [
             'id' => $cita->getId(),
-            'title' => 'Cita con ' . $cita->getPaciente()->getNombre(),
-            'start' => $cita->getFechaCita()->format('Y-m-d\TH:i:s'),
-            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i:s'), // modificado aquí para ajustar la duración a 30 minutos
+            'title' => $cita->getPaciente()->getNombre(),
+            'dni' => $cita->getPaciente()->getDni(),
+            'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
+            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
         ];
 
         return new JsonResponse($event, Response::HTTP_OK);

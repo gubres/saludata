@@ -32,6 +32,10 @@ class MedicamentoType extends AbstractType
             ])
             ->add('prescripcionMedica', ChoiceType::class, [
                 'label' => 'Prescripción Médica',
+                'choices' => [
+                    'Sí' => true,
+                    'No' => false,
+                ],
             ]);
     }
 

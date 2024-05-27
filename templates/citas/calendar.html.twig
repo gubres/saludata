@@ -22,10 +22,6 @@
             <div class="modal-body">
                 <form id="addEventForm">
                     <div class="mb-3">
-                        <label for="eventTitle" class="form-label">Nombre del paciente</label>
-                        <input type="text" class="form-control" id="eventTitle" required>
-                    </div>
-                    <div class="mb-3">
                         <label for="eventDni" class="form-label">DNI del paciente</label>
                         <input type="text" class="form-control" id="eventDni" required>
                     </div>
@@ -40,6 +36,27 @@
                     <input type="hidden" id="eventAllDay">
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar detalles de la cita -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailsModalLabel">Detalles de la Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nombre del paciente:</strong> <span id="eventTitleDetails"></span></p>
+                <p><strong>DNI del paciente:</strong> <span id="eventDniDetails"></span></p>
+                <p><strong>Fecha y Hora:</strong> <span id="eventDateTimeDetails"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="deleteButtonInDetails">Eliminar</button>
             </div>
         </div>
     </div>
@@ -86,6 +103,7 @@
             var calendarEl = document.getElementById('calendar');
             var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
             var deleteEventModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
+            var eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
             var eventToDelete;
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -103,7 +121,6 @@
                 dayMaxEvents: true, // allow "more" link when too many events
 
                 select: function(info) {
-                    document.getElementById('eventTitle').value = '';
                     document.getElementById('eventDni').value = '';
                     document.getElementById('eventDate').value = info.startStr.split('T')[0];
                     document.getElementById('eventTime').value = '';
@@ -113,8 +130,12 @@
                 },
 
                 eventClick: function(info) {
-                    eventToDelete = info.event;
-                    deleteEventModal.show();
+                    var event = info.event;
+                    eventToDelete = event;
+                    document.getElementById('eventTitleDetails').innerText = event.title;
+                    document.getElementById('eventDniDetails').innerText = event.extendedProps.dni;
+                    document.getElementById('eventDateTimeDetails').innerText = event.start.toLocaleString();
+                    eventDetailsModal.show();
                 },
 
                 eventDrop: function(info) {
@@ -123,16 +144,15 @@
 
                 eventResize: function(info) {
                     updateEvent(info.event);
-                }
+                },
             });
 
             document.getElementById('addEventForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                var title = document.getElementById('eventTitle').value;
                 var dni = document.getElementById('eventDni').value;
                 var date = document.getElementById('eventDate').value;
                 var time = document.getElementById('eventTime').value;
-                var start = date + 'T' + time + ':00';
+                var start = date + 'T' + time;
                 var end = new Date(new Date(start).getTime() + 30*60000).toISOString(); // Agrega 30 minutos
                 var allDay = document.getElementById('eventAllDay').value === 'true';
 
@@ -142,7 +162,6 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        title: title,
                         start: start,
                         end: end,
                         allDay: allDay,
@@ -154,6 +173,11 @@
                     calendar.addEvent(event);
                     addEventModal.hide();
                 });
+            });
+
+            document.getElementById('deleteButtonInDetails').addEventListener('click', function() {
+                eventDetailsModal.hide();
+                deleteEventModal.show();
             });
 
             document.getElementById('confirmDelete').addEventListener('click', function() {

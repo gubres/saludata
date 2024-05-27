@@ -36,7 +36,7 @@ class PerfilController extends AbstractController
                 'dni' => $paciente->getDni(),
                 'nombre' => $paciente->getNombre(),
                 'apellidos' => $paciente->getApellido(),
-                'acciones' => '<a href="/paciente/ver/' . $paciente->getId() . '" class="btn btn-success bi bi-eye" title="Ver paciente" ></a>',
+                'acciones' => '<a href="/paciente/ver/' . $paciente->getId() . '" class="btn btn-light bi bi-eye" title="Ver paciente" ></a>',
             ];
         }, $pacientes);
 
