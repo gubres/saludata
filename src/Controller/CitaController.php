@@ -28,7 +28,7 @@ class CitaController extends AbstractController
                     'title' => $cita->getPaciente()->getNombre(),
                     'dni' => $cita->getPaciente()->getDni(),
                     'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
-                    'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
+                    'end' => $cita->getFechaCita()->modify('+20 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
                 ];
             }
         }
@@ -73,7 +73,7 @@ class CitaController extends AbstractController
             'title' => $cita->getPaciente()->getNombre(),
             'dni' => $cita->getPaciente()->getDni(),
             'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
-            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
+            'end' => $cita->getFechaCita()->modify('+20 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
         ];
 
         return new JsonResponse($event, Response::HTTP_CREATED);
@@ -99,7 +99,7 @@ class CitaController extends AbstractController
             'title' => $cita->getPaciente()->getNombre(),
             'dni' => $cita->getPaciente()->getDni(),
             'start' => $cita->getFechaCita()->format('Y-m-d\TH:i'),
-            'end' => $cita->getFechaCita()->modify('+30 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
+            'end' => $cita->getFechaCita()->modify('+20 minutes')->format('Y-m-d\TH:i'), // modificado aquí para ajustar la duración a 30 minutos
         ];
 
         return new JsonResponse($event, Response::HTTP_OK);

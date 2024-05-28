@@ -11,10 +11,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ResultadoPruebaController extends AbstractController
 {
+    private $csrfTokenManager;
+
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
+        $this->csrfTokenManager = $csrfTokenManager;
+    }
+
     #[Route('/resultados-pruebas/nuevo/{id}', name: 'resultados_pruebas_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
@@ -82,5 +91,26 @@ class ResultadoPruebaController extends AbstractController
         $response->headers->set('Content-Disposition', 'inline; filename="resultado_prueba.pdf"');
 
         return $response;
+    }
+
+    #[Route('/resultados-pruebas/eliminar/{id}', name: 'resultados_pruebas_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $resultadoPrueba = $entityManager->getRepository(ResultadoPrueba::class)->find($id);
+
+        if (!$resultadoPrueba) {
+            return new JsonResponse(['message' => 'No se encontró el resultado de la prueba con el ID ' . $id], Response::HTTP_NOT_FOUND);
+        }
+
+        $submittedToken = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid('delete' . $resultadoPrueba->getId(), $submittedToken)) {
+            $entityManager->remove($resultadoPrueba);
+            $entityManager->flush();
+
+            return new JsonResponse(['message' => 'El resultado de la prueba ha sido eliminado exitosamente.'], Response::HTTP_OK);
+        }
+
+        return new JsonResponse(['message' => 'Token CSRF no válido.'], Response::HTTP_BAD_REQUEST);
     }
 }
