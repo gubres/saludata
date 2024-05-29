@@ -206,7 +206,7 @@
 							<div class="row">
 								<div class="col-md-6 form-group">
 									<label>País</label>
-									<input class="form-control" type="text" name="pais" value="{{ paciente.pais }}">
+									<input class="form-control" type="text" name="pais" value="{{ paciente.pais }}" readonly>
 								</div>
 								<div class="col-md-6 form-group">
 									<label>Seleccione el género</label>
@@ -262,89 +262,96 @@
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-const fileInput = document.getElementById('image-upload');
-const cameraButton = document.getElementById('camera-button');
-const selectButtonLabel = document.querySelector('label[for="image-upload"]');
-const fileNameContainer = document.getElementById('file-name');
-const removeFileButton = document.getElementById('remove-file');
-const video = document.getElementById('video');
-const snap = document.getElementById('snap');
-const photo = document.getElementById('photo');
-const canvas = document.getElementById('canvas');
-
-cameraButton.addEventListener('click', function () {
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {
-video.style.display = 'block';
-snap.style.display = 'block';
-video.srcObject = stream;
-video.play();
-selectButtonLabel.style.display = 'none'; // Oculta el botón de seleccionar archivo
-cameraButton.style.display = 'none'; // Oculta el botón de usar cámara
-}).catch(function (error) {
-console.error("Error accessing the camera: " + error);
-});
+  	<script>
+		if (!window.location.hash.includes('editar')) {
+window.location.hash = 'editar';
+window.location.reload();
 }
-});
+	</script>
+	
+{{ parent() }}
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const fileInput = document.getElementById('image-upload');
+		const cameraButton = document.getElementById('camera-button');
+		const selectButtonLabel = document.querySelector('label[for="image-upload"]');
+		const fileNameContainer = document.getElementById('file-name');
+		const removeFileButton = document.getElementById('remove-file');
+		const video = document.getElementById('video');
+		const snap = document.getElementById('snap');
+		const photo = document.getElementById('photo');
+		const canvas = document.getElementById('canvas');
 
-snap.addEventListener('click', function (event) {
-event.preventDefault(); // Previene el envío del formulario
-var desiredWidth = video.videoWidth;
-var desiredHeight = video.videoHeight;
-var aspectRatio = video.videoWidth / video.videoHeight;
-if (desiredWidth > 400) {
-desiredWidth = 400;
-desiredHeight = desiredWidth / aspectRatio;
-}
-canvas.width = desiredWidth;
-canvas.height = desiredHeight;
-canvas.getContext('2d').drawImage(video, 0, 0, desiredWidth, desiredHeight);
-photo.src = canvas.toDataURL('image/png');
-photo.style.display = 'block';
-video.srcObject.getTracks().forEach(track => track.stop());
+		cameraButton.addEventListener('click', function () {
+		if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+		navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {
+		video.style.display = 'block';
+		snap.style.display = 'block';
+		video.srcObject = stream;
+		video.play();
+		selectButtonLabel.style.display = 'none'; // Oculta el botón de seleccionar archivo
+		cameraButton.style.display = 'none'; // Oculta el botón de usar cámara
+		}).catch(function (error) {
+		console.error("Error accessing the camera: " + error);
+		});
+		}
+		});
 
-// Convertir canvas a Blob y luego asignarlo como valor del input file
-canvas.toBlob(function (blob) {
-const file = new File([blob], "captura.png", {type: "image/png"});
-const dataTransfer = new DataTransfer();
-dataTransfer.items.add(file);
-fileInput.files = dataTransfer.files;
+		snap.addEventListener('click', function (event) {
+		event.preventDefault(); // Previene el envío del formulario
+		var desiredWidth = video.videoWidth;
+		var desiredHeight = video.videoHeight;
+		var aspectRatio = video.videoWidth / video.videoHeight;
+		if (desiredWidth > 400) {
+		desiredWidth = 400;
+		desiredHeight = desiredWidth / aspectRatio;
+		}
+		canvas.width = desiredWidth;
+		canvas.height = desiredHeight;
+		canvas.getContext('2d').drawImage(video, 0, 0, desiredWidth, desiredHeight);
+		photo.src = canvas.toDataURL('image/png');
+		photo.style.display = 'block';
+		video.srcObject.getTracks().forEach(track => track.stop());
 
-removeFileButton.style.display = 'inline-block'; // Muestra el botón para quitar la foto
-}, 'image/png');
+		// Convertir canvas a Blob y luego asignarlo como valor del input file
+		canvas.toBlob(function (blob) {
+		const file = new File([blob], "captura.png", {type: "image/png"});
+		const dataTransfer = new DataTransfer();
+		dataTransfer.items.add(file);
+		fileInput.files = dataTransfer.files;
 
-video.style.display = 'none';
-snap.style.display = 'none';
-});
+		removeFileButton.style.display = 'inline-block'; // Muestra el botón para quitar la foto
+		}, 'image/png');
 
-fileInput.addEventListener('change', function () {
-if (this.files.length > 0) {
-const reader = new FileReader();
-reader.onload = function (e) {
-photo.src = e.target.result;
-photo.style.display = 'block';
-};
-reader.readAsDataURL(this.files[0]);
-fileNameContainer.textContent = this.files[0].name;
-removeFileButton.style.display = 'inline-block';
-cameraButton.style.display = 'none'; // Oculta el botón de la cámara cuando se selecciona un archivo
-selectButtonLabel.style.display = 'none'; // Asegúrate de que este también se oculta
-}
-});
+		video.style.display = 'none';
+		snap.style.display = 'none';
+		});
 
-removeFileButton.addEventListener('click', function () {
-fileInput.value = '';
-fileNameContainer.textContent = '';
-photo.src = '';
-photo.style.display = 'none';
-this.style.display = 'none';
-selectButtonLabel.style.display = 'block'; // Muestra nuevamente el botón de seleccionar
-cameraButton.style.display = 'block'; // Muestra nuevamente el botón de la cámara
-});
+		fileInput.addEventListener('change', function () {
+		if (this.files.length > 0) {
+		const reader = new FileReader();
+		reader.onload = function (e) {
+		photo.src = e.target.result;
+		photo.style.display = 'block';
+		};
+		reader.readAsDataURL(this.files[0]);
+		fileNameContainer.textContent = this.files[0].name;
+		removeFileButton.style.display = 'inline-block';
+		cameraButton.style.display = 'none'; // Oculta el botón de la cámara cuando se selecciona un archivo
+		selectButtonLabel.style.display = 'none'; // Asegúrate de que este también se oculta
+		}
+		});
 
-});
+		removeFileButton.addEventListener('click', function () {
+		fileInput.value = '';
+		fileNameContainer.textContent = '';
+		photo.src = '';
+		photo.style.display = 'none';
+		this.style.display = 'none';
+		selectButtonLabel.style.display = 'block'; // Muestra nuevamente el botón de seleccionar
+		cameraButton.style.display = 'block'; // Muestra nuevamente el botón de la cámara
+		});
+
+		});
 	</script>
 {% endblock %}
