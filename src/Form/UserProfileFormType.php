@@ -32,6 +32,7 @@ class UserProfileFormType extends AbstractType
                 'type' => PasswordType::class,
                 'required' => false,
                 'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'Las contraseñas no coinciden',
                 'first_options' => ['label' => 'Contraseña', 'attr' => ['autocomplete' => 'new-password']],
                 'second_options' => ['label' => 'Repite Contraseña', 'attr' => ['autocomplete' => 'new-password']],

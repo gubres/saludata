@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserProfileFormType;
+use App\Entity\HistorialContrasena;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\HistorialContrasenaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -36,10 +38,28 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('plainPassword')->getData()) {
-                $password = $passwordHasher->hashPassword($user, $form->get('plainPassword')->getData());
-                $user->setPassword($password);
+            $plainPassword = $form->get('plainPassword')->getData();
+            if ($plainPassword) {
+                // Verificar si la nueva contraseña ya se ha usado
+                foreach ($user->getHistorialContrasena() as $historial) {
+                    if (password_verify($plainPassword, $historial->getHashedPassword())) {
+                        $this->addFlash('danger', 'No puedes reutilizar una contraseña anterior.');
+                        return $this->redirectToRoute('app_usuarios_profile');
+                    }
+                }
+
+                // Guardar la contraseña actual en el historial
+                $passwordHistory = new HistorialContrasena();
+                $passwordHistory->setHashedPassword($user->getPassword());
+                $passwordHistory->setUser($user);
+                $passwordHistory->setChangedAt(new \DateTime("now", new \DateTimeZone('Europe/Madrid')));
+                $entityManager->persist($passwordHistory);
+
+                // Establecer la nueva contraseña
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
             }
+
             $user->setActualizadoEn(new \DateTime("now", new \DateTimeZone('Europe/Madrid'))); // Asignar la fecha actual
             $entityManager->persist($user);
             $entityManager->flush();

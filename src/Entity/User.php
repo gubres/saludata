@@ -78,12 +78,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: HistorialClinico::class, mappedBy: 'actualizadoPor', orphanRemoval: true)]
     private Collection $historialClinicosActualizado;
 
+    /**
+     * @var Collection<int, HistorialContrasena>
+     */
+    #[ORM\OneToMany(targetEntity: HistorialContrasena::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $historialContrasena;
+
     public function __construct()
     {
         $this->pacientes = new ArrayCollection();
         $this->updatedPacientes = new ArrayCollection();
         $this->historialClinicosCreado = new ArrayCollection();
         $this->historialClinicosActualizado = new ArrayCollection();
+        $this->historialContrasena = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -328,6 +335,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->historialClinicosActualizado->removeElement($historialClinico)) {
             if ($historialClinico->getActualizadoPor() === $this) {
                 $historialClinico->setActualizadoPor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistorialContrasena>
+     */
+    public function getHistorialContrasena(): Collection
+    {
+        return $this->historialContrasena;
+    }
+
+    public function addHistorialContrasena(HistorialContrasena $historialContrasena): static
+    {
+        if (!$this->historialContrasena->contains($historialContrasena)) {
+            $this->historialContrasena->add($historialContrasena);
+            $historialContrasena->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorialContrasena(HistorialContrasena $historialContrasena): static
+    {
+        if ($this->historialContrasena->removeElement($historialContrasena)) {
+            if ($historialContrasena->getUser() === $this) {
+                $historialContrasena->setUser(null);
             }
         }
 
