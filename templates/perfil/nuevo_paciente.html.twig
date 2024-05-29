@@ -1,254 +1,392 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} 
 
-{% block title %}Registro de Paciente{% endblock %}
 
-{% block stylesheets %}
+{% block title %} Registro de Paciente {%
+endblock %} {% block stylesheets %}
 {{ parent() }}
 <style>
-    .container {
-        max-width: 100%;
+  .container {
+    max-width: 100%;
 
-        padding-top: 20px;
-    }
+    padding-top: 20px;
+  }
 
-    .register-container {
-        max-width: 100%;
-        min-width: 50%;
-        margin: auto;
-    }
+  .register-container {
+    max-width: 100%;
+    min-width: 50%;
+    margin: auto;
+  }
 
-    .card {
-        background: #ffffff;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        padding: 20px;
-        border-radius: 8px;
-    }
+  .card {
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+  }
 
-    .form-group {
-        margin-bottom: 15px;
-    }
+  .form-group {
+    margin-bottom: 15px;
+  }
 
-    .form-control {
-        margin-bottom: 10px;
-    }
+  .form-control {
+    margin-bottom: 10px;
+  }
 
-    .btn {
-        max-width: 50%;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+  .btn {
+    max-width: fit-content;
+    display: block;
+    margin: auto;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
 
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-    }
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
 
-    .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-    }
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
 
-    .btn-secondary:hover {
-        background-color: #5a6268;
-    }
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
 
-    .btn-info {
-        background-color: #17a2b8;
-        color: white;
-    }
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
 
-    .btn-info:hover {
-        background-color: #138496;
-    }
+  .btn-info:hover {
+    background-color: #138496;
+  }
 
-    .btn-danger {
-        background-color: #dc3545;
-        color: white;
-    }
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
 
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
 
-    .btn-block {
-        width: 100%;
-    }
+  .btn-block {
+    width: 100%;
+  }
 
-    .text-center {
-        text-align: center;
-    }
+  .text-center {
+    text-align: center;
+  }
 
-    .img-preview {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        margin-bottom: 10px;
-        display: block;
-        margin: auto;
-    }
+  .img-preview {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    margin: auto;
+    display: block;
+  }
 
-    .video-preview {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        display: block;
-        margin: auto;
-    }
+  .video-preview {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    margin: auto;
+  }
 </style>
-{% endblock %}
-
-{% block body %}
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-<div class="container d-flex justify-content-center align-items-center mt-5 pt-5">
-    <div class="register-container">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="text-center">NUEVO PACIENTE</h5>
-               <p class="h6 text-danger text-center pb-3"> *Todos los campos son obligatorios</p>
-                <form id="registerPatientForm" method="post" action="{{ path('app_registar_paciente') }}" enctype="multipart/form-data">
-                    <div class="form-group text-center">
-                        <p>Selecciona una imagen o toma una foto al paciente:*</p>
-                        <div id="file-display-container" class="mb-3 mt-2">
-                            <input type="file" id="image-upload" name="imagen" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
-                            <label for="image-upload" class="btn btn-info btn-block bi bi-images"> Seleccionar una foto</label>
-                            <button type="button" id="camera-button" class="btn btn-info btn-block mt-3 bi bi-camera2"> Usar cámara</button>
-                            <button type="button" id="remove-file" class="btn btn-danger btn-block mt-2 mb-2" style="display: none;">Borrar imagen</button>
-                            <span id="file-name"></span>
-                        </div>
-                        <video id="video" autoplay class="video-preview mb-3" style="display: none;"></video>
-                        <div class="d-flex justify-content-center">
-                            <button id="snap" class="btn btn-primary" style="display: none;">Capturar Foto</button>
-                        </div>
-                        <canvas id="canvas" style="display: none;"></canvas>
-                        <div>
-                            <img id="photo" class="img-preview mb-3" style="display: none;">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre">Nombre*</label>
-                        <input class="form-control" type="text" name="nombre" placeholder="Nombre" id="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidos">Apellidos*</label>
-                        <input class="form-control" type="text" name="apellido" placeholder="Apellidos" id="apellidos" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dni">DNI*</label>
-                        <input class="form-control" type="text" name="dni" placeholder="DNI" id="dni" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha_nacimiento">Fecha Nacimiento*</label>
-                        <input class="form-control" type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="profesion">Profesión*</label>
-                        <input class="form-control" type="text" name="profesion" id="profesion" placeholder="Profesión">
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion">Dirección*</label>
-                        <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Dirección">
-                    </div>
-                    <div class="form-group">
-                        <label for="ciudad">Ciudad*</label>
-                        <input class="form-control" type="text" name="ciudad" id="ciudad" placeholder="Ciudad">
-                    </div>
-                    <div class="form-group">
-                        <label for="comunidad_autonoma">Comunidad Autónoma*</label>
-                        <select class="form-control" name="comunidadAutonoma" id="comunidad_autonoma">
-                            <option value="">Seleccione una comunidad autónoma</option>
-                            <option value="Andalucía">Andalucía</option>
-                            <option value="Aragón">Aragón</option>
-                            <option value="Asturias">Asturias</option>
-                            <option value="Baleares">Baleares</option>
-                            <option value="Canarias">Canarias</option>
-                            <option value="Cantabria">Cantabria</option>
-                            <option value="Castilla y León">Castilla y León</option>
-                            <option value="Castilla-La Mancha">Castilla-La Mancha</option>
-                            <option value="Cataluña">Cataluña</option>
-                            <option value="Extremadura">Extremadura</option>
-                            <option value="Galicia">Galicia</option>
-                            <option value="Madrid">Madrid</option>
-                            <option value="Murcia">Murcia</option>
-                            <option value="Navarra">Navarra</option>
-                            <option value="País Vasco">País Vasco</option>
-                            <option value="La Rioja">La Rioja</option>
-                            <option value="Valencia">Valencia</option>
-                            <option value="Ceuta">Ceuta</option>
-                            <option value="Melilla">Melilla</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="pais">País*</label>
-                        <input class="form-control" type="text" name="pais" id="pais" placeholder="País">
-                    </div>
-                    <div class="form-group">
-                        <label for="genderSelect">Género*</label>
-                        <select class="form-control" id="genderSelect" name="genero" required>
-                           <option value="">Seleccione un género</option>
-                            <option value="hombre-cis">Hombre Cis</option>
-                            <option value="hombre-trans">Hombre Trans</option>
-                            <option value="mujer-cis">Mujer Cis</option>
-                            <option value="mujer-trans">Mujer Trans</option>
-                            <option value="non-binario">Non-Binario</option>
-                            <option value="neutro">Neutro</option>
-                            <option value="agenero">Agenero</option>
-                            <option value="pangenero">Pangenero</option>
-                            <option value="queer">Queer</option>
-                            <option value="no-identificar">No Identificar</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="estado_civil">Estado civil*</label>
-                        <select class="form-control" name="estado_civil" id="estado_civil" required>
-                           <option value="">Seleccione un estado civil</option>
-                            <option value="soltero(a)">Soltero(a)</option>
-                            <option value="casado(a)">Casado(a)</option>
-                            <option value="viudo(a)">Viudo(a)</option>
-                            <option value="pareja de hecho">Pareja de Hecho</option>
-                            <option value="no identificar">No Identificar</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sanitario_asignado">ID Sanitario*</label>
-                        <input class="form-control" type="text" name="sanitario_asignado" id="sanitario_asignado" placeholder="{{ app.user.id }}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefono">Teléfono*</label>
-                        <input class="form-control" type="tel" name="telefono" id="telefono" placeholder="Teléfono de Contacto">
-                    </div>
-                    <div class="form-group">
-                        <label for="emailInput">Email*</label>
-                        <input class="form-control" type="email" name="email" id="emailInput" placeholder="Email de Contacto">
-                    </div>
-                    <div class="form-group text-center pt-3">
-                        <button type="submit" class="btn btn-primary btn-block">Registrar Paciente</button>
-                        <a href="{{ path('app_perfil') }}" class="btn btn-secondary btn-block mt-3">Cancelar</a>
-                    </div>
-                </form>
+{% endblock %} {% block body %} {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<div
+  class="container d-flex justify-content-center align-items-center mt-5 pt-5"
+>
+  <div class="register-container">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="text-center">NUEVO PACIENTE</h5>
+        <p class="h6 text-danger text-center pb-3">
+          *Todos los campos son obligatorios
+        </p>
+        <form
+          id="registerPatientForm"
+          method="post"
+          action="{{ path('app_registar_paciente') }}"
+          enctype="multipart/form-data"
+        >
+          <div class="form-group text-center">
+            <p>Selecciona una imagen o toma una foto al paciente:*</p>
+            <div id="file-display-container" class="mb-3 mt-2">
+              <input
+                type="file"
+                id="image-upload"
+                name="imagen"
+                accept="image/png, image/jpeg, image/gif, image/webp"
+                style="display: none"
+              />
+              <label
+                for="image-upload"
+                class="btn btn-info btn-block bi bi-images"
+              >
+                Seleccionar una foto
+              </label>
+              <button
+                type="button"
+                id="camera-button"
+                class="btn btn-info btn-block mt-3 bi bi-camera2"
+              >
+                Usar cámara
+              </button>
+              <button
+                type="button"
+                id="remove-file"
+                class="btn btn-danger btn-block mt-2 mb-2"
+                style="display: none"
+              >
+                Borrar imagen
+              </button>
+              <span id="file-name"></span>
             </div>
-        </div>
+            <video
+              id="video"
+              autoplay
+              class="video-preview mb-3"
+              style="display: none"
+            ></video>
+            <div class="d-flex justify-content-center">
+              <button id="snap" class="btn btn-primary" style="display: none">
+                Capturar Foto
+              </button>
+            </div>
+            <canvas id="canvas" style="display: none"></canvas>
+            <div>
+              <img id="photo" class="img-preview mb-3" style="display: none" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="nombre"> Nombre* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              id="nombre"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellidos"> Apellidos* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="apellido"
+              placeholder="Apellidos"
+              id="apellidos"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="dni"> DNI* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="dni"
+              placeholder="DNI"
+              id="dni"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="fecha_nacimiento"> Fecha Nacimiento* </label>
+            <input
+              class="form-control"
+              type="date"
+              name="fecha_nacimiento"
+              id="fecha_nacimiento"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="profesion"> Profesión* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="profesion"
+              id="profesion"
+              placeholder="Profesión"
+            />
+          </div>
+          <div class="form-group">
+            <label for="direccion"> Dirección* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="direccion"
+              id="direccion"
+              placeholder="Dirección"
+            />
+          </div>
+          <div class="form-group">
+            <label for="ciudad"> Ciudad* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="ciudad"
+              id="ciudad"
+              placeholder="Ciudad"
+            />
+          </div>
+          <div class="form-group">
+            <label for="comunidad_autonoma"> Comunidad Autónoma* </label>
+            <select
+              class="form-control"
+              name="comunidadAutonoma"
+              id="comunidad_autonoma"
+            >
+              <option value="">Seleccione una comunidad autónoma</option>
+              <option value="Andalucía">Andalucía</option>
+              <option value="Aragón">Aragón</option>
+              <option value="Asturias">Asturias</option>
+              <option value="Baleares">Baleares</option>
+              <option value="Canarias">Canarias</option>
+              <option value="Cantabria">Cantabria</option>
+              <option value="Castilla y León">Castilla y León</option>
+              <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+              <option value="Cataluña">Cataluña</option>
+              <option value="Extremadura">Extremadura</option>
+              <option value="Galicia">Galicia</option>
+              <option value="Madrid">Madrid</option>
+              <option value="Murcia">Murcia</option>
+              <option value="Navarra">Navarra</option>
+              <option value="País Vasco">País Vasco</option>
+              <option value="La Rioja">La Rioja</option>
+              <option value="Valencia">Valencia</option>
+              <option value="Ceuta">Ceuta</option>
+              <option value="Melilla">Melilla</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pais"> País* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="pais"
+              id="pais"
+              value="España"
+            />
+          </div>
+          <div class="form-group">
+            <label for="genderSelect"> Género* </label>
+            <select
+              class="form-control"
+              id="genderSelect"
+              name="genero"
+              required
+            >
+              <option value="">Seleccione un género</option>
+              <option value="hombre-cis">Hombre Cis</option>
+              <option value="hombre-trans">Hombre Trans</option>
+              <option value="mujer-cis">Mujer Cis</option>
+              <option value="mujer-trans">Mujer Trans</option>
+              <option value="non-binario">Non-Binario</option>
+              <option value="neutro">Neutro</option>
+              <option value="agenero">Agenero</option>
+              <option value="pangenero">Pangenero</option>
+              <option value="queer">Queer</option>
+              <option value="no-identificar">No Identificar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="estado_civil"> Estado civil* </label>
+            <select
+              class="form-control"
+              name="estado_civil"
+              id="estado_civil"
+              required
+            >
+              <option value="">Seleccione un estado civil</option>
+              <option value="soltero(a)">Soltero(a)</option>
+              <option value="casado(a)">Casado(a)</option>
+              <option value="viudo(a)">Viudo(a)</option>
+              <option value="pareja de hecho">Pareja de Hecho</option>
+              <option value="no identificar">No Identificar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sanitario_asignado"> ID Sanitario* </label>
+            <input
+              class="form-control"
+              type="text"
+              name="sanitario_asignado"
+              id="sanitario_asignado"
+              placeholder="{{ app.user.id }}"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="telefono"> Teléfono* </label>
+            <input
+              class="form-control"
+              type="tel"
+              name="telefono"
+              id="telefono"
+              placeholder="Teléfono de Contacto"
+            />
+          </div>
+          <div class="form-group">
+            <label for="emailInput"> Email* </label>
+            <input
+              class="form-control"
+              type="email"
+              name="email"
+              id="emailInput"
+              placeholder="Email de Contacto"
+            />
+          </div>
+          <div class="form-group text-center pt-3">
+            <button type="submit" class="btn btn-primary btn-block">
+              Registrar Paciente
+            </button>
+            <a
+              href="{{ path('app_perfil') }}"
+              class="btn btn-secondary btn-block mt-3"
+            >
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endif %}
 
-    <!-- modal de mensajes -->
-    <div class="modal-body">
-        {% include '/perfil/modalNuevoPaciente.html.twig' %}
-    </div>
+<!-- modal de mensajes -->
+<div class="modal-body">
+  {% include '/perfil/modalNuevoPaciente.html.twig' %}
+</div>
 
-{% endblock %}
-
+{% endblock %} 
 {% block javascripts %}
-{{ parent() }}
+  	<script>
+		if (!window.location.hash.includes('nuevo')) {
+window.location.hash = 'nuevo';
+window.location.reload();
+}
+	</script>
+  {{parent()}}  
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+
+$(document).ready(function () {
+
     const fileInput = document.getElementById('image-upload');
     const cameraButton = document.getElementById('camera-button');
     const selectButtonLabel = document.querySelector('label[for="image-upload"]');
@@ -264,141 +402,143 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorModalElement = document.getElementById('errorModal');
     const confirmModal = new bootstrap.Modal(confirmModalElement);
 
-    cameraButton.addEventListener('click', function() {
+
+    cameraButton.addEventListener('click', function () {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                navigator.mediaDevices.getUserMedia({
+                video: true
+            }).then(function (stream) {
                 video.style.display = 'block';
                 snap.style.display = 'block';
                 video.srcObject = stream;
                 video.play();
                 selectButtonLabel.style.display = 'none';
                 cameraButton.style.display = 'none';
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console.error("Error accessing the camera: " + error);
             });
         }
     });
 
-    snap.addEventListener('click', function(event) {
+    snap.addEventListener('click', function (event) {
         event.preventDefault();
         var desiredWidth = video.videoWidth;
         var desiredHeight = video.videoHeight;
         var aspectRatio = video.videoWidth / video.videoHeight;
         if (desiredWidth > 800) {
-            desiredWidth = 800;
-            desiredHeight = desiredWidth / aspectRatio;
-        }
-        canvas.width = desiredWidth;
-        canvas.height = desiredHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0, desiredWidth, desiredHeight);
-        photo.src = canvas.toDataURL('image/png');
-        photo.style.display = 'block';
-        video.srcObject.getTracks().forEach(track => track.stop());
-        canvas.toBlob(function(blob) {
-            const file = new File([blob], "captura.png", { type: "image/png" });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            fileInput.files = dataTransfer.files;
-            removeFileButton.style.display = 'inline-block';
-        }, 'image/png');
-        video.style.display = 'none';
-        snap.style.display = 'none';
+        desiredWidth = 800;
+        desiredHeight = desiredWidth / aspectRatio;
+    }
+    canvas.width = desiredWidth;
+    canvas.height = desiredHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0, desiredWidth, desiredHeight);
+    photo.src = canvas.toDataURL('image/png');
+    photo.style.display = 'block';
+    video.srcObject.getTracks().forEach(track => track.stop());
+    canvas.toBlob(function (blob) {
+        const file = new File([blob], "captura.png", {
+        type: "image/png"
+    });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    fileInput.files = dataTransfer.files;
+    removeFileButton.style.display = 'inline-block';
+    }, 'image/png');
+    video.style.display = 'none';
+    snap.style.display = 'none';
     });
 
-    fileInput.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                photo.src = e.target.result;
-                photo.style.display = 'block';
-            };
-            reader.readAsDataURL(this.files[0]);
-            fileNameContainer.textContent = this.files[0].name;
-            removeFileButton.style.display = 'inline-block';
-            cameraButton.style.display = 'none';
-            selectButtonLabel.style.display = 'none';
-        }
+    fileInput.addEventListener('change', function () {
+    if (this.files.length > 0) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+    photo.src = e.target.result;
+    photo.style.display = 'block';
+    };
+    reader.readAsDataURL(this.files[0]);
+    fileNameContainer.textContent = this.files[0].name;
+    removeFileButton.style.display = 'inline-block';
+    cameraButton.style.display = 'none';
+    selectButtonLabel.style.display = 'none';
+    }
+
     });
 
-    removeFileButton.addEventListener('click', function() {
-        fileInput.value = '';
-        fileNameContainer.textContent = '';
-        photo.src = '';
-        photo.style.display = 'none';
-        this.style.display = 'none';
-        selectButtonLabel.style.display = 'block';
-        cameraButton.style.display = 'block';
+    removeFileButton.addEventListener('click', function () {
+    fileInput.value = '';
+    fileNameContainer.textContent = '';
+    photo.src = '';
+    photo.style.display = 'none';
+    this.style.display = 'none';
+    selectButtonLabel.style.display = 'block';
+    cameraButton.style.display = 'block';
+
     });
 
     // Mostrar modal de confirmación
     function showConfirmModal() {
-        confirmModal.show();
-    }
 
+    confirmModal.show();
+    }
     // Mostrar modal de éxito
     function showSuccessModal(message) {
-        const successModalText = document.getElementById('successModalText');
-        successModalText.innerText = message;
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
+    const successModalText = document.getElementById('successModalText');
+    successModalText.innerText = message;
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+    successModal.show();
     }
-
     // Mostrar modal de error
     function showErrorModal(message) {
-        const errorModalText = document.getElementById('errorModalText');
-        errorModalText.innerText = message;
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-        errorModal.show();
+    const errorModalText = document.getElementById('errorModalText');
+    errorModalText.innerText = message;
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    errorModal.show();
     }
-
     // Manejador para el botón de confirmación
-    confirmButton.addEventListener('click', function() {
-        const formData = new FormData(form);
-        fetch(form.action, {
-            method: form.method,
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            confirmModal.hide();
-            if (data.status === 'success') {
-                showSuccessModal(data.message);
-                setTimeout(() => {
-                    window.location.href = '{{ path('app_perfil') }}';
-                }, 2000); // Redirigir después de 2 segundos
-            } else {
-                showErrorModal(data.message);
-            }
-        })
-        .catch(error => {
-            confirmModal.hide();
-            showErrorModal('Ha ocurrido un error al registrar el paciente.');
-            console.error('Error:', error);
-        });
+    confirmButton.addEventListener('click', function () {
+    const formData = new FormData(form);
+    fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: {
+  'X-Requested-With': 'XMLHttpRequest'
+    }
+    }).then(response => response.json()).then(data => {
+    confirmModal.hide();
+    if (data.status === 'success') {
+    showSuccessModal(data.message);
+    setTimeout(() => {
+    window.location.href = '{{ path('app_perfil') }}';
+    }, 2000); // Redirigir después de 2 segundos
+    } else {
+    showErrorModal(data.message);
+    }
+    }).catch(error => {
+    confirmModal.hide();
+    showErrorModal('Ha ocurrido un error al registrar el paciente.');
+    console.error('Error:', error);
     });
-
+    });
     // Manejadores para cerrar los modales
-    confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
-        confirmModal.hide();
+    confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
+    confirmModal.hide();
     });
-    confirmModalElement.querySelector('.btn-close').addEventListener('click', function() {
-        confirmModal.hide();
+    confirmModalElement.querySelector('.btn-close').addEventListener('click', function () {
+    confirmModal.hide();
     });
-    errorModalElement.querySelector('.btn-secondary').addEventListener('click', function() {
-        errorModal.hide();
+    errorModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
+    errorModal.hide();
+   });
+    errorModalElement.querySelector('.btn-close').addEventListener('click', function () {
+    errorModal.hide();
     });
-    errorModalElement.querySelector('.btn-close').addEventListener('click', function() {
-        errorModal.hide();
-    });
-
     // Manejar el envío del formulario
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        showConfirmModal();
+    form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    showConfirmModal();
     });
-});
+    });
+  
 </script>
+
 {% endblock %}
