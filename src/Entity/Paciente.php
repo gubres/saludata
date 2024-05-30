@@ -26,9 +26,19 @@ class Paciente
     private $imagen;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/",
+        message: "El nombre solo puede contener letras y espacios"
+    )]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/",
+        message: "El apellido solo puede contener letras y espacios"
+    )]
     private ?string $apellido = null;
 
     #[ORM\Column(length: 9, unique: true)]
@@ -39,6 +49,11 @@ class Paciente
     private ?\DateTimeInterface $fecha_nacimiento = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/",
+        message: "La profesión solo puede contener letras y espacios"
+    )]
     private ?string $profesion = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -63,7 +78,12 @@ class Paciente
     #[ORM\JoinColumn(nullable: false)]
     private ?User $sanitario_asignado = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 9)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: "/^[0-9]{9}$/",
+        message: "El teléfono debe contener exactamente 9 dígitos"
+    )]
     private ?int $telefono = null;
 
     #[ORM\Column(length: 255)]

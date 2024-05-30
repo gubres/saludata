@@ -385,8 +385,55 @@ window.location.reload();
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('registerPatientForm');
 
+        form.addEventListener('submit', function (event) {
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellidos').value;
+        const profesion = document.getElementById('profesion').value;
+        const telefono = document.getElementById('telefono').value;
+
+        const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+        const telefonoRegex = /^[0-9]{9}$/;
+
+        let isValid = true;
+        let errorMessage = '';
+
+        if (!nombreRegex.test(nombre)) {
+            isValid = false;
+            errorMessage += "El nombre solo puede contener letras y espacios.\n";
+        }
+
+        if (!nombreRegex.test(apellido)) {
+            isValid = false;
+            errorMessage += "El apellido solo puede contener letras y espacios.\n";
+        }
+
+        if (!nombreRegex.test(profesion)) {
+            isValid = false;
+            errorMessage += "La profesión solo puede contener letras y espacios.\n";
+        }
+
+        if (!telefonoRegex.test(telefono)) {
+            isValid = false;
+            errorMessage += "El teléfono debe contener solo números y exactamente 9 dígitos.\n";
+        }
+
+       if (!isValid) {
+            showErrorModal(errorMessage);
+            event.preventDefault();
+        }
+        if(isValid){
+          form.addEventListener('submit', function (event) {
+           event.preventDefault();
+           showConfirmModal();
+         });
+        }
+       
+    });
+
+    
     const fileInput = document.getElementById('image-upload');
     const cameraButton = document.getElementById('camera-button');
     const selectButtonLabel = document.querySelector('label[for="image-upload"]');
@@ -396,7 +443,7 @@ $(document).ready(function () {
     const snap = document.getElementById('snap');
     const photo = document.getElementById('photo');
     const canvas = document.getElementById('canvas');
-    const form = document.getElementById('registerPatientForm');
+   
     const confirmButton = document.getElementById('confirmButton');
     const confirmModalElement = document.getElementById('confirmModal');
     const errorModalElement = document.getElementById('errorModal');
@@ -505,38 +552,40 @@ $(document).ready(function () {
     }
     }).then(response => response.json()).then(data => {
     confirmModal.hide();
-    if (data.status === 'success') {
-    showSuccessModal(data.message);
-    setTimeout(() => {
-    window.location.href = '{{ path('app_perfil') }}';
-    }, 2000); // Redirigir después de 2 segundos
-    } else {
-    showErrorModal(data.message);
-    }
-    }).catch(error => {
-    confirmModal.hide();
-    showErrorModal('Ha ocurrido un error al registrar el paciente.');
-    console.error('Error:', error);
+      if (data.status === 'success') {
+        showSuccessModal(data.message);
+        setTimeout(() => {
+        window.location.href = '{{ path('app_perfil') }}';
+        }, 2000); // Redirigir después de 2 segundos
+      } else {
+          showErrorModal(data.message);
+        }
+      }).catch(error => {
+          confirmModal.hide();
+          showErrorModal('Ha ocurrido un error al registrar el paciente.');
+          console.error('Error:', error);
+        });
     });
-    });
+
     // Manejadores para cerrar los modales
-    confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
-    confirmModal.hide();
+      confirmModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
+      confirmModal.hide();
     });
-    confirmModalElement.querySelector('.btn-close').addEventListener('click', function () {
-    confirmModal.hide();
+      confirmModalElement.querySelector('.btn-close').addEventListener('click', function () {
+      confirmModal.hide();
     });
-    errorModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
-    errorModal.hide();
+      errorModalElement.querySelector('.btn-secondary').addEventListener('click', function () {
+      errorModal.hide();
    });
-    errorModalElement.querySelector('.btn-close').addEventListener('click', function () {
-    errorModal.hide();
+      errorModalElement.querySelector('.btn-close').addEventListener('click', function () {
+      errorModal.hide();
     });
+
     // Manejar el envío del formulario
-    form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    showConfirmModal();
-    });
+    //  form.addEventListener('submit', function (event) {
+     //   event.preventDefault();
+     //   showConfirmModal();
+     // });
     });
   
 </script>
