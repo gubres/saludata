@@ -37,40 +37,47 @@ class UserController extends AbstractController
         $form = $this->createForm(UserProfileFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            // Verificar si los campos obligatorios han sido rellenados
             $plainPassword = $form->get('plainPassword')->getData();
-            if ($plainPassword) {
-                // Verificar si la nueva contraseña ya se ha usado
-                foreach ($user->getHistorialContrasena() as $historial) {
-                    if (password_verify($plainPassword, $historial->getHashedPassword())) {
-                        $this->addFlash('danger', 'No puedes reutilizar una contraseña anterior.');
-                        return $this->redirectToRoute('app_usuarios_profile');
+            if (empty($plainPassword)) {
+                $this->addFlash('danger', 'El campo de contraseña es obligatorio.');
+            } else {
+                if ($form->isValid()) {
+                    // Verificar si la nueva contraseña ya se ha usado
+                    foreach ($user->getHistorialContrasena() as $historial) {
+                        if (password_verify($plainPassword, $historial->getHashedPassword())) {
+                            $this->addFlash('danger', 'No puedes reutilizar una contraseña anterior.');
+                            return $this->redirectToRoute('app_usuarios_profile');
+                        }
+                    }
+
+                    // Guardar la contraseña actual en el historial
+                    $passwordHistory = new HistorialContrasena();
+                    $passwordHistory->setHashedPassword($user->getPassword());
+                    $passwordHistory->setUser($user);
+                    $passwordHistory->setChangedAt(new \DateTime("now", new \DateTimeZone('Europe/Madrid')));
+                    $entityManager->persist($passwordHistory);
+
+                    // Establecer la nueva contraseña
+                    $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                    $user->setPassword($hashedPassword);
+
+                    $user->setActualizadoEn(new \DateTime("now", new \DateTimeZone('Europe/Madrid'))); // Asignar la fecha actual
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Tu perfil ha sido actualizado con éxito.');
+                    return $this->redirectToRoute('app_usuarios_profile');
+                } else {
+                    // Si el formulario no es válido, manejar los errores
+                    foreach ($form->getErrors(true) as $error) {
+                        $this->addFlash('danger', $error->getMessage());
                     }
                 }
-
-                // Guardar la contraseña actual en el historial
-                $passwordHistory = new HistorialContrasena();
-                $passwordHistory->setHashedPassword($user->getPassword());
-                $passwordHistory->setUser($user);
-                $passwordHistory->setChangedAt(new \DateTime("now", new \DateTimeZone('Europe/Madrid')));
-                $entityManager->persist($passwordHistory);
-
-                // Establecer la nueva contraseña
-                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-            }
-
-            $user->setActualizadoEn(new \DateTime("now", new \DateTimeZone('Europe/Madrid'))); // Asignar la fecha actual
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Tu perfil ha sido actualizado con éxito.');
-            return $this->redirectToRoute('app_usuarios_profile');
-        } elseif ($form->isSubmitted()) {
-            foreach ($form->getErrors(true) as $error) {
-                $this->addFlash('danger', $error->getMessage());
             }
         }
+
 
         return $this->render('usuarios/edit.html.twig', [
             'usuario' => $user,

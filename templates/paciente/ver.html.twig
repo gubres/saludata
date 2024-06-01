@@ -105,7 +105,13 @@
 				{% include 'partials/dietas.html.twig' %}
 				{% include 'partials/medicamentos.html.twig' %}
 				{% include 'partials/historial_familiar.html.twig' %}
+
+				{%if paciente.genero == "hombre-cis" or paciente.genero == "mujer-trans" %}
+					<!-- nada a mostrar -->
+				{%else%}
 				{% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
+				{% endif %}
+				
 				{% include 'partials/examen_cabeza.html.twig' %}
 				{% include 'partials/examen_torax.html.twig' %}
 				{% include 'partials/examen_abdomen.html.twig' %}

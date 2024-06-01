@@ -393,9 +393,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const apellido = document.getElementById('apellidos').value;
         const profesion = document.getElementById('profesion').value;
         const telefono = document.getElementById('telefono').value;
+         const dni = document.getElementById('dni').value;
 
         const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         const telefonoRegex = /^[0-9]{9}$/;
+           const dniRegex = /^[A-Z0-9]\d{7}[A-Z]$/;
 
         let isValid = true;
         let errorMessage = '';
@@ -408,6 +410,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!nombreRegex.test(apellido)) {
             isValid = false;
             errorMessage += "El apellido solo puede contener letras y espacios.\n";
+        }
+        
+         if (!dniRegex.test(dni)) {
+            isValid = false;
+            errorMessage += "El DNI/NIE no tiene un formato válido.\n";
         }
 
         if (!nombreRegex.test(profesion)) {

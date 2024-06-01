@@ -149,7 +149,7 @@
 								{% if is_granted('ROLE_ADMIN') %}
 									<div class="col-md-6 form-group">
 										<label>DNI/NIE</label>
-										<input class="form-control" type="text" name="dni" value="{{ paciente.dni }}">
+										<input class="form-control" type="text" name="dni" value="{{ paciente.dni }}" required>
 									</div>
 								{% else %}
 									<div class="col-md-6 form-group">
@@ -165,21 +165,21 @@
 							<div class="row">
 								<div class="col-md-6 form-group">
 									<label>Profesion</label>
-									<input class="form-control" type="text" name="profesion" value="{{ paciente.profesion }}">
+									<input class="form-control" type="text" name="profesion" value="{{ paciente.profesion }}" required>
 								</div>
 								<div class="col-md-6 form-group">
 									<label>Dirección</label>
-									<input class="form-control" type="text" name="direccion" value="{{ paciente.direccion }}">
+									<input class="form-control" type="text" name="direccion" value="{{ paciente.direccion }}" required>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6 form-group">
 									<label>Ciudad</label>
-									<input class="form-control" type="text" name="ciudad" value="{{ paciente.ciudad }}">
+									<input class="form-control" type="text" name="ciudad" value="{{ paciente.ciudad }}" required>
 								</div>
 								<div class="col-md-6 form-group">
 									<label>Comunidad Autónoma</label>
-									<select class="form-control" name="comunidadAutonoma">
+									<select class="form-control" name="comunidadAutonoma" >
 										<option value="">Seleccione una comunidad autónoma</option>
 										<option value="Andalucía" {% if paciente.comunidadAutonoma == 'Andalucía' %} selected {% endif %}>Andalucía</option>
 										<option value="Aragón" {% if paciente.comunidadAutonoma == 'Aragón' %} selected {% endif %}>Aragón</option>
@@ -206,7 +206,7 @@
 							<div class="row">
 								<div class="col-md-6 form-group">
 									<label>País</label>
-									<input class="form-control" type="text" name="pais" value="{{ paciente.pais }}" readonly>
+									<input class="form-control" type="text" name="pais" value="{{ paciente.pais }}" required>
 								</div>
 								<div class="col-md-6 form-group">
 									<label>Seleccione el género</label>
@@ -237,12 +237,12 @@
 								</div>
 								<div class="col-md-6 form-group">
 									<label>Teléfono</label>
-									<input class="form-control" type="tel" name="telefono" value="{{ paciente.telefono }}" placeholder="Teléfono de Contacto">
+									<input class="form-control" type="tel" name="telefono" value="{{ paciente.telefono }}" required>
 								</div>
 
 								<div class="col-md-6 form-group">
 									<label>Email</label>
-									<input class="form-control" type="email" name="email" value="{{ paciente.email }}" placeholder="Email de Contacto">
+									<input class="form-control" type="email" name="email" value="{{ paciente.email }}" required>
 								</div>
 							</div>
 							<div class="d-flex justify-content-center p-3">
