@@ -89,7 +89,15 @@ class CitaController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
-        $cita->setFechaCita(new \DateTime($data['start'], new DateTimeZone('Europe/Madrid')));
+
+        // Crea un nuevo objeto DateTime con la fecha de inicio proporcionada
+        $fechaCita = new \DateTime($data['start']);
+
+        // Añade dos horas a la fecha de la cita
+        $fechaCita->modify('+2 hours');
+
+        // Establece la fecha de la cita con el nuevo horario
+        $cita->setFechaCita($fechaCita);
         $cita->setFechaEdicion(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
         $entityManager->flush();

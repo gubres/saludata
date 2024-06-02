@@ -209,7 +209,7 @@ var dni = document.getElementById('eventDni').value;
 var date = document.getElementById('eventDate').value;
 var time = document.getElementById('eventTime').value;
 var start = date + 'T' + time;
-var end = new Date(new Date(start).getTime() + 30 * 60000).toISOString(); // Agrega 30 minutos
+var end = new Date(new Date(start).getTime() + 20 * 60000).toISOString(); // Agrega 20 minutos
 var allDay = document.getElementById('eventAllDay').value === 'true';
 
 fetch('{{ ajax_add_url }}', {
