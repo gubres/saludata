@@ -20,6 +20,4 @@ class HistorialContrasenaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, HistorialContrasena::class);
     }
-
-    // Métodos personalizados, si es necesario
 }

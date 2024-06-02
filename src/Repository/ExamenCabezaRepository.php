@@ -30,6 +30,4 @@ class ExamenCabezaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    // Añade aquí métodos personalizados según sea necesario
 }

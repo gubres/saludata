@@ -25,9 +25,8 @@ class CostumbresRepository extends ServiceEntityRepository
             ->where('q.historialClinico = :historialClinico')
             ->setParameter('historialClinico', $historialClinico)
             ->orderBy('q.creadoEn', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult();
     }
-    // Añade aquí métodos personalizados según sea necesario
 }

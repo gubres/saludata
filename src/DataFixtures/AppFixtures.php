@@ -2,9 +2,10 @@
 
 namespace App\DataFixtures;
 
+use DateTimeZone;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -20,19 +21,19 @@ class AppFixtures extends Fixture
     {
         // Crear usuario admin
         $adminUser = new User();
-        $adminUser->setEmail('admin@example.com');
+        $adminUser->setEmail('admin@mail.com');
         $adminUser->setNombre('Admin');
         $adminUser->setApellidos('User');
         $adminUser->setRoles(['ROLE_ADMIN']);
 
         // Hash de la contraseña
-        $hashedPassword = $this->passwordHasher->hashPassword($adminUser, '123456');
+        $hashedPassword = $this->passwordHasher->hashPassword($adminUser, 'Admin123!');
         $adminUser->setPassword($hashedPassword);
 
         $adminUser->setEliminado(false);
         $adminUser->setIsActive(true);
-        $adminUser->setCreadoEn(new \DateTime());
-        $adminUser->setActualizadoEn(new \DateTime());
+        $adminUser->setCreadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+        $adminUser->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
         // Persistir usuario
         $manager->persist($adminUser);

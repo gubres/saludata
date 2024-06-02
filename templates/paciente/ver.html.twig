@@ -106,7 +106,7 @@
 				{% include 'partials/medicamentos.html.twig' %}
 				{% include 'partials/historial_familiar.html.twig' %}
 
-				{%if paciente.genero == "hombre-cis" or paciente.genero == "mujer-trans" %}
+				{%if paciente.genero == "hombre-cis" or paciente.genero == "mujer-trans" or paciente.genero == "Masculino" %}
 					<!-- nada a mostrar -->
 				{%else%}
 				{% include 'partials/historial_obstetrico_y_ginecologico.html.twig' %}
