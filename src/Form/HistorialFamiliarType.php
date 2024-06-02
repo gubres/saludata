@@ -80,36 +80,37 @@ class HistorialFamiliarType extends AbstractType
             ->add('diabetes', ChoiceType::class, [
                 'label' => 'Diabetes',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
+
                 ],
             ])
             ->add('enfermedadCardiaca', ChoiceType::class, [
                 'label' => 'Enfermedad Cardiaca',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
                 ],
             ])
             ->add('hipertension', ChoiceType::class, [
                 'label' => 'Hipertensión',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
                 ],
             ])
             ->add('enfermedadMetabolica', ChoiceType::class, [
                 'label' => 'Enfermedad Metabólica',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
                 ],
             ])
             ->add('cancer', ChoiceType::class, [
                 'label' => 'Cáncer',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
                 ],
             ])
             ->add('tipoCancer', TextareaType::class, [
@@ -119,8 +120,8 @@ class HistorialFamiliarType extends AbstractType
             ->add('enfermedadRenalCronica', ChoiceType::class, [
                 'label' => 'Enfermedad Renal Crónica',
                 'choices' => [
-                    'Sí' => true,
                     'No' => false,
+                    'Sí' => true,
                 ],
             ])
             ->add('otraEnfermedadCronica', TextareaType::class, [

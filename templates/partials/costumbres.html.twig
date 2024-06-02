@@ -24,9 +24,9 @@
     <div id="collapseCostumbres" class="accordion-collapse collapse" aria-labelledby="headingCostumbres" data-bs-parent="#accordionExample">
         <div class="accordion-body">
          {% if data.costumbres is empty %}
-                <a href="{{ path('costumbres_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Costumbre</a>
+                <a href="{{ path('costumbres_new', {'id': paciente.id}) }}" class="btn btn-primary">Añadir Costumbres</a>
             {% else %}
-                <a href="{{ path('costumbres_edit', {'id': paciente.id}) }}" class="btn btn-primary">Editar Costumbre</a>
+                  <a href="{{ path('costumbres_edit', {'id': data.costumbres[0].id}) }}" class="btn btn-primary">Editar Costumbres</a>
             {% endif %}
             {% if data.costumbres is empty %}
                <p class="mt-3">Sin datos</p>

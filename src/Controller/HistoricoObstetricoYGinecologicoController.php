@@ -59,7 +59,7 @@ class HistoricoObstetricoYGinecologicoController extends AbstractController
         $historicoObstetricoYGinecologico = $entityManager->getRepository(HistoricoObstetricoYGinecologico::class)->find($id);
 
         if (!$historicoObstetricoYGinecologico) {
-            throw $this->createNotFoundException('No se encontró la clasificación sanguínea con el ID ' . $id);
+            throw $this->createNotFoundException('No se encontró el historial obstetrico y ginecologico con el ID ' . $id);
         }
 
         $paciente = $historicoObstetricoYGinecologico->getHistorialClinico()->getPaciente();

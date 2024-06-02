@@ -58,22 +58,22 @@ class CostumbresController extends AbstractController
     #[Route('/costumbres/editar/{id}', name: 'costumbres_edit')]
     public function edit(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
-        $Costumbres = $entityManager->getRepository(Costumbres::class)->find($id);
+        $costumbres = $entityManager->getRepository(Costumbres::class)->find($id);
 
-        if (!$Costumbres) {
-            throw $this->createNotFoundException('No se encontró la clasificación sanguínea con el ID ' . $id);
+        if (!$costumbres) {
+            throw $this->createNotFoundException('No se encontró las costumbres con el ID ' . $id);
         }
 
-        $paciente = $Costumbres->getHistorialClinico()->getPaciente();
+        $paciente = $costumbres->getHistorialClinico()->getPaciente();
 
-        $form = $this->createForm(CostumbresType::class, $Costumbres);
+        $form = $this->createForm(CostumbresType::class, $costumbres);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $Costumbres->setActualizadoPor($this->getUser());
-            $Costumbres->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
+            $costumbres->setActualizadoPor($this->getUser());
+            $costumbres->setActualizadoEn(new \DateTime('now', new DateTimeZone('Europe/Madrid')));
 
-            $entityManager->persist($Costumbres);
+            $entityManager->persist($costumbres);
             $entityManager->flush();
 
             return $this->redirectToRoute('paciente_ver', ['id' => $paciente->getId()]);
