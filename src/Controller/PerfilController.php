@@ -36,10 +36,21 @@ class PerfilController extends AbstractController
                 'dni' => $paciente->getDni(),
                 'nombre' => $paciente->getNombre(),
                 'apellidos' => $paciente->getApellido(),
-                'acciones' => '<a href="/paciente/ver/' . $paciente->getId() . '" class="btn btn-light bi bi-eye" title="Ver paciente" ></a>',
+                'acciones' => '
+                    <a href="/paciente/ver/' . $paciente->getId() . '" class="btn btn-light bi bi-eye" title="Ver paciente" ></a>
+                    <button class="btn btn-danger bi bi-trash" title="Eliminar paciente" onclick="eliminarPaciente(' . $paciente->getId() . ')"></button>
+                ',
             ];
         }, $pacientes);
 
         return $this->json(['data' => $data]);
+    }
+
+
+    #[Route('/perfil/eliminar/{id}', name: 'perfil_eliminar', methods: ['POST'])]
+    public function eliminar(int $id): JsonResponse
+    {
+        $this->pacienteRepository->markAsDeleted($id);
+        return $this->json(['status' => 'success', 'message' => 'Paciente eliminado correctamente.']);
     }
 }

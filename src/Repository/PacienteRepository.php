@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Paciente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,6 +28,17 @@ class PacienteRepository extends ServiceEntityRepository
             ->setParameter('val', false)
             ->getQuery()
             ->getResult();
+    }
+
+    public function markAsDeleted($id)
+    {
+        $paciente = $this->find($id);
+        if ($paciente) {
+            $paciente->setEliminado(true);
+            $em = $this->getEntityManager();
+            $em->persist($paciente);
+            $em->flush();
+        }
     }
 
     //    /**
