@@ -1,27 +1,29 @@
 # SALUDATA
 
-Hola chicos, la rama en la que estamos trabajando con el proyecto es la rama MASTER. Cuando clonen que sea de ahí.
-No os olvideis de instalar las dependencias y hacer el migrate para tener la tabla.
+Hola este es un proyecto de TFC para el curso de Desarrollo de Aplicaciones Web.
+Creadores: 	Gustavo Iago Da Silva Bezerra
+		Jeremmy Matthew Castillo Valenzuela
+  		Paul Espinoza Guillen
 
 PASO A PASO
-1. Clonar el proyecto.
-2. Instalar Dependencias del Proyecto
+1. Clonar la rama MASTER del proyecto .
+2. Instalar Dependencias del proyecto
    Abre una terminal y navega al directorio donde has clonado el repositorio. Una vez dentro del directorio del proyecto, ejecuta:
-   composer install
+   	composer install
 	 Este comando instalará todas las dependencias necesarias definidas en el archivo composer.json del proyecto.
 3. Confirma que tienes el servicio de MySQL ejecutando en vuestro ordenador.
-4. En el archivo .env esta definido como debe ser la conexion a la base de datos, igual que en el archivo .env local
-5. Crear la Base de Datos: Crea la base de datos que el proyecto usará, basándote en las configuraciones definidas en el archivo .env.
-   Eso quiere decir que teneis que ir a vuestro gestor de Base de Datos y crear una base de datos llamada saludata
+4. En el archivo .env esta definido como debe ser la conexion a la base de datos, igual que en el archivo .env.local (si no lo tienes basta con hacer un cp .env .env.local y tendras el archivo)
+5. Crear la Base de Datos: Crea la base de datos que el proyecto usará, basándote en las configuraciones definidas en el archivo .env. Para eso basta usar el comando php bin/console doctrine:schema:create
+   Si el comando anterior fallar, eso quiere decir que teneis que ir a vuestro gestor de Base de Datos y crear una base de datos llamada saludata, manualmente.
 6. Despues teneis que ejecutar ese comando: "php bin/console make:migration" y después "php bin/console doctrine:migrations:migrate"
-6.1. Si por teneis algun error con los dos comandos anteriores, podeis usar el siguiente: php bin/console doctrine:schema:update --force eso en teoria irá formar la migration y actualizar la base de datos.
+6.1. Si por alguna razón teneis algun error con los dos comandos anteriores, podeis usar el siguiente: php bin/console doctrine:schema:update --force eso en teoria irá formar la migration y actualizar la base de datos.
 7. Si surge algun ERROR en el paso anterior: ir a la carpeta migrations y borrar el archivo que hay de migraciones (Version2024 ....extension php). Si no ha habito ningun error, saltar esa parte.
 8. Hecho eso, comprobar que se ha creado la base de datos y sus tablas
 9. Si todo correcto, ejecutar el servidor: symfony server:start
 10. Abrir el navegador en la direccion que informa la consola: 127.0.0.1:8000
-11. Para trabajar la interfaz teneis que ir a los archivos dentro de la carpeta TEMPLATE
 
-# OBSERVACION IMPORTANTE
+
+# OBSERVACION IMPORTANTE APENAS PARA COLABORADORES
 
 1 - A la hora de subir los cambios, no os olvideis de que hay que crear una rama personal para eso:
 
