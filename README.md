@@ -19,8 +19,9 @@ PASO A PASO
 6.1. Si por alguna razón teneis algun error con los dos comandos anteriores, podeis usar el siguiente: php bin/console doctrine:schema:update --force eso en teoria irá formar la migration y actualizar la base de datos.
 7. Si surge algun ERROR en el paso anterior: ir a la carpeta migrations y borrar el archivo que hay de migraciones (Version2024 ....extension php). Si no ha habito ningun error, saltar esa parte.
 8. Hecho eso, comprobar que se ha creado la base de datos y sus tablas
-9. Si todo correcto, ejecutar el servidor: symfony server:start
-10. Abrir el navegador en la direccion que informa la consola: 127.0.0.1:8000
+9. Cargar en la base de datos el usuario que esta creado en la fixture usando el comando: php bin/console doctrine:fixtures:load --no-interaction  (para saber los datos de login basta acceder a appfixtures en los archivos)
+10. Si todo correcto, ejecutar el servidor: symfony server:start
+11. Abrir el navegador en la direccion que informa la consola: 127.0.0.1:8000
 
 
 # OBSERVACION IMPORTANTE APENAS PARA COLABORADORES
