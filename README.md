@@ -1,8 +1,8 @@
 # SALUDATA
 
 Hola este es un proyecto de TFC para el curso de Desarrollo de Aplicaciones Web.
-Creadores: 	Gustavo Iago Da Silva Bezerra
-		Jeremmy Matthew Castillo Valenzuela
+Creadores: 	Gustavo Iago Da Silva Bezerra,
+		Jeremmy Matthew Castillo Valenzuela,
   		Paul Espinoza Guillen
 
 PASO A PASO
