@@ -27,6 +27,9 @@ class ResultadoPrueba
     #[ORM\Column(type: 'blob', nullable: true)]
     private $archivo = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $eliminado = false;
+
     #[ORM\Column(type: 'datetime')]
     private ?DateTimeInterface $creadoEn = null;
 
@@ -87,6 +90,18 @@ class ResultadoPrueba
     public function setArchivo($archivo): self
     {
         $this->archivo = $archivo;
+
+        return $this;
+    }
+
+    public function isEliminado(): bool
+    {
+        return $this->eliminado;
+    }
+
+    public function setEliminado(bool $eliminado): self
+    {
+        $this->eliminado = $eliminado;
 
         return $this;
     }

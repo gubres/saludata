@@ -275,12 +275,18 @@ class PacienteController extends AbstractController
         }
 
         // Obtener el PDF adicional de resultados de pruebas
-        $resultadoPrueba = $em->getRepository(ResultadoPrueba::class)->findOneBy(['historialClinico' => $historialClinico]);
-        $extraPdfPath = null;
+        $resultadosPruebas = $em->getRepository(ResultadoPrueba::class)->findBy([
+            'historialClinico' => $historialClinico,
+            'eliminado' => false
+        ]);
+        $extraPdfPaths = [];
 
-        if ($resultadoPrueba && $resultadoPrueba->getArchivo()) {
-            $extraPdfPath = tempnam(sys_get_temp_dir(), 'resultado_prueba_') . '.pdf';
-            file_put_contents($extraPdfPath, stream_get_contents($resultadoPrueba->getArchivo()));
+        foreach ($resultadosPruebas as $resultadoPrueba) {
+            if ($resultadoPrueba->getArchivo()) {
+                $tempPath = tempnam(sys_get_temp_dir(), 'resultado_prueba_') . '.pdf';
+                file_put_contents($tempPath, stream_get_contents($resultadoPrueba->getArchivo()));
+                $extraPdfPaths[] = $tempPath;
+            }
         }
 
         $data = [
@@ -308,8 +314,9 @@ class PacienteController extends AbstractController
             'user' => $user,
             'date' => new \DateTime('now', new DateTimeZone('Europe/Madrid')),
             'data' => $data,
+            'is_pdf' => true,
         ];
 
-        return $pdfGenerator->generatePdf('pdf/paciente.html.twig', $data, 'informe_paciente.pdf', $extraPdfPath);
+        return $pdfGenerator->generatePdf('pdf/paciente.html.twig', $data, 'informe_paciente.pdf', $extraPdfPaths);
     }
 }

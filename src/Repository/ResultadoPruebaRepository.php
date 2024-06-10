@@ -24,6 +24,8 @@ class ResultadoPruebaRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('q')
             ->where('q.historialClinico = :historialClinico')
+            ->andWhere('q.eliminado = :val')
+            ->setParameter('val', false)
             ->setParameter('historialClinico', $historialClinico)
             ->orderBy('q.creadoEn', 'DESC')
             ->setMaxResults(100)

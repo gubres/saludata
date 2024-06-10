@@ -105,7 +105,7 @@ class ResultadoPruebaController extends AbstractController
         $submittedToken = $request->request->get('_token');
 
         if ($this->isCsrfTokenValid('delete' . $resultadoPrueba->getId(), $submittedToken)) {
-            $entityManager->remove($resultadoPrueba);
+            $resultadoPrueba->setEliminado(true);
             $entityManager->flush();
 
             return new JsonResponse(['message' => 'El resultado de la prueba ha sido eliminado exitosamente.'], Response::HTTP_OK);
