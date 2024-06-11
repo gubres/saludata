@@ -37,17 +37,18 @@
                                     <th>Sístole</th>
                                     <th>Diástole</th>
                                     <th>FC</th>
+                                    <th>SO (%)</th>
                                     <th>Grasa Corporal (%)</th>
                                     <th>Masa Corporal Magra (%)</th>
-                                    <th>SO (%)</th>
                                 </tr>
                                 <tr>
                                     <td>{{ signo.sistole }}</td>
                                     <td>{{ signo.diastole }}</td>
                                     <td>{{ signo.frecuenciaCardiaca }}</td>
+                                    <td>{{ signo.saturacionOxigeno }}</td>
                                     <td>{{ signo.porcentajeGrasaCorporal ? signo.porcentajeGrasaCorporal : 'N/A'}}</td>
                                     <td>{{ signo.masaCorporalMagra ? signo.masaCorporalMagra : 'N/A' }}</td>
-                                    <td>{{ signo.saturacionOxigeno }}</td>
+                                    
                                 </tr>
                             {% endfor %}
                         </tbody>

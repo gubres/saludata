@@ -18,6 +18,7 @@ class CitaController extends AbstractController
     #[Route('/citas', name: 'citas_index')]
     public function index(CitaRepository $citaRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $citas = $citaRepository->findAll();
 
         $events = [];

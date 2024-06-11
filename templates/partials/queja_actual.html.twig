@@ -17,6 +17,7 @@
                                 <th>Queja</th>
                                 <th>Descripción</th>
                                 <th>Fecha</th>
+                                <th>Duración</th>
                             </tr>
                         </thead>
                      <tbody>
@@ -25,6 +26,7 @@
                             <td> {{ queja.queja }}</td>
                             <td>{{ queja.descripcion }}</td>
                             <td>{{ queja.creadoEn|date('d-m-Y H:i') }}</td>
+                            <td>{{ queja.duracion }}</td>
                          </tr>
                     {% endfor %}
                      </tbody>

@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container mt-5 d-flex justify-content-center pt-5">
-    <div class="card w-75">
+    <div class="card w-50">
         <div class="card-header text-center">
             <h2>Editar costumbres</h2>
         </div>
@@ -24,7 +24,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.frecuenciaFuma, 'Frecuencia fuma (cigarrillos/día)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.frecuenciaFuma, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.frecuenciaFuma, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.frecuenciaFuma) }}
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.edadEmpezoFumar, 'Edad empezó a fumar', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.edadEmpezoFumar, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.edadEmpezoFumar, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.edadEmpezoFumar) }}
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.frecuenciaConsumoAlcohol, 'Frecuencia consumo alcohol (veces/semana)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.frecuenciaConsumoAlcohol, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.frecuenciaConsumoAlcohol, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.frecuenciaConsumoAlcohol) }}
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.edadEmpezoBeber, 'Edad empezó a beber', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.edadEmpezoBeber, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.edadEmpezoBeber, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.edadEmpezoBeber) }}
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.tipoDrogas, 'Tipo de drogas', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.tipoDrogas, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.tipoDrogas, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.tipoDrogas) }}
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.frecuencia, 'Frecuencia uso drogas', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.frecuencia, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.frecuencia, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.frecuencia) }}
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.edadEmpezoUsar, 'Edad empezó a usar drogas', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.edadEmpezoUsar, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.edadEmpezoUsar, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.edadEmpezoUsar) }}
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.tipoActividadFisica, 'Tipo de actividad física', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.tipoActividadFisica, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.tipoActividadFisica, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.tipoActividadFisica) }}
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.duracionActividadFisica, 'Duración de la actividad física (h/día)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.duracionActividadFisica, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.duracionActividadFisica, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.duracionActividadFisica) }}
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.frecuenciaActividadFisica, 'Frecuencia de la actividad física (veces/semana)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.frecuenciaActividadFisica, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.frecuenciaActividadFisica, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.frecuenciaActividadFisica) }}
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.edadPrimeraRelacionSexual, 'Edad primera relación sexual', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.edadPrimeraRelacionSexual, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.edadPrimeraRelacionSexual, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.edadPrimeraRelacionSexual) }}
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.frecuenciaActividadSexual, 'Frecuencia de la actividad sexual', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.frecuenciaActividadSexual, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.frecuenciaActividadSexual, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.frecuenciaActividadSexual) }}
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.parejasSexualesActual, 'Parejas sexuales actual (cantidad)', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.parejasSexualesActual, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.parejasSexualesActual, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.parejasSexualesActual) }}
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                     <div class="form-group mt-3">
                         {{ form_label(form.metodoHigieneIntima, 'Método de higiene íntima', {'label_attr': {'class': 'control-label'}}) }}
                         <div class="col-sm-12">
-                            {{ form_widget(form.metodoHigieneIntima, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.metodoHigieneIntima, {'attr': {'class': 'form-control', 'required': false}}) }}
                             {{ form_errors(form.metodoHigieneIntima) }}
                         </div>
                     </div>

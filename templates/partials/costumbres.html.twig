@@ -117,10 +117,12 @@
                                 <td>{{ costumbre.higieneIntima ? 'Sí' : 'No' }}</td>
                             </tr>
                             <tr>
-                                <th colspan="2">Método de Higiene Íntima</th>
+                                <th>Método de Higiene Íntima</th>
+                                <th>Fecha</th>
                             </tr>
                             <tr>
-                                <td colspan="2">{{ costumbre.metodoHigieneIntima }}</td>
+                                <td>{{ costumbre.metodoHigieneIntima }}</td>
+                                <td>{{costumbre.actualizadoEn ? costumbre.actualizadoEn|date('d-m-Y') : costumbre.creadoEn|date('d-m-Y')}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -26,25 +26,25 @@
                 <table class="table table-striped">
                     <thead class="text-center">
                         <tr>
-                            <th>Fecha </th>
-                            <th>Inspección</th>
+                             <th colspan="2">Inspección</th>
                             <th>Palpación</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
                         {% for examen in data.examen_abdomen %}
                             <tr>
-                            <td> {{examen.creadoEn|date('d-m-Y H:i')}}</td>
-                                <td>{{ examen.inspeccion }}</td>
+                                <td colspan="2">{{ examen.inspeccion }}</td>
                                 <td>{{ examen.palpacion }}</td>
                             </tr>
                             <tr>
                                 <th>Percusión</th>
                                 <th>Ausculta</th>
+                                 <th>Fecha </th>
                             </tr>
                             <tr>
                                 <td>{{ examen.percusion }}</td>
                                 <td>{{ examen.ausculta }}</td>
+                                <td> {{examen.creadoEn|date('d-m-Y H:i')}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

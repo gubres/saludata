@@ -4,46 +4,42 @@
 
 {% block body %}
 <div class="container mt-5 d-flex justify-content-center pt-5">
-    <div class="card w-75">
+    <div class="card w-50">
         <div class="card-header text-center">
             <h2>Nuevo examen de la cabeza</h2>
         </div>
         <div class="card-body">
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group mt-3">
-                        {{ form_label(form.inspeccion, 'Inspección', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.inspeccion, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.inspeccion) }}
-                        </div>
-                    </div>
+            <div class="form-group mt-3">
+                {{ form_label(form.inspeccion, 'Inspección', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.inspeccion, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.inspeccion) }}
+                </div>
+            </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.palpacion, 'Palpación', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.palpacion, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.palpacion) }}
-                        </div>
-                    </div>
+            <div class="form-group mt-3">
+                {{ form_label(form.palpacion, 'Palpación', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.palpacion, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.palpacion) }}
+                </div>
+            </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.percusion, 'Percusión', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.percusion, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.percusion) }}
-                        </div>
-                    </div>
+            <div class="form-group mt-3">
+                {{ form_label(form.percusion, 'Percusión', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.percusion, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.percusion) }}
+                </div>
+            </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.ausculta, 'Ausculta', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.ausculta, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.ausculta) }}
-                        </div>
-                    </div>
+            <div class="form-group mt-3">
+                {{ form_label(form.ausculta, 'Ausculta', {'label_attr': {'class': 'control-label'}}) }}
+                <div class="col-sm-12">
+                    {{ form_widget(form.ausculta, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.ausculta) }}
                 </div>
             </div>
 

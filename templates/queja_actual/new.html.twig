@@ -4,40 +4,40 @@
 
 {% block body %}
 <div class="container mt-5 d-flex justify-content-center pt-5">
-    <div class="card w-75">
+    <div class="card w-50">
         <div class="card-header text-center">
             <h2>Queja actual</h2>
         </div>
         <div class="card-body">
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
             
-            <div class="form-group">
-                {{ form_label(form.queja, 'Queja', {'label_attr': {'class': 'control-label'}}) }}
-                <div class="col-sm-12">
+            <div class="form-group row">
+                {{ form_label(form.queja, 'Queja', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                <div class="col-sm-9">
                     {{ form_widget(form.queja, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.queja) }}
                 </div>
             </div>
 
-            <div class="form-group mt-3">
-                {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'control-label'}}) }}
-                <div class="col-sm-12">
+            <div class="form-group row mt-3">
+                {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                <div class="col-sm-9">
                     {{ form_widget(form.descripcion, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.descripcion) }}
                 </div>
             </div>
 
-            <div class="form-group mt-3">
-                {{ form_label(form.cuandoEmpezo, 'Cuándo Empezó', {'label_attr': {'class': 'control-label'}}) }}
-                <div class="col-sm-12">
+            <div class="form-group row mt-3">
+                {{ form_label(form.cuandoEmpezo, 'Cuándo Empezó', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                <div class="col-sm-9">
                     {{ form_widget(form.cuandoEmpezo, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.cuandoEmpezo) }}
                 </div>
             </div>
 
-            <div class="form-group mt-3">
-                {{ form_label(form.duracion, 'Duración', {'label_attr': {'class': 'control-label'}}) }}
-                <div class="col-sm-12">
+            <div class="form-group row mt-3">
+                {{ form_label(form.duracion, 'Duración', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                <div class="col-sm-9">
                     {{ form_widget(form.duracion, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.duracion) }}
                 </div>

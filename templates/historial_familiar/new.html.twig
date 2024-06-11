@@ -7,98 +7,82 @@
     <div class="card w-75">
         <div class="card-header text-center">
             <h2>Nuevo Historial Familiar</h2>
-            <p>A continuación se recompilará algunos datos personales y de la familia del paciente </p>
-            <p>Algun familiar abuelos, abuelas, padre, madre o hermanos ya ha padecido alguna de las siguientes enfermedades?</p>
-            <mark>*Todos campos son obligatorios</mark>
+            <p>A continuación se recopilarán algunos datos personales y de la familia del paciente</p>
+            <p>¿Algún familiar (abuelos, abuelas, padre, madre o hermanos) ha padecido alguna de las siguientes enfermedades?</p>
+            <mark>*Todos los campos son obligatorios</mark>
         </div>
         <div class="card-body">
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group mt-3">
-                        {{ form_label(form.padreVivo, 'Padre vivo*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.padreVivo, 'Padre vivo*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.padreVivo, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.padreVivo) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.madreVivo, 'Madre viva*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.madreVivo, 'Madre viva*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.madreVivo, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.madreVivo) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.hermanos, 'Hermanos (cantidad: 0 o más)*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.hermanos, 'Hermanos (cantidad: 0 o más)*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.hermanos, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.hermanos) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.hermanosVivos, 'Hermanos vivos*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.hermanosVivos, 'Hermanos vivos*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.hermanosVivos, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.hermanosVivos) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.hijos, 'Tienes hijos (cantidad)*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.hijos, 'Tienes hijos (cantidad)*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.hijos, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.hijos) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.hijosVivos, 'Tienes hijos vivos*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.hijosVivos, 'Tienes hijos vivos*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.hijosVivos, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.hijosVivos) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.edadFallecimientoHijos, 'Edad fallecimiento hijo', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.edadFallecimientoHijos, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.edadFallecimientoHijos) }}
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-3">
-                        {{ form_label(form.edadFallecimientoPadre, 'Edad fallecimiento padre', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.edadFallecimientoPadre, 'Edad fallecimiento padre', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.edadFallecimientoPadre, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.edadFallecimientoPadre) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.edadFallecimientoMadre, 'Edad fallecimiento madre', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.edadFallecimientoMadre, 'Edad fallecimiento madre', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.edadFallecimientoMadre, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.edadFallecimientoMadre) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.edadFallecimientoHermanos, 'Edad fallecimiento hermano(s)', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
-                            {{ form_widget(form.edadFallecimientoHermanos, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.edadFallecimientoHermanos) }}
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-3">
-                        {{ form_label(form.causaMuertePadre, 'Causa muerte padre', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.causaMuertePadre, 'Causa muerte padre', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.causaMuertePadre, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.causaMuertePadre) }}
                         </div>
@@ -106,81 +90,81 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="form-group mt-3">
-                        {{ form_label(form.causaMuerteMadre, 'Causa muerte madre', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.causaMuerteMadre, 'Causa muerte madre', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.causaMuerteMadre, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.causaMuerteMadre) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.causaMuerteHermanos, 'Causa muerte hermano(s)', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.causaMuerteHermanos, 'Causa muerte hermano(s)', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.causaMuerteHermanos, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.causaMuerteHermanos) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.diabetes, 'Diabetes*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.diabetes, 'Diabetes*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.diabetes, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.diabetes) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.enfermedadCardiaca, 'Enfermedad cardiaca*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.enfermedadCardiaca, 'Enfermedad cardiaca*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.enfermedadCardiaca, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.enfermedadCardiaca) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.hipertension, 'Hipertensión*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.hipertension, 'Hipertensión*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.hipertension, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.hipertension) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.enfermedadMetabolica, 'Enfermedad metabólica*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.enfermedadMetabolica, 'Enfermedad metabólica*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.enfermedadMetabolica, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.enfermedadMetabolica) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.cancer, 'Cáncer*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.cancer, 'Cáncer*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.cancer, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.cancer) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.tipoCancer, 'Tipo de cáncer', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.tipoCancer, 'Tipo de cáncer', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.tipoCancer, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.tipoCancer) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.enfermedadRenalCronica, 'Enfermedad renal crónica*', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.enfermedadRenalCronica, 'Enfermedad renal crónica*', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.enfermedadRenalCronica, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.enfermedadRenalCronica) }}
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        {{ form_label(form.otraEnfermedadCronica, 'Otra enfermedad crónica', {'label_attr': {'class': 'control-label'}}) }}
-                        <div class="col-sm-12">
+                    <div class="form-group row mt-3">
+                        {{ form_label(form.otraEnfermedadCronica, 'Otra enfermedad crónica', {'label_attr': {'class': 'col-sm-5 col-form-label'}}) }}
+                        <div class="col-sm-7">
                             {{ form_widget(form.otraEnfermedadCronica, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.otraEnfermedadCronica) }}
                         </div>

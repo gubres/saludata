@@ -49,20 +49,12 @@ class HistorialFamiliarType extends AbstractType
                     'No' => false,
                 ],
             ])
-            ->add('edadFallecimientoHijos', IntegerType::class, [
-                'label' => 'Edad Fallecimiento Hijos',
-                'required' => false,
-            ])
             ->add('edadFallecimientoPadre', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Padre',
                 'required' => false,
             ])
             ->add('edadFallecimientoMadre', IntegerType::class, [
                 'label' => 'Edad Fallecimiento Madre',
-                'required' => false,
-            ])
-            ->add('edadFallecimientoHermanos', IntegerType::class, [
-                'label' => 'Edad Fallecimiento Hermanos',
                 'required' => false,
             ])
             ->add('causaMuertePadre', TextareaType::class, [

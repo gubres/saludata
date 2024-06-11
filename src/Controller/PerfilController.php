@@ -20,6 +20,7 @@ class PerfilController extends AbstractController
     #[Route('/perfil', name: 'app_perfil')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('perfil/index.html.twig', [
             'controller_name' => 'PerfilController',
         ]);

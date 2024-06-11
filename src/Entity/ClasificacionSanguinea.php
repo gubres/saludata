@@ -15,7 +15,7 @@ class ClasificacionSanguinea
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 1)]
+    #[ORM\Column(type: 'string', length: 2)]
     private ?string $tipo = null;
 
     #[ORM\Column(type: 'string', length: 1)]

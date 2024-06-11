@@ -46,6 +46,7 @@ class PacienteController extends AbstractController
     #[Route('/paciente', name: 'app_paciente')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('paciente/index.html.twig', [
             'controller_name' => 'PacienteController',
         ]);
@@ -54,6 +55,7 @@ class PacienteController extends AbstractController
     #[Route('nuevo_paciente', name: 'app_registar_paciente', methods: ["GET", "POST"])]
     public function registrarPaciente(Request $request, PacienteRepository $pacienteRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         if ($request->isXmlHttpRequest()) {
             $dni = $request->request->get('dni', '');
             $nombre = $request->request->get('nombre', '');
@@ -136,6 +138,7 @@ class PacienteController extends AbstractController
     #[Route('/paciente/ver/{id}', name: 'paciente_ver')]
     public function verPaciente(int $id, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $paciente = $em->getRepository(Paciente::class)->find($id);
 
         if (!$paciente) {
