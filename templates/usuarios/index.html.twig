@@ -15,6 +15,12 @@
 {% endblock %}
 
 {% block body %}
+  	<script>
+		if (!window.location.hash.includes('datos')) {
+window.location.hash = 'datos';
+window.location.reload();
+}
+</script>
 <div class="container container-flex">
     <div class="row justify-content-center">
       
