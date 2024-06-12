@@ -4,6 +4,12 @@
 {% block title %}Contacto con el Supervisor{% endblock %}
 
 {% block body %}
+  	<script>
+		if (!window.location.hash.includes('contacto')) {
+window.location.hash = 'contacto';
+window.location.reload();
+}
+</script>
 <div class="container mt-5 pt-5">
     <h1>Contacto con el Soporte</h1>
     <div class="row gap-5">

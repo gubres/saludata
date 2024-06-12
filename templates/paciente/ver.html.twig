@@ -4,6 +4,12 @@
 {% endblock %}
 
 {% block body %}
+  	<script>
+		if (!window.location.hash.includes('datos')) {
+window.location.hash = 'datos';
+window.location.reload();
+}
+</script>
 	<header class="mt-5 pt-5">
 		<div class="container d-flex justify-content-end gap-3">
 			<a href="{{ path('app_perfil') }}" class="btn btn-warning bi bi-person-lines-fill" title="Volver a la lista">
