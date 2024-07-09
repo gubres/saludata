@@ -1,6 +1,6 @@
 # SALUDATA
 
-Hola este es un proyecto de TFC para el curso de Desarrollo de Aplicaciones Web.
+Hola este es un proyecto de TFC para el curso de Desarrollo de Aplicaciones Web. Utilizando el framework Symfony.
 Creadores: 	Gustavo Iago Da Silva Bezerra,
 		Jeremmy Matthew Castillo Valenzuela,
   		Paul Espinoza Guillen
